@@ -1,0 +1,106 @@
+.slider {
+  position: relative;
+  display: flex;
+}
+
+.slider-frame {
+  overflow: hidden;
+  position: relative;
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 480px) 1fr;
+}
+
+.slider-button {
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid var(--container-color);
+  background: url(/src/assets/svg/arrow.svg) 50% no-repeat;
+  &__next {
+  }
+  &__prev {
+    transform: rotate(180deg);
+  }
+}
+
+.slide {
+  grid-column: 2 / 3;
+  width: 100%;
+  position: relative;
+  max-width: 480px;
+  left: 0%;
+  animation: 1s ease-in-out;
+}
+
+.slide__image {
+  padding-bottom: 40%;
+  background-position: center;
+  background-size: cover;
+}
+
+.slide_to-left {
+  animation-name: left;
+}
+
+.slide_to-right {
+  animation-name: right;
+}
+
+.slide_from-left {
+  position: absolute;
+  top: 0;
+  animation-name: left;
+  animation-direction: reverse;
+}
+
+.slide_from-right {
+  position: absolute;
+  // width: 100%;
+  top: 0;
+  animation-name: right;
+  animation-direction: reverse;
+}
+
+@keyframes left {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: -200%;
+  }
+}
+
+@keyframes right {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.progress-bar {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.progress-bar__button {
+  pointer-events: none;
+  width: 48px;
+  height: 4px;
+  border: none;
+  outline: none;
+  transition: background-color linear 1s;
+  background-color: var(--border-light);
+  &:disabled {
+    background-color: var(--container-color);
+  }
+}
