@@ -1,8 +1,42 @@
+html {
+  font-size: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
 body {
-  background-color: var(--body-color);
+  background-color: var(--light-color);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
 }
 
 .container {
   max-width: var(--container-width);
   margin: 0 auto;
+  padding-inline: 40px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 6rem;
+  font-weight: 600;
+  line-height: 125%;
+  font-feature-settings: 'clig' off, 'liga' off;
+
+  span {
+    color: var(--text-accent);
+    font-style: italic;
+  }
+}
+
+.button,
+.text {
+  font-size: 1.6rem;
+  line-height: 150%;
+  color: var(--text-dark);
 }

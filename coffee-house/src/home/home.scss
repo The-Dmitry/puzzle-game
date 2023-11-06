@@ -1,12 +1,13 @@
-@import url('./../scss/common/_normalize.scss');
-@import url('./../scss/common/_variables.scss');
-@import url('./../scss/common/_common.scss');
+@import './../scss/common/_normalize.scss';
+@import './../scss/common/_fonts';
+@import './../scss/common/_variables';
+@import './../scss/common/_common';
 
-@import url('./../scss/header/_header.scss');
+@import './../scss/header/_header';
 
-@import url('./../scss/home/_enjoy.scss');
-@import url('./../scss/home/_favourite-coffee.scss');
-@import url('./../scss/home/_about.scss');
-@import url('./../scss/home/_mobile-app.scss');
+@import './../scss/home/_enjoy';
+@import './../scss/home/_favourite-coffee';
+@import './../scss/home/_about';
+@import './../scss/home/_mobile-app';
 
-@import url('./../scss/footer/_footer.scss');
+@import './../scss/footer/_footer';

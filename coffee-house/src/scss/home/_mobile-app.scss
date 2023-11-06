@@ -1,10 +1,32 @@
 .mobile-app {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 7% 1fr;
 }
 
 .mobile-app__image {
+  grid-column: 3 / 4;
   padding-bottom: 87.5%;
   background: url(/src/assets/image/mobile-app/mobile-screens.png) 50% / cover
     no-repeat;
+}
+
+.mobile-app__content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.mobile-app__text {
+  font-weight: 400;
+}
+
+.store {
+  display: flex;
+  gap: 20px;
+  .button {
+    width: 200px;
+    height: 64px;
+    border-radius: 100px;
+    border: none;
+  }
 }

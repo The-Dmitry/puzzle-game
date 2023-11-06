@@ -2,11 +2,11 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: start;
-  gap: 10px;
+  gap: 40px;
 }
 
 .galery-item {
-  border: 2px solid black;
+  border-radius: 20px;
   background-position: center;
   background-size: cover;
   &:nth-child(1) {

@@ -1,0 +1,35 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--container-color);
+  border-radius: 40px;
+  padding: 100px;
+  box-sizing: border-box;
+  color: var(--light-color);
+}
+
+.footer__social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer__text,
+.footer__contacts {
+  flex: 0 1 530px;
+}
+
+.contacts__subtitle {
+  font-size: 2.4rem;
+  line-height: 125%;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schedule,
+.contacts-link {
+  color: var(--light-color);
+}

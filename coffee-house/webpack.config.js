@@ -45,7 +45,7 @@ module.exports = ({ dev }) => ({
   plugins: [
     new HtmlWebpackPlugin({ /* title: 'Base', */ template: './src/home/home.html', filename: 'home.html', chunks: ["home"], minify: false}),
     new HtmlWebpackPlugin({ /* title: 'Base', */ template: './src/menu/menu.html', filename: 'menu.html',chunks: ["menu"], minify: false}),
-    new MiniCssExtractPlugin({ /* filename: '[name].[contenthash].css' */ }),
+    new MiniCssExtractPlugin({filename: '[name].css' }),
   ],
   devServer: {
     hot: true,
