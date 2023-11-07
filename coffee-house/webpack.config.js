@@ -16,7 +16,7 @@ module.exports = ({ dev }) => ({
   performance: {
     hints: false,
   },
-  devtool: dev ? 'inline-source-map' : false,
+  devtool: 'inline-source-map',
   mode: 'development',
   module: {
     rules: [

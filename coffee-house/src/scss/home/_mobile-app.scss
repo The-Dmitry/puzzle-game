@@ -1,11 +1,13 @@
 .mobile-app {
   display: grid;
   grid-template-columns: 1fr 7% 1fr;
+  align-items: center;
+  margin-bottom: 77px;
 }
 
 .mobile-app__image {
   grid-column: 3 / 4;
-  padding-bottom: 87.5%;
+  padding-bottom: 100%;
   background: url(/src/assets/image/mobile-app/mobile-screens.png) 50% / cover no-repeat;
 }
 
@@ -27,9 +29,10 @@
     display: grid;
     grid-template-columns: 36px 1fr;
     grid-template-rows: 1fr 1fr;
+    column-gap: 7px;
     width: 200px;
     height: 64px;
-    padding: 12px 20px;
+    padding: 0 20px;
     border-radius: 100px;
     border: 1px solid var(--container-color);
     font-weight: 600;
@@ -59,4 +62,11 @@
 .store-button__marketpace {
   font-size: 1.6rem;
   line-height: 150%;
+}
+
+.store-button__text {
+  margin-top: 9px;
+}
+.store-button__marketpace {
+  margin-top: -6px;
 }

@@ -7,8 +7,9 @@
 }
 
 .header > .navigation-link {
+  padding-right: 4px;
   display: flex;
-  gap: 4px;
+  gap: 9px;
   &::after {
     content: '';
     display: inline-block;
@@ -16,6 +17,7 @@
     right: 0;
     width: 20px;
     height: 20px;
+    margin-right: -4px;
     background: url(/src/assets/svg/coffee-cup.svg) 50% / cover no-repeat;
   }
 }
@@ -30,5 +32,5 @@
 .navigation {
   display: flex;
   justify-content: space-between;
-  width: min(100%, 600px);
+  width: min(100%, 455px);
 }

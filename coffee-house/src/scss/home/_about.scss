@@ -1,3 +1,7 @@
+.about__title {
+  margin-bottom: 40px;
+}
+
 .about-galery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -15,19 +19,19 @@
   }
   &:nth-child(1) {
     background-image: url(/src/assets/image/about/about-1.jpg);
-    padding-bottom: 82%;
+    padding-bottom: 89.5%;
   }
   &:nth-child(2) {
     background-image: url(/src/assets/image/about/about-2.jpg);
-    padding-bottom: 59.6%;
+    padding-bottom: 65.2%;
   }
   &:nth-child(3) {
     background-image: url(/src/assets/image/about/about-3.jpg);
-    padding-bottom: 59.6%;
+    padding-bottom: 65.2%;
   }
   &:nth-child(4) {
     background-image: url(/src/assets/image/about/about-4.jpg);
-    padding-bottom: 82%;
-    margin-top: -22%;
+    padding-bottom: 89.5%;
+    margin-top: -24.3%;
   }
 }

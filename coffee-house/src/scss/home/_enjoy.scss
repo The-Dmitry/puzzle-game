@@ -4,7 +4,7 @@
   border-radius: 40px;
   display: grid;
   grid-template-columns: minmax(auto, 530px) 1fr;
-  gap: 40px;
+  gap: 41px;
   & * {
     grid-column: 1 / 2;
   }
@@ -25,6 +25,7 @@
 
 .enjoy__text {
   color: var(--light-color);
+  font-weight: 400;
 }
 
 .enjoy__button {

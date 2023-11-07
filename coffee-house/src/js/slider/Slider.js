@@ -82,7 +82,10 @@ export default class SliderView extends View {
     const price = new NodeCreator({
       tag: 'p',
       cssClasses: ['slide__price'],
-      textContent: `$${sliderData[id].price}`,
+      textContent: `${new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(sliderData[id].price)}`,
     });
     slide.addInnerNode(image, title, description, price);
     this.sliderFrame.addInnerNode(slide);
