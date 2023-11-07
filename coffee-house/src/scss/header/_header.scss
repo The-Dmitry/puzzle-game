@@ -6,6 +6,20 @@
   width: 100%;
 }
 
+.header > .navigation-link {
+  display: flex;
+  gap: 4px;
+  &::after {
+    content: '';
+    display: inline-block;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: url(/src/assets/svg/coffee-cup.svg) 50% / cover no-repeat;
+  }
+}
+
 .logo {
   display: inline-block;
   width: 100px;

@@ -8,7 +8,11 @@
 .galery-item {
   border-radius: 20px;
   background-position: center;
-  background-size: cover;
+  background-size: 110%;
+  transition: background-size linear 0.3s;
+  &:hover {
+    background-size: 100%;
+  }
   &:nth-child(1) {
     background-image: url(/src/assets/image/about/about-1.jpg);
     padding-bottom: 82%;

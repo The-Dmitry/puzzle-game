@@ -4,7 +4,7 @@ import sliderData from './slider-data';
 
 const parent = document.querySelector('.favourite-coffee');
 
-class SliderView extends View {
+export default class SliderView extends View {
   sliderFrame;
 
   currentSlideId = 0;
@@ -46,6 +46,12 @@ class SliderView extends View {
         this.moveSlide('slide_from-right', 'slide_to-left');
       },
     });
+    prev.getNode().innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M6 12H18.5M18.5 12L12.5 6M18.5 12L12.5 18" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+    next.getNode().innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M6 12H18.5M18.5 12L12.5 6M18.5 12L12.5 18" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
     const bar = this.generateProgressBar();
     this.viewNode.addInnerNode(prev, sliderFrame, bar, next);
   }
@@ -131,5 +137,3 @@ class SliderView extends View {
     });
   }
 }
-
-const sliderApp = new SliderView();

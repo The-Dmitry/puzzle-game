@@ -1,2 +1,5 @@
 import './home.scss';
-import '../js/slider/Slider';
+import SliderView from '../js/slider/Slider';
+
+// eslint-disable-next-line no-unused-vars
+const slider = new SliderView();

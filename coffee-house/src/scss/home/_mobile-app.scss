@@ -6,8 +6,7 @@
 .mobile-app__image {
   grid-column: 3 / 4;
   padding-bottom: 87.5%;
-  background: url(/src/assets/image/mobile-app/mobile-screens.png) 50% / cover
-    no-repeat;
+  background: url(/src/assets/image/mobile-app/mobile-screens.png) 50% / cover no-repeat;
 }
 
 .mobile-app__content {
@@ -23,10 +22,41 @@
 .store {
   display: flex;
   gap: 20px;
-  .button {
+  &-button {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    grid-template-rows: 1fr 1fr;
     width: 200px;
     height: 64px;
+    padding: 12px 20px;
     border-radius: 100px;
-    border: none;
+    border: 1px solid var(--container-color);
+    font-weight: 600;
+    color: var(--text-dark);
+    transition: all linear 0.3s;
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--container-color);
+        color: var(--light-color);
+      }
+    }
   }
+  svg {
+    grid-row: span 2;
+    align-self: center;
+    & * {
+      fill: currentColor;
+    }
+  }
+}
+
+.store-button__text {
+  font-size: 1rem;
+  line-height: 140%;
+}
+
+.store-button__marketpace {
+  font-size: 1.6rem;
+  line-height: 150%;
 }

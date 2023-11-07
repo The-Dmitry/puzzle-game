@@ -3,6 +3,7 @@ html {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   color: var(--text-dark);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -39,4 +40,27 @@ body {
   font-size: 1.6rem;
   line-height: 150%;
   color: var(--text-dark);
+}
+
+.link {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: all linear 0.3s;
+  }
+  @media (hover: hover) {
+    &:hover {
+      &::before {
+        background-color: currentColor;
+        width: 100%;
+      }
+    }
+  }
 }

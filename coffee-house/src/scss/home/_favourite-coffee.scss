@@ -1,6 +1,7 @@
 .slider {
   position: relative;
   display: flex;
+  align-items: center;
 }
 
 .slider-frame {
@@ -18,9 +19,17 @@
   border-radius: 50%;
   outline: none;
   background-color: transparent;
+  color: var(--container-color);
   border: 1px solid var(--container-color);
-  background: url(/src/assets/svg/arrow.svg) 50% no-repeat;
-  &__next {
+  transition: all linear 0.3s;
+  @media (hover: hover) {
+    &:hover {
+      color: var(--light-color);
+      background-color: var(--container-color);
+    }
+  }
+  svg * {
+    stroke: currentColor;
   }
   &__prev {
     transform: rotate(180deg);
@@ -29,17 +38,30 @@
 
 .slide {
   grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
   position: relative;
   max-width: 480px;
   left: 0%;
-  animation: 1s ease-in-out;
+  animation: 0.5s ease-in-out;
+  text-align: center;
+  font-weight: 600;
+  line-height: 125%;
+  font-size: 2.4rem;
 }
 
 .slide__image {
-  padding-bottom: 40%;
+  padding-bottom: 100%;
   background-position: center;
   background-size: cover;
+}
+
+.slide__description {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 150%;
 }
 
 .slide_to-left {
@@ -98,7 +120,7 @@
   height: 4px;
   border: none;
   outline: none;
-  transition: background-color linear 1s;
+  transition: background-color linear 0.5s;
   background-color: var(--border-light);
   &:disabled {
     background-color: var(--container-color);
