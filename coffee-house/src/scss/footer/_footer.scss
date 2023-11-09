@@ -7,6 +7,7 @@
   box-sizing: border-box;
   color: var(--light-color);
   width: min(100%, 1360px);
+  margin-bottom: 40px;
 }
 
 .footer__text,
@@ -22,13 +23,13 @@
 
 .footer__social {
   display: flex;
-  gap: 9px;
+  gap: 10px;
 }
 
 .contacts__subtitle {
   font-size: 2.4rem;
   line-height: 125%;
-  margin-block: 35px;
+  margin-block: 36px;
 }
 
 .contacts-list {
@@ -38,22 +39,19 @@
 }
 
 .contacts-list__item {
-  display: flex;
-  gap: 8px;
-  &::before {
-    content: '';
+  span {
     display: inline-block;
     width: 20px;
     height: 20px;
   }
 
-  &:nth-child(1)::before {
+  &:nth-child(1) span {
     background: url(/src/assets/svg/map.svg);
   }
-  &:nth-child(2)::before {
+  &:nth-child(2) span {
     background: url(/src/assets/svg/phone.svg);
   }
-  &:nth-child(3)::before {
+  &:nth-child(3) span {
     background: url(/src/assets/svg/clock.svg);
   }
 }
@@ -61,6 +59,9 @@
 .schedule,
 .contacts-link {
   color: var(--light-color);
+  display: flex;
+  gap: 8px;
+  width: fit-content;
 }
 
 .social__link {

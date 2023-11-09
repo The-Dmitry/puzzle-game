@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .header > .navigation-link {
@@ -33,4 +34,19 @@
   display: flex;
   justify-content: space-between;
   width: min(100%, 455px);
+}
+
+.none-events {
+  pointer-events: none;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    background-color: currentColor;
+    width: 100%;
+    transition: all linear 0.3s;
+  }
 }
