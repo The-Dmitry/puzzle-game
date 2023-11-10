@@ -7,18 +7,18 @@ export default class CategoriesNavigationView extends View {
   constructor(func) {
     const params = {
       tag: 'div',
-      cssClasses: ['menu-navigation'],
+      css: ['menu-navigation'],
     };
     super(params);
     this.configureView(func);
   }
 
   configureView(func) {
-    const btns = [...categories].map((item, index) => {
+    const btns = [...categories].map((item) => {
       const button = new NodeCreator({
         tag: 'button',
-        textContent: item,
-        cssClasses: ['menu-navigation__button'],
+        text: item,
+        css: ['menu-navigation__button'],
         callback: () => {
           func(item);
           btns.forEach((btn) => btn.setClassNames(['menu-navigation__button']));

@@ -16,7 +16,7 @@ export default class SliderView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      cssClasses: ['slider'],
+      css: ['slider'],
     };
     super(params);
     parent.append(this.viewNode.getNode());
@@ -27,7 +27,7 @@ export default class SliderView extends View {
   configureView() {
     const prev = new NodeCreator({
       tag: 'button',
-      cssClasses: ['slider-button__prev', 'slider-button'],
+      css: ['slider-button__prev', 'slider-button'],
       callback: () => {
         this.currentSlideId -= 1;
         this.moveSlide('slide_from-left', 'slide_to-right');
@@ -35,12 +35,12 @@ export default class SliderView extends View {
     });
     const sliderFrame = new NodeCreator({
       tag: 'div',
-      cssClasses: ['slider-frame'],
+      css: ['slider-frame'],
     });
     this.sliderFrame = sliderFrame;
     const next = new NodeCreator({
       tag: 'button',
-      cssClasses: ['slider-button__next', 'slider-button'],
+      css: ['slider-button__next', 'slider-button'],
       callback: () => {
         this.currentSlideId += 1;
         this.moveSlide('slide_from-right', 'slide_to-left');
@@ -62,27 +62,27 @@ export default class SliderView extends View {
     this.manageProgressButtons();
     const slide = new NodeCreator({
       tag: 'article',
-      cssClasses: ['slider__slide', 'slide'],
+      css: ['slider__slide', 'slide'],
     });
     const image = new NodeCreator({
       tag: 'div',
-      cssClasses: ['slide__image'],
+      css: ['slide__image'],
     });
     image.getNode().style.backgroundImage = `url('${sliderData[id].image}')`;
     const title = new NodeCreator({
       tag: 'h3',
-      cssClasses: ['slide__title'],
-      textContent: sliderData[id].title,
+      css: ['slide__title'],
+      text: sliderData[id].title,
     });
     const description = new NodeCreator({
       tag: 'p',
-      cssClasses: ['slide__description'],
-      textContent: sliderData[id].description,
+      css: ['slide__description'],
+      text: sliderData[id].description,
     });
     const price = new NodeCreator({
       tag: 'p',
-      cssClasses: ['slide__price'],
-      textContent: `${new Intl.NumberFormat('en-US', {
+      css: ['slide__price'],
+      text: `${new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       }).format(sliderData[id].price)}`,
@@ -120,13 +120,13 @@ export default class SliderView extends View {
   generateProgressBar() {
     const bar = new NodeCreator({
       tag: 'div',
-      cssClasses: ['slider__progress-bar', 'progress-bar'],
+      css: ['slider__progress-bar', 'progress-bar'],
     });
     this.progressBarButtons = new Array(sliderData.length).fill(0).map(
       () =>
         new NodeCreator({
           tag: 'button',
-          cssClasses: ['progress-bar__button'],
+          css: ['progress-bar__button'],
         })
     );
     bar.addInnerNode(...this.progressBarButtons);

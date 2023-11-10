@@ -1,11 +1,13 @@
 import NodeCreator from '../classes/NodeCreate';
 import View from '../classes/View';
+import ModalCardView from './ModalCardView';
 
 export default class CardView extends View {
   constructor(cardParams) {
     const params = {
       tag: 'article',
-      cssClasses: ['menu-content__card', 'card'],
+      css: ['menu-content__card', 'card'],
+      callback: () => new ModalCardView(cardParams),
     };
     super(params);
     this.configureView(cardParams);
@@ -14,27 +16,27 @@ export default class CardView extends View {
   configureView(cardParams) {
     const image = new NodeCreator({
       tag: 'div',
-      cssClasses: ['card-image'],
+      css: ['card-image'],
     });
     image.getNode().style.backgroundImage = `url('${cardParams.image}')`;
     const content = new NodeCreator({
       tag: 'div',
-      cssClasses: ['card-text'],
+      css: ['card-text'],
     });
     const title = new NodeCreator({
       tag: 'h4',
-      cssClasses: ['card-title'],
-      textContent: cardParams.name,
+      css: ['card-title'],
+      text: cardParams.name,
     });
     const description = new NodeCreator({
       tag: 'p',
-      cssClasses: ['card-description'],
-      textContent: cardParams.description,
+      css: ['card-description'],
+      text: cardParams.description,
     });
     const price = new NodeCreator({
       tag: 'p',
-      cssClasses: ['card-price'],
-      textContent: `${new Intl.NumberFormat('en-US', {
+      css: ['card-price'],
+      text: `${new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       }).format(cardParams.price)}`,

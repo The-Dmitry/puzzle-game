@@ -1,3 +1,4 @@
 import './menu.scss';
+import CategoriesView from '../js/menu/CategoriesView';
 
-import '../js/menu/CategoriesView';
+const app = new CategoriesView();

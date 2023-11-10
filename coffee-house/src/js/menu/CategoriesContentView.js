@@ -16,7 +16,7 @@ export default class CategoriesContentView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      cssClasses: ['menu-content'],
+      css: ['menu-content'],
     };
     super(params);
     this.createCards();
@@ -38,11 +38,11 @@ export default class CategoriesContentView extends View {
     }
     const showAll = new NodeCreator({
       tag: 'button',
-      cssClasses: ['menu__show-all'],
+      css: ['menu__show-all'],
       callback: () => this.setCards(arr),
     });
     showAll.getNode().innerHTML = refresh;
-    this.setCards(arr.slice(0, 4), showAll);
+    this.setCards(arr.slice(0, 4), arr.length > 4 ? showAll : null);
   }
 
   setCards(nodes, btn) {

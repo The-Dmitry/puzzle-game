@@ -9,8 +9,8 @@ export default class NodeCreator {
 
   createNode(params) {
     this.node = document.createElement(params.tag);
-    this.setClassNames(params.cssClasses);
-    this.setTextContent(params.textContent);
+    this.setClassNames(params.css);
+    this.setTextContent(params.text);
     this.setId(params.id);
     if (params.callback) this.setCallback(params.callback);
     return this.node;

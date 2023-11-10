@@ -4,7 +4,7 @@ import CategoriesNavigationView from './CategoriesNavigationView';
 
 const container = document.querySelector('.menu');
 
-class CategoriesView extends View {
+export default class CategoriesView extends View {
   navigation;
 
   content;
@@ -12,7 +12,7 @@ class CategoriesView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      cssClasses: ['menu__container'],
+      css: ['menu__container'],
     };
     super(params);
     container.append(this.viewNode.getNode());
@@ -29,5 +29,3 @@ class CategoriesView extends View {
     this.content.createCards(category);
   }
 }
-
-const app = new CategoriesView();

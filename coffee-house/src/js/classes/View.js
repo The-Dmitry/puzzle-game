@@ -15,25 +15,22 @@ export default class View {
     view.forEach((inst) => this.viewNode.addInnerNode(inst.getElement()));
   }
 
-  showModal(node) {
-    if (this.modal) {
-      this.modal.removeNode();
-    }
-    document.body.classList.add('blocked');
+  showModal() {
     const modal = new NodeCreator({
       tag: 'div',
-      cssClasses: ['modal'],
-      callback: () => {
-        this.modal.removeNode();
-        document.body.classList.remove('blocked');
-      },
+      css: ['modal'],
+      callback: () => this.closeModal(),
     });
-    const closeModal = new NodeCreator({
-      tag: 'div',
-      cssClasses: ['modal-close'],
-    });
-    modal.addInnerNode(closeModal, node);
+    modal.addInnerNode(this.viewNode);
     this.modal = modal;
-    document.body.append(modal.getNode());
+    document.body.append(this.modal.getNode());
+    document.body.classList.add('blocked');
+  }
+
+  closeModal() {
+    if (this.modal) {
+      this.modal.getNode().remove();
+      document.body.classList.remove('blocked');
+    }
   }
 }
