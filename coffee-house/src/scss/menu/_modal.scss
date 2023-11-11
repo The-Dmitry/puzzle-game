@@ -5,6 +5,25 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(64, 63, 61, 0.8);
+  animation: popup linear 0.2s;
+  @media (max-width: 850px) {
+    padding: 16px;
+  }
+}
+
+@keyframes popup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.modal-card__container {
+  @media (max-width: 663px) {
+    display: none;
+  }
 }
 
 .modal-card__title,
@@ -33,6 +52,9 @@
   padding: 16px;
   box-sizing: border-box;
   border-radius: 40px;
+  @media (max-width: 663px) {
+    display: block;
+  }
 }
 
 .modal-card__details {
@@ -65,6 +87,7 @@
 .modal-card__button-container {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .modal-card__button {
