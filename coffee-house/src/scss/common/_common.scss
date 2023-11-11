@@ -20,6 +20,9 @@ body {
   margin: 0 auto;
   padding-inline: 40px;
   box-sizing: border-box;
+  @media (max-width: 756px) {
+    padding-inline: 16px;
+  }
 }
 
 .main {
@@ -38,6 +41,9 @@ body {
   span {
     color: var(--text-accent);
     font-style: italic;
+  }
+  @media (max-width: 630px) {
+    font-size: 3.2rem;
   }
 }
 
