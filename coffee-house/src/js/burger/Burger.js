@@ -51,7 +51,7 @@ export default class BurgerView extends View {
       }),
       new NodeCreator({
         tag: 'a',
-        css: ['burger-menu__link'],
+        css: ['burger-menu__link', `${isHome ? '1' : 'none-events'}`],
         text: 'Menu',
         href: './menu.html',
       }),
