@@ -1,5 +1,8 @@
 .about__title {
   margin-bottom: 40px;
+  @media (max-width: 640px) {
+    margin-bottom: 42px;
+  }
 }
 
 .about-galery {
@@ -7,6 +10,9 @@
   grid-template-columns: repeat(2, 1fr);
   align-items: start;
   gap: 40px;
+  @media (max-width: $tablet-width) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .galery-item {
@@ -14,8 +20,11 @@
   background-position: center;
   background-size: 110%;
   transition: background-size linear 0.3s;
-  &:hover {
-    background-size: 100%;
+  background-repeat: no-repeat;
+  @media (hover: hover) {
+    &:hover {
+      background-size: 100%;
+    }
   }
   &:nth-child(1) {
     background-image: url(/src/assets/image/about/about-1.jpg);
@@ -33,5 +42,25 @@
     background-image: url(/src/assets/image/about/about-4.jpg);
     padding-bottom: 89.5%;
     margin-top: -24.3%;
+  }
+  @media (max-width: $tablet-width) {
+    padding: 60px;
+    background-size: 106%;
+    &:nth-child(2),
+    &:nth-child(3) {
+      display: none;
+    }
+    &:nth-child(1),
+    &:nth-child(4) {
+      margin-top: 0;
+      padding-bottom: 77%;
+    }
+  }
+  @media (max-width: 400px) {
+    background-size: 208% 123%;
+    &:nth-child(1),
+    &:nth-child(4) {
+      padding-bottom: 152%;
+    }
   }
 }

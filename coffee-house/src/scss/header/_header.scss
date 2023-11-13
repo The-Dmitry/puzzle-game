@@ -21,6 +21,9 @@
     margin-right: -4px;
     background: url(/src/assets/svg/coffee-cup.svg) 50% / cover no-repeat;
   }
+  @media (max-width: $tablet-width) {
+    display: none;
+  }
 }
 
 .logo {
@@ -34,6 +37,9 @@
   display: flex;
   justify-content: space-between;
   width: min(100%, 455px);
+  @media (max-width: $tablet-width) {
+    display: none;
+  }
 }
 
 .none-events {
@@ -48,5 +54,50 @@
     background-color: currentColor;
     width: 100%;
     transition: all linear 0.3s;
+  }
+}
+
+.burger {
+  display: none;
+  color: var(--container-color);
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  transition: all linear 0.3s;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: currentColor;
+    transition: all linear 0.3s;
+  }
+  &::before {
+    top: 38%;
+  }
+  &::after {
+    bottom: 38%;
+  }
+  @media (max-width: $tablet-width) {
+    display: block;
+  }
+}
+
+.burger_active {
+  transform: rotate(360deg);
+  &::before {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  &::after {
+    bottom: 50%;
+    transform: translate(-50%, 50%) rotate(45deg);
   }
 }

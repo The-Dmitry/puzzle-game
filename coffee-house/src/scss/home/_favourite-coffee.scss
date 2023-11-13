@@ -46,6 +46,9 @@
   &__prev {
     transform: rotate(180deg);
   }
+  @media (max-width: 640px) {
+    display: none;
+  }
 }
 
 .slide {

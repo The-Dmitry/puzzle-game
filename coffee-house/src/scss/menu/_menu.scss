@@ -20,6 +20,9 @@
   display: flex;
   justify-content: center;
   gap: 14px;
+  @media (max-width: 450px) {
+    gap: 7px;
+  }
 }
 
 .menu-navigation__button {
@@ -142,19 +145,17 @@
 }
 
 .menu__show-all {
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 60px;
   height: 60px;
   border-radius: 50px;
-  grid-column: span 2;
   justify-self: center;
+  grid-column: span 2;
   border: 1px solid var(--container-color);
   background-color: transparent;
   transition: all linear 0.3s;
-
   @media (hover: hover) {
     &:hover {
       background-color: var(--container-color);
@@ -162,5 +163,8 @@
         stroke: var(--light-color);
       }
     }
+  }
+  @media (max-width: 692px) {
+    grid-column: auto;
   }
 }
