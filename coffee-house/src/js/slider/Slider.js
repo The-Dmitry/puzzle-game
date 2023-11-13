@@ -13,6 +13,8 @@ export default class SliderView extends View {
 
   progressBarButtons = [];
 
+  timer;
+
   constructor() {
     const params = {
       tag: 'div',
@@ -22,16 +24,14 @@ export default class SliderView extends View {
     parent.append(this.viewNode.getNode());
     this.configureView();
     this.generateSlide();
+    this.automaticScroll();
   }
 
   configureView() {
     const prev = new NodeCreator({
       tag: 'button',
       css: ['slider-button__prev', 'slider-button'],
-      callback: () => {
-        this.currentSlideId -= 1;
-        this.moveSlide('slide_from-left', 'slide_to-right');
-      },
+      callback: this.moveSlideToLeft.bind(this),
     });
     const sliderFrame = new NodeCreator({
       tag: 'div',
@@ -41,10 +41,7 @@ export default class SliderView extends View {
     const next = new NodeCreator({
       tag: 'button',
       css: ['slider-button__next', 'slider-button'],
-      callback: () => {
-        this.currentSlideId += 1;
-        this.moveSlide('slide_from-right', 'slide_to-left');
-      },
+      callback: this.moveSlideToRight.bind(this),
     });
     prev.getNode().innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M6 12H18.5M18.5 12L12.5 6M18.5 12L12.5 18" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
@@ -54,6 +51,9 @@ export default class SliderView extends View {
   </svg>`;
     const bar = this.generateProgressBar();
     this.viewNode.addInnerNode(prev, sliderFrame, bar, next);
+    this.sliderFrame.setCallback(this.makeSwipe.bind(this), 'touchstart');
+    this.sliderFrame.setCallback(this.stopAutomaticScroll.bind(this), 'mouseenter');
+    this.sliderFrame.setCallback(this.automaticScroll.bind(this), 'mouseleave');
   }
 
   generateSlide() {
@@ -138,5 +138,59 @@ export default class SliderView extends View {
       // eslint-disable-next-line no-param-reassign
       btn.getNode().disabled = this.currentSlideId === index;
     });
+  }
+
+  makeSwipe(startEvent) {
+    if (!this.isAllowedToMove) {
+      return;
+    }
+    this.stopAutomaticScroll();
+    const start = startEvent.changedTouches[0];
+
+    const startX = start.clientX;
+    const startY = start.clientY;
+    const startTime = new Date().getTime();
+
+    this.sliderFrame.getNode().addEventListener('touchend', (endEvent) => {
+      const end = endEvent.changedTouches[0];
+      const distanceX = end.clientX - startX;
+      const distanceY = end.clientY - startY;
+      const endTime = new Date().getTime() - startTime;
+      if (endTime > 500) {
+        this.automaticScroll();
+        return;
+      }
+      if (Math.abs(distanceX) >= 100 && Math.abs(distanceY <= 100)) {
+        if (distanceX > 0) {
+          this.moveSlideToLeft();
+        } else {
+          this.moveSlideToRight();
+        }
+      }
+    });
+  }
+
+  moveSlideToLeft() {
+    this.stopAutomaticScroll();
+    this.automaticScroll();
+    this.currentSlideId -= 1;
+    this.moveSlide('slide_from-left', 'slide_to-right');
+  }
+
+  moveSlideToRight() {
+    this.stopAutomaticScroll();
+    this.automaticScroll();
+    this.currentSlideId += 1;
+    this.moveSlide('slide_from-right', 'slide_to-left');
+  }
+
+  automaticScroll() {
+    this.timer = setTimeout(() => {
+      this.moveSlideToRight();
+    }, 7000);
+  }
+
+  stopAutomaticScroll() {
+    clearTimeout(this.timer);
   }
 }
