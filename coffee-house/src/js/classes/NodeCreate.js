@@ -13,7 +13,12 @@ export default class NodeCreator {
     this.setTextContent(params.text);
     this.setId(params.id);
     if (params.callback) this.setCallback(params.callback);
+    if (params.href) this.setHref(params.href);
     return this.node;
+  }
+
+  setHref(string) {
+    this.node.href = string;
   }
 
   setClassNames(cssList) {

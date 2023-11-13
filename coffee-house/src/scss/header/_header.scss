@@ -66,6 +66,7 @@
   background-color: transparent;
   border-radius: 50%;
   border: 1px solid currentColor;
+  transition: all linear 0.3s;
   &::after,
   &::before {
     content: '';
@@ -75,6 +76,7 @@
     left: 50%;
     transform: translateX(-50%);
     background-color: currentColor;
+    transition: all linear 0.3s;
   }
   &::before {
     top: 38%;
@@ -84,5 +86,18 @@
   }
   @media (max-width: $tablet-width) {
     display: block;
+  }
+}
+
+.burger_active {
+  transform: rotate(360deg);
+  &::before {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  &::after {
+    bottom: 50%;
+    transform: translate(-50%, 50%) rotate(45deg);
   }
 }
