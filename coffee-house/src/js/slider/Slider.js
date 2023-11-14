@@ -51,9 +51,6 @@ export default class SliderView extends View {
   </svg>`;
     const bar = this.generateProgressBar();
     this.viewNode.addInnerNode(prev, sliderFrame, bar, next);
-    this.sliderFrame.setCallback(this.makeSwipe.bind(this), 'touchstart');
-    this.sliderFrame.setCallback(this.stopAutomaticScroll.bind(this), 'mouseenter');
-    this.sliderFrame.setCallback(this.automaticScroll.bind(this), 'mouseleave');
   }
 
   generateSlide() {
@@ -64,6 +61,9 @@ export default class SliderView extends View {
       tag: 'article',
       css: ['slider__slide', 'slide'],
     });
+    slide.setCallback(this.makeSwipe.bind(this), 'touchstart');
+    slide.setCallback(this.stopAutomaticScroll.bind(this), 'mouseenter');
+    slide.setCallback(this.automaticScroll.bind(this), 'mouseleave');
     const image = new NodeCreator({
       tag: 'div',
       css: ['slide__image'],
@@ -146,12 +146,11 @@ export default class SliderView extends View {
     }
     this.stopAutomaticScroll();
     const start = startEvent.changedTouches[0];
-
     const startX = start.clientX;
     const startY = start.clientY;
     const startTime = new Date().getTime();
 
-    this.sliderFrame.getNode().addEventListener('touchend', (endEvent) => {
+    const endSwipe = (endEvent) => {
       const end = endEvent.changedTouches[0];
       const distanceX = end.clientX - startX;
       const distanceY = end.clientY - startY;
@@ -167,21 +166,27 @@ export default class SliderView extends View {
           this.moveSlideToRight();
         }
       }
-    });
+    };
+
+    start.target.addEventListener('touchend', endSwipe);
   }
 
   moveSlideToLeft() {
-    this.stopAutomaticScroll();
-    this.automaticScroll();
-    this.currentSlideId -= 1;
-    this.moveSlide('slide_from-left', 'slide_to-right');
+    if (this.isAllowedToMove) {
+      this.stopAutomaticScroll();
+      this.currentSlideId -= 1;
+      this.moveSlide('slide_from-left', 'slide_to-right');
+      this.automaticScroll();
+    }
   }
 
   moveSlideToRight() {
-    this.stopAutomaticScroll();
-    this.automaticScroll();
-    this.currentSlideId += 1;
-    this.moveSlide('slide_from-right', 'slide_to-left');
+    if (this.isAllowedToMove) {
+      this.stopAutomaticScroll();
+      this.currentSlideId += 1;
+      this.moveSlide('slide_from-right', 'slide_to-left');
+      this.automaticScroll();
+    }
   }
 
   automaticScroll() {
