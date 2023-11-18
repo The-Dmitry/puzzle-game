@@ -1,5 +1,6 @@
 import NodeCreator from '../classes/NodeCreate';
 import View from '../classes/View';
+import ProgressBarView from './ProgressBarView';
 import sliderData from './slider-data';
 
 const parent = document.querySelector('.favourite-coffee');
@@ -11,9 +12,7 @@ export default class SliderView extends View {
 
   isAllowedToMove = true;
 
-  progressBarButtons = [];
-
-  timer;
+  progressBar;
 
   constructor() {
     const params = {
@@ -24,14 +23,13 @@ export default class SliderView extends View {
     parent.append(this.viewNode.getNode());
     this.configureView();
     this.generateSlide();
-    this.automaticScroll();
   }
 
   configureView() {
     const prev = new NodeCreator({
       tag: 'button',
       css: ['slider-button__prev', 'slider-button'],
-      callback: this.moveSlideToLeft.bind(this),
+      callback: this.moveSlideToRight.bind(this),
     });
     const sliderFrame = new NodeCreator({
       tag: 'div',
@@ -41,7 +39,7 @@ export default class SliderView extends View {
     const next = new NodeCreator({
       tag: 'button',
       css: ['slider-button__next', 'slider-button'],
-      callback: this.moveSlideToRight.bind(this),
+      callback: this.moveSlideToLeft.bind(this),
     });
     prev.getNode().innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M6 12H18.5M18.5 12L12.5 6M18.5 12L12.5 18" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
@@ -49,21 +47,20 @@ export default class SliderView extends View {
     next.getNode().innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M6 12H18.5M18.5 12L12.5 6M18.5 12L12.5 18" stroke="#403F3D" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
-    const bar = this.generateProgressBar();
-    this.viewNode.addInnerNode(prev, sliderFrame, bar, next);
+    this.progressBar = new ProgressBarView(sliderData.length, this.moveSlideToLeft.bind(this));
+    this.viewNode.addInnerNode(prev, sliderFrame, this.progressBar.getElement(), next);
   }
 
   generateSlide() {
     this.validateId();
     const id = this.currentSlideId;
-    this.manageProgressButtons();
     const slide = new NodeCreator({
       tag: 'article',
       css: ['slider__slide', 'slide'],
     });
     slide.setCallback(this.makeSwipe.bind(this), 'touchstart');
-    slide.setCallback(this.stopAutomaticScroll.bind(this), 'mouseenter');
-    slide.setCallback(this.automaticScroll.bind(this), 'mouseleave');
+    slide.setCallback(() => this.progressBar.pauseAutomaticScroll(), 'mouseenter');
+    slide.setCallback(() => this.progressBar.continueAutomaticScroll(), 'mouseleave');
     const image = new NodeCreator({
       tag: 'div',
       css: ['slide__image'],
@@ -89,6 +86,7 @@ export default class SliderView extends View {
     });
     slide.addInnerNode(image, title, description, price);
     this.sliderFrame.addInnerNode(slide);
+    this.progressBar.switchSlide(this.currentSlideId);
   }
 
   moveSlide(newSlideClass, currentSlideClass) {
@@ -117,34 +115,11 @@ export default class SliderView extends View {
     }
   }
 
-  generateProgressBar() {
-    const bar = new NodeCreator({
-      tag: 'div',
-      css: ['slider__progress-bar', 'progress-bar'],
-    });
-    this.progressBarButtons = new Array(sliderData.length).fill(0).map(
-      () =>
-        new NodeCreator({
-          tag: 'button',
-          css: ['progress-bar__button'],
-        })
-    );
-    bar.addInnerNode(...this.progressBarButtons);
-    return bar;
-  }
-
-  manageProgressButtons() {
-    this.progressBarButtons.forEach((btn, index) => {
-      // eslint-disable-next-line no-param-reassign
-      btn.getNode().disabled = this.currentSlideId === index;
-    });
-  }
-
   makeSwipe(startEvent) {
     if (!this.isAllowedToMove) {
       return;
     }
-    this.stopAutomaticScroll();
+    this.progressBar.pauseAutomaticScroll();
     const start = startEvent.changedTouches[0];
     const startX = start.clientX;
     const startY = start.clientY;
@@ -155,47 +130,33 @@ export default class SliderView extends View {
       const distanceX = end.clientX - startX;
       const distanceY = end.clientY - startY;
       const endTime = new Date().getTime() - startTime;
+      this.progressBar.continueAutomaticScroll();
+      start.target.removeEventListener('touchend', endSwipe);
       if (endTime > 500) {
-        this.automaticScroll();
         return;
       }
       if (Math.abs(distanceX) >= 100 && Math.abs(distanceY <= 100)) {
         if (distanceX > 0) {
-          this.moveSlideToLeft();
-        } else {
           this.moveSlideToRight();
+        } else {
+          this.moveSlideToLeft();
         }
       }
     };
-
     start.target.addEventListener('touchend', endSwipe);
-  }
-
-  moveSlideToLeft() {
-    if (this.isAllowedToMove) {
-      this.stopAutomaticScroll();
-      this.currentSlideId -= 1;
-      this.moveSlide('slide_from-left', 'slide_to-right');
-      this.automaticScroll();
-    }
   }
 
   moveSlideToRight() {
     if (this.isAllowedToMove) {
-      this.stopAutomaticScroll();
-      this.currentSlideId += 1;
-      this.moveSlide('slide_from-right', 'slide_to-left');
-      this.automaticScroll();
+      this.currentSlideId -= 1;
+      this.moveSlide('slide_from-left', 'slide_to-right');
     }
   }
 
-  automaticScroll() {
-    this.timer = setTimeout(() => {
-      this.moveSlideToRight();
-    }, 7000);
-  }
-
-  stopAutomaticScroll() {
-    clearTimeout(this.timer);
+  moveSlideToLeft() {
+    if (this.isAllowedToMove) {
+      this.currentSlideId += 1;
+      this.moveSlide('slide_from-right', 'slide_to-left');
+    }
   }
 }
