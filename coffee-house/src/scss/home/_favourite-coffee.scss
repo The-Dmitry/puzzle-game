@@ -51,6 +51,13 @@
   }
 }
 
+.slider-button__next {
+  margin-right: 4px;
+}
+.slider-button__prev {
+  margin-left: 4px;
+}
+
 .slide {
   grid-column: 2 / 3;
   display: flex;
