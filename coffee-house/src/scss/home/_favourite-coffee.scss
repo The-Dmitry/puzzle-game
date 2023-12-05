@@ -51,6 +51,15 @@
   }
 }
 
+@media (min-width: 1000px) {
+  .slider-button__next {
+    margin-right: 4px;
+  }
+  .slider-button__prev {
+    margin-left: 4px;
+  }
+}
+
 .slide {
   grid-column: 2 / 3;
   display: flex;
@@ -76,6 +85,12 @@
 .slide__price,
 .slide__title {
   font-size: 2.4rem;
+}
+
+.slide__title {
+  @media (max-width: 400px) {
+    margin: 4px 0 -2px 0;
+  }
 }
 
 .slide__description {

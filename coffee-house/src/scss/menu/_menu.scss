@@ -87,6 +87,10 @@
   }
 }
 
+.menu-navigation__button.menu-navigation__button_selected {
+  cursor: auto;
+}
+
 .menu-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, 310px);
