@@ -148,15 +148,21 @@
   transform: translateX(-50%);
 }
 
-.progress-bar__button {
+.progress-bar__indicator {
+  overflow: hidden;
+  position: relative;
   pointer-events: none;
   width: 40px;
   height: 4px;
   border: none;
   outline: none;
-  transition: background-color linear 0.5s;
   background-color: var(--border-light);
-  &:disabled {
+  &::before {
+    content: '';
     background-color: var(--container-color);
+    transition: all linear 0.1s;
+    position: absolute;
+    height: 100%;
+    width: var(--progress-width);
   }
 }
