@@ -124,13 +124,18 @@ export default class SliderView extends View {
     const startX = start.clientX;
     const startY = start.clientY;
     const startTime = new Date().getTime();
-
+    start.target.removeEventListener('touchstart', this.makeSwipe);
+    setTimeout(() => {
+      start.target.addEventListener('touchstart', this.makeSwipe);
+    }, 200);
     const endSwipe = (endEvent) => {
       const end = endEvent.changedTouches[0];
       const distanceX = end.clientX - startX;
       const distanceY = end.clientY - startY;
       const endTime = new Date().getTime() - startTime;
-      this.progressBar.continueAutomaticScroll();
+      setTimeout(() => {
+        this.progressBar.continueAutomaticScroll();
+      }, 200);
       start.target.removeEventListener('touchend', endSwipe);
       if (endTime > 500) {
         return;

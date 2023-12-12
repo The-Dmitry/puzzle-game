@@ -56,6 +56,7 @@ export default class ProgressBarView extends View {
   }
 
   continueAutomaticScroll() {
+    this.pauseAutomaticScroll();
     this.automaticScroll();
   }
 
