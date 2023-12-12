@@ -1,6 +1,8 @@
 .enjoy {
+  position: relative;
   padding: 100px;
-  background: url(/src/assets/image/enjoy/enjoy-bg.jpg) 50% / cover no-repeat;
+  // background: url(/src/assets/image/enjoy/enjoy-bg.jpg) 50% / cover no-repeat;
+  overflow: hidden;
   border-radius: 40px;
   display: grid;
   grid-template-columns: minmax(auto, 530px) 1fr;
@@ -80,4 +82,15 @@
       }
     }
   }
+}
+
+.enjoy__video {
+  z-index: -1;
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  grid-column: span 2;
 }

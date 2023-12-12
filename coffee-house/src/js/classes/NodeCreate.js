@@ -40,6 +40,10 @@ export default class NodeCreator {
     if (id) this.node.id = id;
   }
 
+  setAttribute(name, value) {
+    this.node.setAttribute(name, value);
+  }
+
   addInnerNode(...list) {
     list.forEach((node) => {
       if (node instanceof NodeCreator) {
