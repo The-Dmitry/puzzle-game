@@ -55,7 +55,7 @@ export default class CategoriesContentView extends View {
 
   checkWidth() {
     const width = document.body.clientWidth;
-    this.variant = width > 1000 ? 'desktop' : 'mobile';
+    this.variant = width > 768 ? 'desktop' : 'mobile';
     return this.variant === this.createdVariant;
   }
 }
