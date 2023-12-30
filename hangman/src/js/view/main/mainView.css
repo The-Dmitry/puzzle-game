@@ -1,0 +1,9 @@
+html,
+.main {
+  height: 100dvh;
+}
+
+body {
+  background-color: rgb(46, 46, 56);
+  height: 100dvh;
+}
