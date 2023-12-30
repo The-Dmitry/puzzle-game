@@ -8,6 +8,10 @@ export default class MainView extends View {
 
   qNumber = 0;
 
+  MAX_MISTAKES = 6;
+
+  mistakes = 0;
+
   constructor() {
     super({
       tag: 'div',
@@ -23,7 +27,6 @@ export default class MainView extends View {
   configureView() {
     this.addViewInside(this.keyboard);
     console.log(this.quiz);
-    window.addEventListener('keydown', (e) => console.log(e.code));
   }
 
   shuffleArray(array) {
@@ -31,7 +34,23 @@ export default class MainView extends View {
   }
 
   checkChar(char) {
-    const isCorrect = this.quiz[this.qNumber].a.includes(char);
+    const isCorrect = this.quiz[this.qNumber].a
+      .toLowerCase()
+      .includes(char.toLowerCase());
+    if (!isCorrect) {
+      this.updateGameData();
+    }
     return isCorrect;
+  }
+
+  updateGameData() {
+    this.mistakes += 1;
+    if (this.mistakes >= this.MAX_MISTAKES) {
+      this.gameOver();
+    }
+  }
+
+  gameOver() {
+    console.log('game over');
   }
 }

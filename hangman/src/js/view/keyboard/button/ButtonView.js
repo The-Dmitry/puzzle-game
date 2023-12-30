@@ -7,10 +7,12 @@ export default class ButtonView extends View {
       css: ['keyboard__button'],
       text: code,
       callback: () => {
-        this.getElement().style.backgroundColor = checkMethod(code)
-          ? 'green'
-          : 'red';
+        this.setResultStyle(checkMethod(code));
       },
     });
+  }
+
+  setResultStyle(isAnswerCorrect) {
+    this.getElement().style.backgroundColor = isAnswerCorrect ? 'green' : 'red';
   }
 }

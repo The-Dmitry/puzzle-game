@@ -11,6 +11,9 @@ export default class KeyboardView extends View {
       css: ['keyboard'],
     });
     this.configureView(checkMethod);
+    window.addEventListener('keydown', (e) => {
+      console.log(e.code.at(-1));
+    });
   }
 
   configureView(checkMethod) {
