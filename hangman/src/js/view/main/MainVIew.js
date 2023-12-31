@@ -2,9 +2,12 @@ import './mainView.css';
 import View from '../View';
 import KeyboardView from '../keyboard/KeyboardView';
 import quizData from '../../data/quizData';
+import GallowsView from '../gallows/GallowsView';
 
 export default class MainView extends View {
   quiz = [];
+
+  correctChars = [];
 
   qNumber = 0;
 
@@ -19,14 +22,15 @@ export default class MainView extends View {
     });
     this.shuffleArray(quizData);
     this.keyboard = new KeyboardView(this.checkChar.bind(this));
+    this.gallows = new GallowsView(this.correctChars);
 
     this.configureView();
     console.log(this.quiz[this.qNumber].a);
   }
 
   configureView() {
-    this.addViewInside(this.keyboard);
-    console.log(this.quiz);
+    this.addViewInside(this.keyboard, this.gallows);
+    this.startNewGame();
   }
 
   shuffleArray(array) {
@@ -38,19 +42,51 @@ export default class MainView extends View {
       .toLowerCase()
       .includes(char.toLowerCase());
     if (!isCorrect) {
-      this.updateGameData();
+      this.updateMistakes();
+    } else {
+      this.correctChars.push(char);
+      const result = this.gallows.updateData(
+        this.quiz[this.qNumber].a,
+        this.correctChars
+      );
+      if (result) {
+        this.showWin();
+      }
     }
     return isCorrect;
   }
 
-  updateGameData() {
+  updateMistakes() {
     this.mistakes += 1;
     if (this.mistakes >= this.MAX_MISTAKES) {
-      this.gameOver();
+      this.showGameOver();
     }
   }
 
-  gameOver() {
+  showGameOver() {
     console.log('game over');
+    this.resetGame();
+    this.startNewGame();
+  }
+
+  showWin() {
+    console.log('YOU WIN!');
+  }
+
+  show;
+
+  resetGame() {
+    this.mistakes = 0;
+    this.correctChars = [];
+    this.qNumber += 1;
+  }
+
+  startNewGame() {
+    this.keyboard.resetKeyboard();
+    this.gallows.updateData(
+      this.quiz[this.qNumber].a,
+      this.correctChars,
+      this.quiz[this.qNumber].q
+    );
   }
 }

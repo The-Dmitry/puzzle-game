@@ -1,4 +1,4 @@
-import MainView from './view/main/MainVIew';
+import MainView from './view/main/MainView';
 
 export default class App {
   constructor() {

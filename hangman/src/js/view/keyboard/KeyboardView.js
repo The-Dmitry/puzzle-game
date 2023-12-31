@@ -3,24 +3,27 @@ import buttonsData from '../../data/buttonsData';
 import ButtonView from './button/ButtonView';
 
 export default class KeyboardView extends View {
-  buttonList = [];
+  buttonList = new Map();
 
-  constructor(checkMethod) {
+  constructor(checkChar) {
     super({
       tag: 'div',
       css: ['keyboard'],
     });
-    this.configureView(checkMethod);
+    this.configureView(checkChar);
     window.addEventListener('keydown', (e) => {
-      console.log(e.code.at(-1));
+      if (checkChar(e.code.at(-1))) {
+      }
     });
   }
 
-  configureView(checkMethod) {
+  configureView(checkChar) {
     buttonsData.forEach((code) => {
-      const btn = new ButtonView(code, checkMethod);
-      this.buttonList.push(btn);
+      const btn = new ButtonView(code, checkChar);
+      this.buttonList.set(code, btn);
     });
-    this.addViewInside(...this.buttonList);
+    this.addViewInside(...this.buttonList.values());
   }
+
+  resetKeyboard() {}
 }
