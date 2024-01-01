@@ -1,0 +1,23 @@
+.keyboard {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1%;
+}
+
+.keyboard__button {
+  user-select: none;
+  width: 10%;
+  aspect-ratio: 1.3 / 1;
+  margin-bottom: 1%;
+}
+
+.keyboard__button_correct {
+  pointer-events: none;
+  background-color: green;
+}
+
+.keyboard__button_incorrect {
+  pointer-events: none;
+  background-color: red;
+}

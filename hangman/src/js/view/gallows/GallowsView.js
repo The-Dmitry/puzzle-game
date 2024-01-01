@@ -1,37 +1,49 @@
+import './gallows.css';
 import NodeCreator from '../../classes/NodeCreator';
 import View from '../View';
 
+const MISTAKES_CSS = {
+  1: 'gallows__head',
+  2: 'gallows__body',
+  3: 'gallows__left-arm',
+  4: 'gallows__right-arm',
+  5: 'gallows__left-leg',
+  6: 'gallows__right-leg',
+};
+
 export default class GallowsView extends View {
+  mistakes = 0;
+
   constructor() {
     super({
       tag: 'div',
-      css: ['gallows'],
+      css: ['gallows-container'],
     });
     this.configureView();
   }
 
   configureView() {
-    this.secretWord = new NodeCreator({
-      tag: 'p',
+    this.gallows = new NodeCreator({
+      tag: 'div',
+      css: ['gallows'],
     });
-    this.question = new NodeCreator({
-      tag: 'p',
-    });
-    this.viewNode.addInnerNode(this.secretWord, this.question);
+    this.viewNode.addInnerNode(this.gallows);
   }
 
-  updateData(word, charList, question) {
-    const hiddenWord = word
-      .split('')
-      .map((char) => (charList.includes(char.toUpperCase()) ? char : '_'))
-      .join('');
-    this.secretWord.setTextContent(hiddenWord);
-    if (question) {
-      this.question.setTextContent(question);
+  setBodyParts(num) {
+    if (num) {
+      this.gallows.addInnerNode(
+        new NodeCreator({
+          tag: 'div',
+          css: [MISTAKES_CSS[num]],
+        })
+      );
+      return;
     }
-    if (!hiddenWord.includes('_')) {
-      return true;
-    }
-    return false;
+    this.gallows.removeAllChildren();
+  }
+
+  resetGallows() {
+    this.mistakes = 0;
   }
 }

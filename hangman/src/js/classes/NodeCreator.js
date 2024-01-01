@@ -28,6 +28,12 @@ export default class NodeCreator {
     }
   }
 
+  addClassName(cssName) {
+    if (cssName) {
+      this.node.classList.add(cssName);
+    }
+  }
+
   removeCLassName(cssName) {
     if (cssName) {
       this.node.classList.remove(cssName);

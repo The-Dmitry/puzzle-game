@@ -3,6 +3,7 @@ import View from '../View';
 import KeyboardView from '../keyboard/KeyboardView';
 import quizData from '../../data/quizData';
 import GallowsView from '../gallows/GallowsView';
+import InfoView from '../infoView/infoView';
 
 export default class MainView extends View {
   quiz = [];
@@ -23,13 +24,14 @@ export default class MainView extends View {
     this.shuffleArray(quizData);
     this.keyboard = new KeyboardView(this.checkChar.bind(this));
     this.gallows = new GallowsView(this.correctChars);
+    this.infoView = new InfoView();
 
     this.configureView();
     console.log(this.quiz[this.qNumber].a);
   }
 
   configureView() {
-    this.addViewInside(this.keyboard, this.gallows);
+    this.addViewInside(this.keyboard, this.gallows, this.infoView);
     this.startNewGame();
   }
 
@@ -45,7 +47,7 @@ export default class MainView extends View {
       this.updateMistakes();
     } else {
       this.correctChars.push(char);
-      const result = this.gallows.updateData(
+      const result = this.infoView.updateData(
         this.quiz[this.qNumber].a,
         this.correctChars
       );
@@ -58,6 +60,7 @@ export default class MainView extends View {
 
   updateMistakes() {
     this.mistakes += 1;
+    this.gallows.setBodyParts(this.mistakes);
     if (this.mistakes >= this.MAX_MISTAKES) {
       this.showGameOver();
     }
@@ -65,8 +68,8 @@ export default class MainView extends View {
 
   showGameOver() {
     console.log('game over');
-    this.resetGame();
-    this.startNewGame();
+    // this.resetGame();
+    // this.startNewGame();
   }
 
   showWin() {
@@ -79,11 +82,14 @@ export default class MainView extends View {
     this.mistakes = 0;
     this.correctChars = [];
     this.qNumber += 1;
+    this.gallows.setBodyParts(0);
   }
 
   startNewGame() {
+    this.resetGame();
     this.keyboard.resetKeyboard();
-    this.gallows.updateData(
+    // this.gallows.resetGallows();
+    this.infoView.updateData(
       this.quiz[this.qNumber].a,
       this.correctChars,
       this.quiz[this.qNumber].q

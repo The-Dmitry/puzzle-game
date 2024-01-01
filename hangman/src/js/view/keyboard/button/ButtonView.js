@@ -13,6 +13,13 @@ export default class ButtonView extends View {
   }
 
   setResultStyle(isAnswerCorrect) {
-    this.getElement().style.backgroundColor = isAnswerCorrect ? 'green' : 'red';
+    this.viewNode.addClassName(
+      `${
+        isAnswerCorrect
+          ? 'keyboard__button_correct'
+          : 'keyboard__button_incorrect'
+      }`
+    );
+    // this.getElement().style.backgroundColor = isAnswerCorrect ? 'green' : 'red';
   }
 }

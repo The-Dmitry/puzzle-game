@@ -1,3 +1,4 @@
+import './keyboard.css';
 import View from '../View';
 import buttonsData from '../../data/buttonsData';
 import ButtonView from './button/ButtonView';
