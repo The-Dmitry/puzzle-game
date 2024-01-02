@@ -13,8 +13,11 @@ export default class KeyboardView extends View {
     });
     this.configureView(checkChar);
     window.addEventListener('keydown', (e) => {
-      if (checkChar(e.code.at(-1))) {
+      if (!buttonsData.includes(e.code.at(-1))) {
+        return;
       }
+      const result = checkChar(e.code.at(-1));
+      this.buttonList.get(e.code.at(-1)).setResultStyle(result);
     });
   }
 
@@ -26,5 +29,7 @@ export default class KeyboardView extends View {
     this.addViewInside(...this.buttonList.values());
   }
 
-  resetKeyboard() {}
+  resetKeyboard() {
+    this.buttonList.forEach((btn) => btn.resetButton());
+  }
 }

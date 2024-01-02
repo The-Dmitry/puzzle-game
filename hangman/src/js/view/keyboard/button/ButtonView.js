@@ -20,6 +20,12 @@ export default class ButtonView extends View {
           : 'keyboard__button_incorrect'
       }`
     );
+    this.viewNode.getNode().disabled = true;
     // this.getElement().style.backgroundColor = isAnswerCorrect ? 'green' : 'red';
+  }
+
+  resetButton() {
+    this.viewNode.setClassNames(['keyboard__button']);
+    this.viewNode.getNode().disabled = false;
   }
 }

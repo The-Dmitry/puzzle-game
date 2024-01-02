@@ -1,5 +1,8 @@
+import './infoView.css';
 import NodeCreator from '../../classes/NodeCreator';
 import View from '../View';
+
+const INCORRECT = 'Incorrect guesses: ';
 
 export default class InfoView extends View {
   constructor() {
@@ -13,11 +16,22 @@ export default class InfoView extends View {
   configureView() {
     this.secretWord = new NodeCreator({
       tag: 'p',
+      css: ['info__secret-word'],
     });
     this.question = new NodeCreator({
       tag: 'p',
+      css: ['info__question'],
     });
-    this.viewNode.addInnerNode(this.secretWord, this.question);
+    this.correctAnswers = new NodeCreator({
+      tag: 'p',
+      text: `${INCORRECT}0 / 6`,
+    });
+    this.viewNode.addInnerNode(
+      this.correctAnswers,
+
+      this.question,
+      this.secretWord
+    );
   }
 
   updateData(word, charList, question) {
@@ -27,11 +41,15 @@ export default class InfoView extends View {
       .join('');
     this.secretWord.setTextContent(hiddenWord);
     if (question) {
-      this.question.setTextContent(question);
+      this.question.setTextContent(`Hint: ${question}`);
     }
     if (!hiddenWord.includes('_')) {
       return true;
     }
     return false;
+  }
+
+  updateGuesses(mistakes) {
+    this.correctAnswers.setTextContent(`${INCORRECT}${mistakes} / 6`);
   }
 }

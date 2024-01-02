@@ -1,0 +1,17 @@
+.info {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 20%;
+  font-size: min(4vw, 25px);
+}
+
+.info__question {
+  text-align: center;
+}
+
+.info__secret-word {
+  font-size: min(4vw, 45px);
+  letter-spacing: 2vw;
+  text-transform: uppercase;
+}
