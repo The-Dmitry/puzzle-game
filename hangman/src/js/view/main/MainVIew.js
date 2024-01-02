@@ -36,7 +36,7 @@ export default class MainView extends View {
   }
 
   configureView() {
-    this.addViewInside(this.keyboard, this.gallows, this.infoView);
+    this.addViewInside(this.gallows, this.infoView, this.keyboard);
     this.startNewGame();
   }
 
@@ -124,6 +124,7 @@ export default class MainView extends View {
     });
     const playAgainBtn = new NodeCreator({
       tag: 'button',
+      css: ['play-again'],
       text: 'Play again',
       callback: () => {
         this.closeModal();

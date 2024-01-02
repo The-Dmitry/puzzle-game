@@ -42,7 +42,7 @@ const quizData = [
   {
     id: 9,
     q: 'What is the name of the chemical element that is used to make aluminum cans?',
-    a: 'Aluminum',
+    a: 'Aluminium',
   },
   {
     id: 10,

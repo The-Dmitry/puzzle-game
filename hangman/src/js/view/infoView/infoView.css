@@ -3,7 +3,7 @@
   flex-direction: column-reverse;
   align-items: center;
   gap: 20%;
-  font-size: min(4vw, 25px);
+  font-size: min(7vw, 25px);
 }
 
 .info__question {
@@ -11,7 +11,7 @@
 }
 
 .info__secret-word {
-  font-size: min(4vw, 45px);
+  font-size: min(9vw, 45px);
   letter-spacing: 2vw;
   text-transform: uppercase;
 }

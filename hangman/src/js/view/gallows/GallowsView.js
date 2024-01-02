@@ -27,7 +27,12 @@ export default class GallowsView extends View {
       tag: 'div',
       css: ['gallows'],
     });
-    this.viewNode.addInnerNode(this.gallows);
+    const title = new NodeCreator({
+      tag: 'h1',
+      css: ['main-title'],
+      text: 'hangman game',
+    });
+    this.viewNode.addInnerNode(this.gallows, title);
   }
 
   setBodyParts(num) {
