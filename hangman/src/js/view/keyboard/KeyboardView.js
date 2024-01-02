@@ -6,6 +6,8 @@ import ButtonView from './button/ButtonView';
 export default class KeyboardView extends View {
   buttonList = new Map();
 
+  isPlaying = true;
+
   constructor(checkChar) {
     super({
       tag: 'div',
@@ -13,6 +15,9 @@ export default class KeyboardView extends View {
     });
     this.configureView(checkChar);
     window.addEventListener('keydown', (e) => {
+      if (!this.isPlaying) {
+        return;
+      }
       if (!buttonsData.includes(e.code.at(-1))) {
         return;
       }
@@ -31,5 +36,9 @@ export default class KeyboardView extends View {
 
   resetKeyboard() {
     this.buttonList.forEach((btn) => btn.resetButton());
+  }
+
+  blockKeyboard(bool) {
+    this.isPlaying = bool;
   }
 }

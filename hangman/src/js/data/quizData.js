@@ -126,61 +126,46 @@ const quizData = [
   },
   {
     id: 26,
-    q: 'Type of computer input device that uses a laser pointer',
-    a: 'Mouse',
-  },
-  {
-    id: 27,
     q: 'Type of computer output device that displays images and text on a screen',
     a: 'Monitor',
   },
   {
-    id: 28,
+    id: 27,
     q: 'Type of animal that can run fast',
     a: 'Cheetah',
   },
   {
+    id: 28,
+    q: 'Type of weather phenomenon that is characterized by strong winds and heavy rain',
+    a: 'Hurricane',
+  },
+  {
     id: 29,
-    q: 'Type of weather phenomenon that is characterized by strong winds and heavy rain',
-    a: 'Hurricane',
-  },
-  {
-    id: 30,
-    q: 'Type of weather phenomenon that is characterized by strong winds and heavy rain',
-    a: 'Hurricane',
-  },
-  {
-    id: 31,
     q: 'Type of insect that can make honey',
     a: 'Bee',
   },
   {
-    id: 32,
+    id: 30,
     q: 'Type of musical instrument that is played by tapping keys',
     a: 'Piano',
   },
   {
-    id: 33,
+    id: 31,
     q: 'Type of plant that can grow in deserts',
     a: 'Cactus',
   },
   {
-    id: 34,
+    id: 32,
     q: 'What is the national animal of Australia?',
     a: 'Kangaroo',
   },
   {
-    id: 35,
+    id: 33,
     q: 'What is the capital of Spain?',
     a: 'Madrid',
   },
   {
-    id: 36,
-    q: 'What is the capital of Spain?',
-    a: 'Madrid',
-  },
-  {
-    id: 37,
+    id: 34,
     q: 'What is the largest continent in the world?',
     a: 'Asia',
   },

@@ -4,7 +4,6 @@
   align-content: center;
   flex-wrap: wrap;
   gap: 2%;
-
   font-size: min(6vw, 35px);
 }
 
@@ -21,6 +20,9 @@
   transition: all linear 0.3s;
   &:active {
     transform: scale(0.9) translate(0, 4%);
+  }
+  &:disabled {
+    transform: none;
   }
 }
 

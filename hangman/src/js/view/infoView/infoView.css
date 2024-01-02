@@ -4,6 +4,9 @@
   align-items: center;
   gap: 20%;
   font-size: min(7vw, 25px);
+  @media (max-height: 700px) {
+    gap: 10%;
+  }
 }
 
 .info__question {
@@ -12,6 +15,6 @@
 
 .info__secret-word {
   font-size: min(9vw, 45px);
-  letter-spacing: 2vw;
+  letter-spacing: 1.2vw;
   text-transform: uppercase;
 }

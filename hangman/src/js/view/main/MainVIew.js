@@ -111,6 +111,7 @@ export default class MainView extends View {
     [this.keyboard, this.gallows, this.infoView].forEach((view) =>
       view.blockView(boolean)
     );
+    this.keyboard.blockKeyboard(!boolean);
   }
 
   createModal(text) {

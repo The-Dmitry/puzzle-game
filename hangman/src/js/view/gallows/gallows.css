@@ -1,5 +1,8 @@
 .gallows-container {
   align-self: center;
+  @media (max-width: 767px) {
+    align-self: baseline;
+  }
 }
 
 .gallows {
@@ -7,7 +10,7 @@
   aspect-ratio: 1 / 1;
   max-width: 100%;
   margin: 0 auto;
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     max-width: 300px;
   }
   &::before {
@@ -62,7 +65,7 @@
   background-color: black;
   z-index: 2;
   top: 41%;
-  right: 42%;
+  right: 41.5%;
   transform: rotate(45deg);
 }
 
@@ -72,12 +75,12 @@
 }
 
 .gallows__left-leg {
-  right: 39.6%;
+  right: 39.5%;
   top: 72%;
   transform: rotate(30deg);
 }
 .gallows__right-leg {
-  right: 30%;
+  right: 29.7%;
   top: 72%;
   transform: rotate(-30deg);
 }
