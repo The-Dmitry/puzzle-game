@@ -521,6 +521,11 @@ body {
   @media (max-width: 767px) {
     align-self: baseline;
   }
+  @media (max-height: 667px) {
+    width: 100%;
+    max-width: 64%;
+    justify-self: center;
+  }
 }
 
 .gallows {
@@ -614,7 +619,7 @@ body {
   flex-direction: column-reverse;
   align-items: center;
   gap: 20%;
-  font-size: min(7vw, 25px);
+  font-size: min(5vw, 25px);
   @media (max-height: 700px) {
     gap: 10%;
   }
