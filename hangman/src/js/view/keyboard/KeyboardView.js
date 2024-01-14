@@ -21,6 +21,9 @@ export default class KeyboardView extends View {
       if (!buttonsData.includes(e.code.at(-1))) {
         return;
       }
+      if (this.buttonList.get(e.code.at(-1)).pushed) {
+        return;
+      }
       const result = checkChar(e.code.at(-1));
       this.buttonList.get(e.code.at(-1)).setResultStyle(result);
     });

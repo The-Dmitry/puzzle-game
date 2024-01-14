@@ -1,6 +1,8 @@
 import View from '../../View';
 
 export default class ButtonView extends View {
+  pushed = false;
+
   constructor(code, checkMethod) {
     super({
       tag: 'button',
@@ -13,6 +15,10 @@ export default class ButtonView extends View {
   }
 
   setResultStyle(isAnswerCorrect) {
+    if (this.pushed) {
+      return;
+    }
+    this.pushed = true;
     this.viewNode.addClassName(
       `${
         isAnswerCorrect
@@ -25,6 +31,7 @@ export default class ButtonView extends View {
   }
 
   resetButton() {
+    this.pushed = false;
     this.viewNode.setClassNames(['keyboard__button']);
     this.viewNode.getNode().disabled = false;
   }
