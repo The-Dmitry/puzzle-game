@@ -105,6 +105,7 @@ export default class MainView extends View {
       this.quiz[this.qNumber].q
     );
     this.infoView.updateGuesses(0);
+    console.log(`Correct answer: ${this.quiz[this.qNumber].a}`);
   }
 
   blockAllView(boolean) {

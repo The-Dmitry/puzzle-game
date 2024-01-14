@@ -1,4 +1,4 @@
-import MainView from './view/main/MainView';
+import MainView from './view/main/MainVIew';
 
 export default class App {
   constructor() {
@@ -10,3 +10,5 @@ export default class App {
     document.body.append(this.main.getElement());
   }
 }
+
+console.warn('<<< For standard QWERTY keyboard. Good luck! >>>');
