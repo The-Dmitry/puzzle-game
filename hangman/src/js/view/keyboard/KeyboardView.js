@@ -15,13 +15,11 @@ export default class KeyboardView extends View {
     });
     this.configureView(checkChar);
     window.addEventListener('keydown', (e) => {
-      if (!this.isPlaying) {
-        return;
-      }
-      if (!buttonsData.includes(e.code.at(-1))) {
-        return;
-      }
-      if (this.buttonList.get(e.code.at(-1)).pushed) {
+      if (
+        !this.isPlaying ||
+        !buttonsData.includes(e.code.at(-1)) ||
+        this.buttonList.get(e.code.at(-1)).pushed
+      ) {
         return;
       }
       const result = checkChar(e.code.at(-1));
