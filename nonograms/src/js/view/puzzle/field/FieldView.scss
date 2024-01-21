@@ -1,0 +1,21 @@
+.field {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  border: 2px solid black;
+  justify-self: center;
+  border-collapse: collapse;
+  background-color: black;
+  gap: 2px;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  background-color: rgb(216, 216, 216);
+}
+
+.cell_marked {
+  background-color: black;
+}
+
+.cell_crossed {
+}

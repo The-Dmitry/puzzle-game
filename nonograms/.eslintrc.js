@@ -18,6 +18,6 @@ module.exports = {
     // "func-names": "off",
     // "no-process-exit": "off",
     // "object-shorthand": "off",
-    // "class-methods-use-this": "off",
+    'class-methods-use-this': 'off',
   },
 };

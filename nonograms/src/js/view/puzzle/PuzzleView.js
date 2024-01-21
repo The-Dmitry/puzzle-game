@@ -1,8 +1,8 @@
 import './PuzzleView.scss';
 import View from '../../classes/View';
 import FieldView from './field/FieldView';
-import LeftListView from './leftList/LeftListView';
-import UpperListView from './upperList/UpperListView';
+import LeftListView from './leftBar/LeftBarView';
+import UpperListView from './upperBar/UpperBarView';
 
 export default class PuzzleView extends View {
   constructor() {
@@ -20,5 +20,7 @@ export default class PuzzleView extends View {
 
   generateGame(scheme) {
     this.field.generateField(scheme);
+    this.leftList.generateGame(scheme);
+    this.upperList.generateGame(scheme);
   }
 }

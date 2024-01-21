@@ -1,3 +1,21 @@
 .puzzle {
   display: grid;
+  // grid-template-columns: 1fr 2fr;
+  // grid-template-rows: 1fr 2fr;
+  justify-content: left;
+}
+
+.left-bar {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.upper-bar {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.field {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
 }

@@ -1,4 +1,6 @@
+import './FieldView.scss';
 import View from '../../../classes/View';
+import FieldCellView from './FieldCellView';
 
 export default class FieldView extends View {
   constructor() {
@@ -13,6 +15,9 @@ export default class FieldView extends View {
   configureView() {}
 
   generateField(scheme) {
-    console.log(scheme.field);
+    const btns = scheme.field.map((arr) =>
+      arr.map((info) => new FieldCellView(info))
+    );
+    btns.forEach((arr) => this.addViewInside(...arr));
   }
 }
