@@ -6,7 +6,7 @@ export default class UpperListView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      css: ['upper-bar', 'puzzle__item'],
+      css: ['upper-bar', 'bar'],
     };
     super(params);
     this.configureView();
@@ -15,8 +15,7 @@ export default class UpperListView extends View {
   configureView() {}
 
   generateGame(scheme) {
-    const { field } = scheme;
-    const { length } = field[0];
+    const { length } = scheme[0];
     for (let i = 0; i < length; i += 1) {
       let count = 0;
       const row = new NodeCreator({
@@ -24,7 +23,7 @@ export default class UpperListView extends View {
         css: ['upper-bar__row'],
       });
       for (let j = 0; j < length; j += 1) {
-        if (field[j][i]) {
+        if (scheme[j][i]) {
           count += 1;
         } else {
           if (count) {

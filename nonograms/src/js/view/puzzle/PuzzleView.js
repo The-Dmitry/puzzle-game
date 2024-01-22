@@ -11,6 +11,7 @@ export default class PuzzleView extends View {
       css: ['puzzle'],
     };
     super(params);
+    this.viewNode.setCallback((e) => e.preventDefault(), 'contextmenu');
 
     this.field = new FieldView();
     this.leftList = new LeftListView();

@@ -5,13 +5,17 @@ export default class FieldCellView extends View {
 
   isFlagged = false;
 
-  constructor(needPaint) {
+  constructor(needPaint, checkVictory) {
     const params = {
       tag: 'div',
       css: ['cell'],
-      callback: () => this.setMark(),
+      callback: () => {
+        this.setMark();
+        checkVictory();
+      },
     };
     super(params);
+    this.viewNode.setCallback((e) => this.setFlag(e), 'contextmenu');
     this.needPaint = needPaint;
   }
 
@@ -23,5 +27,23 @@ export default class FieldCellView extends View {
     }
     this.viewNode.addClassName('cell_marked');
     this.isMarked = true;
+    this.isFlagged = true;
+    this.setFlag();
+  }
+
+  setFlag() {
+    if (this.isFlagged) {
+      this.viewNode.removeCLassName('cell_flagged');
+      this.isFlagged = false;
+      return;
+    }
+    this.viewNode.addClassName('cell_flagged');
+    this.isMarked = true;
+    this.isFlagged = true;
+    this.setMark();
+  }
+
+  isMarkedCorrectly() {
+    return this.isMarked && this.needPaint;
   }
 }

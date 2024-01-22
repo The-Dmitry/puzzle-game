@@ -9,6 +9,7 @@
 }
 
 .cell {
+  position: relative;
   aspect-ratio: 1 / 1;
   background-color: rgb(216, 216, 216);
 }
@@ -17,5 +18,20 @@
   background-color: black;
 }
 
-.cell_crossed {
+.cell_flagged {
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+  }
+  &::after {
+    transform: rotate(45deg);
+  }
+  &::before {
+    transform: rotate(-45deg);
+  }
 }

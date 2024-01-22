@@ -20,6 +20,7 @@ export default class MainView extends View {
   }
 
   generateGame() {
-    this.puzzle.generateGame(gameData[0]);
+    console.log(gameData);
+    this.puzzle.generateGame(gameData.five.heart);
   }
 }

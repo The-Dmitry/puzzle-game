@@ -7,7 +7,7 @@ export default class LeftBarView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      css: ['left-bar', 'puzzle__item'],
+      css: ['left-bar', 'bar'],
     };
     super(params);
     // this.configureView();
@@ -16,9 +16,8 @@ export default class LeftBarView extends View {
   configureView() {}
 
   generateGame(scheme) {
-    const { field } = scheme;
-    const { length } = field[0];
-    console.table(scheme.field);
+    const { length } = scheme[0];
+    // console.table(scheme.field);
     for (let i = 0; i < length; i += 1) {
       let count = 0;
       const row = new NodeCreator({
@@ -26,7 +25,7 @@ export default class LeftBarView extends View {
         css: ['left-bar__row'],
       });
       for (let j = 0; j < length; j += 1) {
-        if (field[i][j]) {
+        if (scheme[i][j]) {
           count += 1;
         } else {
           if (count) {

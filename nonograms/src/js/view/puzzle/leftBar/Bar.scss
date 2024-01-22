@@ -1,13 +1,17 @@
+.bar {
+  gap: 2px;
+  justify-content: center;
+}
+
 .left-bar {
   display: flex;
   flex-direction: column;
+  // justify-content: center;
 }
 
 .left-bar__row {
   display: flex;
   justify-content: right;
-
-  background-color: rgb(112, 112, 112);
 }
 
 .bar-cell {
@@ -16,6 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(171, 171, 171);
 }
 
 .upper-bar {
