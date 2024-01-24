@@ -17,6 +17,9 @@ export default class FieldCellView extends View {
     super(params);
     this.viewNode.setCallback((e) => this.setFlag(e), 'contextmenu');
     this.needPaint = needPaint;
+    if (this.needPaint) {
+      // this.viewNode.addClassName('cell_marked');
+    }
   }
 
   setMark() {

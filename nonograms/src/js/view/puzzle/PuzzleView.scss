@@ -1,10 +1,8 @@
 .puzzle {
   display: grid;
-  // grid-template-columns: 1fr 2fr;
-  // grid-template-rows: 1fr 2fr;
-  justify-content: left;
+  grid-template-columns: 1fr 2.5fr;
+  max-width: 700px;
   background-color: rgb(109, 109, 109);
-  width: fit-content;
   margin: 0 auto;
 }
 

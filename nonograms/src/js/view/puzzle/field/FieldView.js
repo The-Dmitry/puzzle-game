@@ -10,7 +10,7 @@ export default class FieldView extends View {
   constructor() {
     const params = {
       tag: 'div',
-      css: ['field', 'puzzle__item'],
+      css: ['field', 'field_10', 'puzzle__item'],
     };
     super(params);
     this.configureView();
@@ -19,14 +19,14 @@ export default class FieldView extends View {
   configureView() {}
 
   generateField(scheme) {
-    this.scheme = scheme;
+    console.log(scheme);
+    // this.scheme = scheme;
     const btns = scheme.map((arr) =>
       arr.map((info) => new FieldCellView(info, this.isVictory.bind(this)))
     );
     this.playArea = btns.flat(5).filter((btn) => btn.needPaint);
     btns.forEach((arr) => this.addViewInside(...arr));
-    // console.log(this.scheme);
-    console.log(this.playArea);
+    // this.setSize();
   }
 
   isVictory() {
@@ -38,5 +38,22 @@ export default class FieldView extends View {
     }
     console.log('WIN');
     return true;
+  }
+
+  setSize() {
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log(this.playArea[0].getElement().offsetWidth);
+      document.body.style.setProperty(
+        '--test',
+        `${this.playArea[0].getElement().offsetWidth}px`
+      );
+    });
+    window.addEventListener('resize', () => {
+      document.body.style.setProperty(
+        '--test',
+        `${this.playArea[0].getElement().offsetWidth}px`
+      );
+      console.log(this.playArea[0].getElement().offsetWidth);
+    });
   }
 }

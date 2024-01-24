@@ -1,17 +1,32 @@
 .field {
   display: grid;
-  grid-template-columns: repeat(5, 50px);
-  border: 2px solid black;
-  justify-self: center;
-  border-collapse: collapse;
   background-color: black;
-  gap: 2px;
+  gap: 1px;
+  border: 2px solid black;
+  // box-sizing: border-box;
+  // aspect-ratio: 1;
+}
+
+.field_5 {
+  grid-template-columns: repeat(5, 40px);
+}
+.field_10 {
+  grid-template-columns: repeat(10, auto);
+  .cell:nth-child(10n + 6) {
+    margin-left: 4px;
+  }
+  .cell:nth-child(n + 51):nth-child(-n + 60) {
+    margin-top: 4px;
+  }
+}
+.field_15 {
+  grid-template-columns: repeat(15, 40px);
 }
 
 .cell {
-  position: relative;
   aspect-ratio: 1 / 1;
   background-color: rgb(216, 216, 216);
+  // width: 3vw;
 }
 
 .cell_marked {
