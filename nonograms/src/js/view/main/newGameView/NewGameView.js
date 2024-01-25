@@ -45,7 +45,7 @@ export default class NewGameView extends View {
         new NodeCreator({
           tag: 'button',
           css: ['new-game__button'],
-          text: `${mode}x${mode}: ${gameName}`,
+          text: `${gameName}`,
           callback: () => startNewGame(val, gameName),
         })
     );

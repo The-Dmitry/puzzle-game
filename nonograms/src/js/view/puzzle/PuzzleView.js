@@ -1,8 +1,8 @@
 import './PuzzleView.scss';
 import View from '../../classes/View';
 import FieldView from './field/FieldView';
-import LeftListView from './leftBar/LeftBarView';
-import UpperListView from './upperBar/UpperBarView';
+import LeftBarView from './leftBar/LeftBarView';
+import UpperBarView from './upperBar/UpperBarView';
 
 const CSS_CLASSES = {
   puzzle: 'puzzle',
@@ -18,8 +18,8 @@ export default class PuzzleView extends View {
     this.viewNode.setCallback((e) => e.preventDefault(), 'contextmenu');
 
     this.field = new FieldView();
-    this.leftList = new LeftListView();
-    this.upperList = new UpperListView();
+    this.leftList = new LeftBarView();
+    this.upperList = new UpperBarView();
     this.addViewInside(this.field, this.leftList, this.upperList);
   }
 
@@ -27,6 +27,7 @@ export default class PuzzleView extends View {
     this.viewNode.setClassNames([
       CSS_CLASSES.puzzle,
       `${CSS_CLASSES.puzzle}_${gameName}`,
+      `${CSS_CLASSES.puzzle}_${scheme.length}`,
     ]);
     this.field.generateField(scheme, gameName);
     this.leftList.generateGame(scheme);

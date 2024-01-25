@@ -1,7 +1,7 @@
 import View from '../../../classes/View';
 
 export default class BarCellView extends View {
-  constructor(text) {
+  constructor(text = '') {
     const params = {
       tag: 'div',
       css: ['bar-cell'],

@@ -1,11 +1,18 @@
 .puzzle {
   display: grid;
-  grid-template-columns: 1fr 2.5fr;
-  max-width: 700px;
-  // background-color: rgb(109, 109, 109);
   margin: 0 auto;
-  // box-sizing: border-box;
-  // overflow: hidden;
+}
+
+.puzzle_15 {
+  max-width: 800px;
+}
+
+.puzzle_10 {
+  max-width: 500px;
+}
+
+.puzzle_5 {
+  max-width: 300px;
 }
 
 .left-bar {

@@ -16,28 +16,41 @@ export default class LeftBarView extends View {
   configureView() {}
 
   generateGame(scheme) {
-    const { length } = scheme[0];
+    const { length } = scheme;
     this.viewNode.setClassNames(['left-bar', `left-bar_${length}`]);
+    const result = [];
     for (let i = 0; i < length; i += 1) {
       let count = 0;
-      const row = new NodeCreator({
-        tag: 'div',
-        css: ['left-bar__row'],
-      });
+      let row = [];
       for (let j = 0; j < length; j += 1) {
         if (scheme[i][j]) {
           count += 1;
         } else {
           if (count) {
-            row.addInnerNode(new BarCellView(count).getElement());
+            row.push(count);
           }
           count = 0;
         }
         if (j === length - 1 && count) {
-          row.addInnerNode(new BarCellView(count).getElement());
+          row.push(count);
         }
       }
-      this.viewNode.addInnerNode(row);
+      result.push(row);
     }
+    const maxLength = Math.max(...result.map((item) => item.length));
+    const arrRowEqualLength = result.map((arr) => [
+      ...new Array(maxLength - arr.length).fill(''),
+      ...arr,
+    ]);
+    arrRowEqualLength.forEach((arr) => {
+      const row = new NodeCreator({
+        tag: 'div',
+        css: ['left-bar__row'],
+      });
+      row.addInnerNode(
+        ...arr.map((item) => new BarCellView(item).getElement())
+      );
+      this.viewNode.addInnerNode(row);
+    });
   }
 }
