@@ -2,8 +2,10 @@
   display: grid;
   grid-template-columns: 1fr 2.5fr;
   max-width: 700px;
-  background-color: rgb(109, 109, 109);
+  // background-color: rgb(109, 109, 109);
   margin: 0 auto;
+  // box-sizing: border-box;
+  // overflow: hidden;
 }
 
 .left-bar {
@@ -19,4 +21,36 @@
 .field {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+}
+
+.puzzle_dog,
+.puzzle_chicken {
+  grid-template-columns: 1fr 2.5fr;
+}
+
+.puzzle_clock,
+.puzzle_fountain {
+  grid-template-columns: 1fr 1.66fr;
+}
+
+.puzzle_worm,
+.puzzle_cocktail,
+.puzzle_fish,
+.puzzle_helicopter {
+  grid-template-columns: 1fr 3.3fr;
+}
+
+.puzzle_bike,
+.puzzle_kettle {
+  grid-template-columns: 1fr 2.5fr;
+}
+
+.puzzle_bee {
+  grid-template-columns: 1fr 2.5fr;
+}
+
+.puzzle_scales,
+.puzzle_cat,
+.puzzle_camera {
+  grid-template-columns: 1fr 3fr;
 }

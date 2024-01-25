@@ -17,7 +17,7 @@ export default class LeftBarView extends View {
 
   generateGame(scheme) {
     const { length } = scheme[0];
-    // console.table(scheme.field);
+    this.viewNode.setClassNames(['left-bar', `left-bar_${length}`]);
     for (let i = 0; i < length; i += 1) {
       let count = 0;
       const row = new NodeCreator({

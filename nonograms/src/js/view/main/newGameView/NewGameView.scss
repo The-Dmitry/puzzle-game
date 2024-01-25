@@ -1,0 +1,21 @@
+.new-game {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.new-game__title {
+  flex: 1 0 100%;
+}
+
+.new-game__title,
+.new-game__subtitle {
+  text-align: center;
+}
+
+.new-game__container {
+  flex: 0 1 200px;
+  display: flex;
+  flex-direction: column;
+}

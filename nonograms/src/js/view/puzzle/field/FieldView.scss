@@ -3,30 +3,41 @@
   background-color: black;
   gap: 1px;
   border: 2px solid black;
-  // box-sizing: border-box;
-  // aspect-ratio: 1;
 }
 
 .field_5 {
-  grid-template-columns: repeat(5, 40px);
+  grid-template-columns: repeat(5, auto);
 }
+
 .field_10 {
   grid-template-columns: repeat(10, auto);
   .cell:nth-child(10n + 6) {
-    margin-left: 4px;
+    margin-left: var(--field-border-width);
   }
   .cell:nth-child(n + 51):nth-child(-n + 60) {
-    margin-top: 4px;
+    margin-top: var(--field-border-width);
   }
 }
 .field_15 {
-  grid-template-columns: repeat(15, 40px);
+  grid-template-columns: repeat(15, auto);
+  .cell:nth-child(5n + 5) {
+    margin-right: var(--field-border-width);
+  }
+  .cell:nth-child(15n + 15) {
+    margin-right: 0;
+  }
+  .cell:nth-child(n + 76):nth-child(-n + 90) {
+    margin-top: var(--field-border-width);
+  }
+  .cell:nth-child(n + 151):nth-child(-n + 165) {
+    margin-top: var(--field-border-width);
+  }
 }
 
 .cell {
+  position: relative;
   aspect-ratio: 1 / 1;
   background-color: rgb(216, 216, 216);
-  // width: 3vw;
 }
 
 .cell_marked {
