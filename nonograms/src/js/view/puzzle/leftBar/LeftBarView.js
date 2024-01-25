@@ -21,7 +21,7 @@ export default class LeftBarView extends View {
     const result = [];
     for (let i = 0; i < length; i += 1) {
       let count = 0;
-      let row = [];
+      const row = [];
       for (let j = 0; j < length; j += 1) {
         if (scheme[i][j]) {
           count += 1;

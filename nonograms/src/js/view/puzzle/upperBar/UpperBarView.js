@@ -27,7 +27,7 @@ export default class UpperBarView extends View {
     const result = [];
     for (let i = 0; i < length; i += 1) {
       let count = 0;
-      let row = [];
+      const row = [];
       for (let j = 0; j < length; j += 1) {
         if (scheme[j][i]) {
           count += 1;
