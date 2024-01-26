@@ -3,6 +3,10 @@ body {
   height: 100%;
 }
 
+body {
+  padding-inline: 10px;
+}
+
 :root {
   --field-border-width: 1.8px;
 }

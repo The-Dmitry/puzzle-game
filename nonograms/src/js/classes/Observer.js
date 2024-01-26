@@ -1,9 +1,9 @@
 export default class Observer {
-  observerInstance = new Observer();
+  static observerInstance = new Observer();
 
   listeners = new Map();
 
-  getInstance() {
+  static getInstance() {
     return this.observerInstance;
   }
 

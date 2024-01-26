@@ -21,11 +21,24 @@ export default class NewGameView extends View {
       css: ['new-game__title'],
       text: 'New Game',
     });
-    const categoryNodes = Object.entries(gameData).map(([_, list]) =>
+    const modeList = Object.entries(gameData);
+    const categoryNodes = modeList.map(([_, list]) =>
       this.generateCategory(list, startNewGame)
     );
-
-    this.viewNode.addInnerNode(title, ...categoryNodes);
+    const randomGame = new NodeCreator({
+      tag: 'button',
+      css: ['new-game__random', 'new-game__button'],
+      text: 'random game',
+      // callback: () =>
+      //   startNewGame(modeList[Math.random() * modeList.length || 0]),
+      callback: () => {
+        const mode = modeList[Math.floor(Math.random() * modeList.length)][1];
+        const [name, scheme] =
+          Object.entries(mode)[Math.floor(Math.random() * 5)];
+        startNewGame(scheme, name);
+      },
+    });
+    this.viewNode.addInnerNode(title, ...categoryNodes, randomGame);
   }
 
   generateCategory(list, startNewGame) {
@@ -49,6 +62,7 @@ export default class NewGameView extends View {
           callback: () => startNewGame(val, gameName),
         })
     );
+
     container.addInnerNode(subtitle, ...buttonList);
     return container;
   }

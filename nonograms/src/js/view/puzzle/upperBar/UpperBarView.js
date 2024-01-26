@@ -19,6 +19,7 @@ export default class UpperBarView extends View {
   configureView() {}
 
   generateGame(scheme) {
+    this.viewNode.removeAllChildren();
     const { length } = scheme;
     this.viewNode.setClassNames([
       CSS_CLASSES.bar,

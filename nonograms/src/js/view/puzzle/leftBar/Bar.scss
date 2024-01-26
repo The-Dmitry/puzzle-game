@@ -1,7 +1,3 @@
-.bar {
-  font-size: 10px;
-}
-
 .main {
   padding-top: 100px;
 }
@@ -9,6 +5,7 @@
 .left-bar {
   display: flex;
   flex-direction: column;
+  user-select: none;
 }
 
 .left-bar_5 {
@@ -56,6 +53,15 @@
   }
 }
 
+.upper-bar {
+  display: grid;
+  border: 2px solid black;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+
+  user-select: none;
+}
+
 .upper-bar__column {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -87,13 +93,6 @@
   justify-content: center;
   align-items: center;
   background-color: rgb(171, 171, 171);
-}
-
-.upper-bar {
-  display: grid;
-  border: 2px solid black;
-  border-bottom: 1px solid black;
-  box-sizing: border-box;
 }
 
 .upper-bar_5 {

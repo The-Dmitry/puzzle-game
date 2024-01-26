@@ -47,6 +47,44 @@ export default class FieldCellView extends View {
   }
 
   isMarkedCorrectly() {
-    return this.isMarked && this.needPaint;
+    return (
+      (this.isMarked && this.needPaint) || (!this.isMarked && !this.needPaint)
+    );
+  }
+
+  resetCell() {
+    this.isMarked = false;
+    this.isFlagged = false;
+    this.viewNode.setClassNames(['cell']);
+  }
+
+  showSolution() {
+    if (!this.needPaint && this.isMarked) {
+      this.viewNode.removeCLassName('cell_marked');
+      return;
+    }
+    if (this.needPaint) {
+      this.viewNode.addClassName('cell_marked');
+    }
+  }
+
+  getStatus() {
+    if (this.isMarked) {
+      return 'marked';
+    }
+    if (this.isFlagged) {
+      return 'flagged';
+    }
+    return false;
+  }
+
+  setStatus(status) {
+    if (status === 'marked') {
+      this.setMark();
+      return;
+    }
+    if (status === 'flagged') {
+      this.setFlag();
+    }
   }
 }
