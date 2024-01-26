@@ -1,11 +1,17 @@
 import './FieldView.scss';
 import View from '../../../classes/View';
 import FieldCellView from './FieldCellView';
+import Observer from '../../../classes/observer/Observer';
+import ObserverActions from '../../../classes/observer/observerAtions';
 
 export default class FieldView extends View {
   playArea = [];
 
   scheme;
+
+  isPlaying = false;
+
+  observer = Observer.getInstance();
 
   constructor() {
     const params = {
@@ -19,6 +25,7 @@ export default class FieldView extends View {
   configureView() {}
 
   generateField(scheme, savedField) {
+    this.isPlaying = false;
     this.viewNode.removeAllChildren();
     this.viewNode.setClassNames(['field', `field_${scheme.length}`]);
     this.playArea = scheme.map((arr) =>
@@ -32,6 +39,10 @@ export default class FieldView extends View {
   }
 
   isVictory() {
+    if (!this.isPlaying) {
+      this.isPlaying = true;
+      this.observer.dispatch(ObserverActions.startTimer);
+    }
     for (let i = 0; i < this.playArea.length; i += 1) {
       if (!this.playArea[i].isMarkedCorrectly()) {
         console.log('NOT WIN');
@@ -39,14 +50,18 @@ export default class FieldView extends View {
       }
     }
     console.log('WIN');
+    this.observer.dispatch(ObserverActions.stopGame);
     return true;
   }
 
   resetGame() {
+    this.viewNode.removeCLassName('solution');
+    this.isPlaying = false;
     this.playArea.forEach((cell) => cell.resetCell());
   }
 
   showSolution() {
+    this.viewNode.addClassName('solution');
     this.playArea.forEach((cell) => cell.showSolution());
   }
 
