@@ -1,4 +1,5 @@
 import './MainView.scss';
+import './greeting/greeting.scss';
 import View from '../../classes/View';
 import PuzzleView from '../puzzle/PuzzleView';
 import gameData from '../../data/game-data';
@@ -6,10 +7,13 @@ import NewGameView from './newGameView/NewGameView';
 import NodeCreator from '../../classes/NodeCreator';
 import TimerView from './timer/TimerView';
 import Observer from '../../classes/observer/Observer';
-import ObserverActions from '../../classes/observer/observerAtions';
+import GreetingView from './greeting/GreetingView';
+import ObserverActions from '../../classes/observer/observerActions';
 
 export default class MainView extends View {
   gameName;
+
+  fieldSize = 0;
 
   #observer = Observer.getInstance();
 
@@ -20,17 +24,20 @@ export default class MainView extends View {
     };
     super(params);
     this.newGame = new NewGameView(gameData, this.generateGame.bind(this));
-    this.puzzle = new PuzzleView();
+    this.puzzle = new PuzzleView(this.showVictory.bind(this));
     this.timer = new TimerView();
     this.controls = this.createControls();
     this.configureView();
+    this.#observer.subscribe(ObserverActions.victory, () => this.showVictory());
   }
 
   configureView() {
-    this.addViewInside(this.newGame);
+    // this.addViewInside(this.newGame);
+    this.generateGame(gameData.five.chicken, 'chicken');
   }
 
   generateGame(scheme, gameName, savedField = null) {
+    this.fieldSize = scheme.length;
     this.gameName = gameName;
     this.puzzle.generateGame(scheme, gameName, savedField);
     this.newGame.viewNode.removeNode();
@@ -75,7 +82,6 @@ export default class MainView extends View {
       },
     });
     if (!localStorage.getItem('saved-game')) {
-      console.log(123);
       loadGame.getNode().disabled = true;
     }
     const saveGame = new NodeCreator({
@@ -120,6 +126,9 @@ export default class MainView extends View {
         this.#observer.dispatch(ObserverActions.stopGame);
       },
     });
+    this.#observer.subscribe(ObserverActions.victory, () => {
+      saveGame.getNode().disabled = true;
+    });
     const controlsContainer = new NodeCreator({
       tag: 'div',
       css: ['controls'],
@@ -132,6 +141,15 @@ export default class MainView extends View {
       solution
     );
     return controlsContainer;
+  }
+
+  showVictory() {
+    const greetingModal = new GreetingView(
+      this.gameName,
+      this.fieldSize,
+      this.timer.getSeconds
+    );
+    this.timer.stopTimer();
   }
 }
 

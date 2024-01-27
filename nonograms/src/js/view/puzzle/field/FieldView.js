@@ -2,7 +2,7 @@ import './FieldView.scss';
 import View from '../../../classes/View';
 import FieldCellView from './FieldCellView';
 import Observer from '../../../classes/observer/Observer';
-import ObserverActions from '../../../classes/observer/observerAtions';
+import ObserverActions from '../../../classes/observer/observerActions';
 
 export default class FieldView extends View {
   playArea = [];
@@ -49,8 +49,9 @@ export default class FieldView extends View {
         return false;
       }
     }
-    console.log('WIN');
-    this.observer.dispatch(ObserverActions.stopGame);
+    this.viewNode.addClassName('solution');
+    this.observer.dispatch(ObserverActions.victory);
+    // this.observer.dispatch(ObserverActions.stopGame);
     return true;
   }
 

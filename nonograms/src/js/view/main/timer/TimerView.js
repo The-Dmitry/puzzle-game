@@ -1,6 +1,6 @@
 import View from '../../../classes/View';
 import Observer from '../../../classes/observer/Observer';
-import ObserverActions from '../../../classes/observer/observerAtions';
+import ObserverActions from '../../../classes/observer/observerActions';
 
 export default class TimerView extends View {
   #seconds = 0;
@@ -13,7 +13,7 @@ export default class TimerView extends View {
     super({
       tag: 'p',
       css: ['stopwatch'],
-      text: '00:00',
+      text: '00:00:00',
     });
     this.#observer.subscribe(ObserverActions.startTimer, () =>
       this.startTimer()
@@ -35,11 +35,8 @@ export default class TimerView extends View {
   }
 
   updateText(num = this.#seconds) {
-    const sec = parseInt(num % 60, 10);
-    const min = Math.floor(num / 60);
     this.viewNode.setTextContent(
-      `${min.toString().padStart(2, 0)}:${sec.toString().padStart(2, 0)}` ||
-        '00:00'
+      `${new Date(num * 1000).toISOString().slice(11, 19)}` || '00:00'
     );
   }
 
