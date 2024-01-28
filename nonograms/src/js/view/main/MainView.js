@@ -9,6 +9,7 @@ import TimerView from './timer/TimerView';
 import Observer from '../../classes/observer/Observer';
 import GreetingView from './greeting/GreetingView';
 import ObserverActions from '../../classes/observer/observerActions';
+import SettingsView from './settingsView/SettingsView';
 
 export default class MainView extends View {
   gameName;
@@ -27,12 +28,13 @@ export default class MainView extends View {
     this.puzzle = new PuzzleView(this.showVictory.bind(this));
     this.timer = new TimerView();
     this.controls = this.createControls();
+    this.settings = new SettingsView();
     this.configureView();
     this.#observer.subscribe(ObserverActions.victory, () => this.showVictory());
   }
 
   configureView() {
-    // this.addViewInside(this.newGame);
+    this.addViewInside(this.settings);
     this.generateGame(gameData.five.chicken, 'chicken');
   }
 

@@ -11,7 +11,6 @@ export default class NewGameView extends View {
       css: ['new-game'],
     };
     super(params);
-    // console.log(gameData);
     this.configureView(gameData, startNewGame);
   }
 
@@ -29,8 +28,6 @@ export default class NewGameView extends View {
       tag: 'button',
       css: ['new-game__random', 'new-game__button'],
       text: 'random game',
-      // callback: () =>
-      //   startNewGame(modeList[Math.random() * modeList.length || 0]),
       callback: () => {
         const mode = modeList[Math.floor(Math.random() * modeList.length)][1];
         const [name, scheme] =

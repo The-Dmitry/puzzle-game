@@ -13,7 +13,7 @@ export default class GreetingView extends View {
   configureView(gameName, fieldSize, seconds) {
     const close = new NodeCreator({
       tag: 'button',
-      css: ['greeting__close'],
+      css: ['close', 'greeting__close'],
       callback: () => this.viewNode.removeNode(),
     });
     const text = new NodeCreator({
@@ -23,7 +23,7 @@ export default class GreetingView extends View {
     });
     this.viewNode.addInnerNode(close, text);
     document.body.append(this.viewNode.getNode());
-    this.saveResult(gameName, fieldSize, seconds);
+    this.saveResult(gameName, `${fieldSize}x${fieldSize}`, seconds);
   }
 
   saveResult(gameName, fieldSize, seconds) {

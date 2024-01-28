@@ -36,7 +36,7 @@ export default class TimerView extends View {
 
   updateText(num = this.#seconds) {
     this.viewNode.setTextContent(
-      `${new Date(num * 1000).toISOString().slice(11, 19)}` || '00:00'
+      `${new Date(num * 1000).toISOString().slice(14, 19)}` || '00:00'
     );
   }
 

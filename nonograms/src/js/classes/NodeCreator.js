@@ -14,7 +14,12 @@ export default class NodeCreator {
     this.setId(params.id);
     if (params.callback) this.setCallback(params.callback);
     if (params.href) this.setHref(params.href);
+    if (params.type) this.setType(params.type);
     return this.node;
+  }
+
+  setType(type) {
+    this.node.type = type;
   }
 
   setHref(string) {
