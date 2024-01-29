@@ -2,6 +2,8 @@
   position: absolute;
   right: 20px;
   top: 20px;
+  display: flex;
+  gap: 10px;
 }
 
 .result {
@@ -13,11 +15,30 @@
   max-width: 600px;
   height: 100%;
   max-height: 500px;
-  background-color: rgba(0, 0, 0, 0.833);
+  background-color: rgba(0, 0, 0, 0.913);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
+}
+
+.result__button {
+  cursor: pointer;
+  width: 70px;
+  font-size: 18px;
+  text-transform: capitalize;
+  background-color: transparent;
+  color: var(--alternative-text-color);
+  border: 2px solid currentColor;
+  padding: 5px;
+  border-radius: 10px;
+  transition: all linear 0.2s;
+  @media (hover: hover) {
+    &:hover {
+      color: var(--marked-cell-color);
+    }
+  }
 }
 
 .result__list {
@@ -36,4 +57,21 @@
 .result-item__text {
   text-align: center;
   text-transform: capitalize;
+}
+
+.result__input {
+  display: none;
+}
+
+.result__label {
+  cursor: pointer;
+  display: inline-block;
+  background-color: red;
+  height: 40px;
+  width: 40px;
+  background: url(/src/assets/icons/day.png) center / cover no-repeat;
+}
+
+.result__label:has(.result__input:checked) {
+  background: url(/src/assets/icons/night.png) center / cover no-repeat;
 }

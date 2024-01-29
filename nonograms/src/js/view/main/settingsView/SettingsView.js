@@ -1,11 +1,15 @@
 import './settingsView.scss';
 import NodeCreator from '../../../classes/NodeCreator';
 import View from '../../../classes/View';
+import Observer from '../../../classes/observer/Observer';
+import ObserverActions from '../../../classes/observer/observerActions';
 
 export default class SettingsView extends View {
   resultNode = null;
 
   darkMode = false;
+
+  #observer = Observer.getInstance();
 
   constructor() {
     const params = {
@@ -15,7 +19,6 @@ export default class SettingsView extends View {
     super(params);
     window.addEventListener('load', () => {
       this.darkMode = JSON.parse(localStorage.getItem('darkMode')) || false;
-      console.log(this.darkMode);
       this.switchDarkMode();
       this.configureView();
     });
@@ -25,16 +28,21 @@ export default class SettingsView extends View {
   }
 
   configureView() {
+    const label = new NodeCreator({
+      tag: 'label',
+      css: ['result__label'],
+    });
     const theme = new NodeCreator({
       tag: 'input',
-      css: ['sf'],
+      css: ['result__input'],
       type: 'checkbox',
       callback: () => this.handleDarkMode(theme),
     });
+    label.addInnerNode(theme);
     theme.getNode().checked = this.darkMode;
     const score = new NodeCreator({
       tag: 'button',
-      css: ['sfsf'],
+      css: ['result__button'],
       text: 'score',
       callback: () => {
         if (this.resultNode) {
@@ -43,7 +51,7 @@ export default class SettingsView extends View {
         this.showBestResult();
       },
     });
-    this.viewNode.addInnerNode(theme, score);
+    this.viewNode.addInnerNode(label, score);
   }
 
   showBestResult() {
@@ -55,14 +63,17 @@ export default class SettingsView extends View {
     const closeResult = new NodeCreator({
       tag: 'button',
       css: ['close'],
-      callback: () => resultNode.removeNode(),
+      callback: () => {
+        this.#observer.dispatch(ObserverActions.blockField);
+        resultNode.removeNode();
+      },
     });
     const resultFromLs =
       JSON.parse(localStorage.getItem('nonogram-result')) || [];
     const list = this.generateResultList(resultFromLs);
-    console.log(resultFromLs);
     resultNode.addInnerNode(closeResult, list);
     document.body.append(resultNode.getNode());
+    this.#observer.dispatch(ObserverActions.blockField, true);
   }
 
   generateResultList(list) {
@@ -87,7 +98,6 @@ export default class SettingsView extends View {
 
   generateResultRow(...items) {
     const props = items;
-    console.log(props);
     props[props.length - 1] = `${new Date(props[props.length - 1] * 1000)
       .toISOString()
       .slice(14, 19)}`;

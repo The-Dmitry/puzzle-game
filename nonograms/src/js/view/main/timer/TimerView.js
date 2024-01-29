@@ -13,7 +13,7 @@ export default class TimerView extends View {
     super({
       tag: 'p',
       css: ['stopwatch'],
-      text: '00:00:00',
+      text: '00:00',
     });
     this.#observer.subscribe(ObserverActions.startTimer, () =>
       this.startTimer()

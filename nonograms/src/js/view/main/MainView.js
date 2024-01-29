@@ -77,7 +77,7 @@ export default class MainView extends View {
     const loadGame = new NodeCreator({
       tag: 'button',
       text: 'load game',
-      css: ['1'],
+      css: ['controls__button'],
       callback: () => {
         this.loadGame();
         saveGameContext.getNode().disabled = false;
@@ -89,7 +89,7 @@ export default class MainView extends View {
     const saveGame = new NodeCreator({
       tag: 'button',
       text: 'save game',
-      css: ['1'],
+      css: ['controls__button'],
       callback: () => {
         this.saveGame();
         loadGame.getNode().disabled = false;
@@ -99,7 +99,7 @@ export default class MainView extends View {
     const resetGame = new NodeCreator({
       tag: 'button',
       text: 'reset',
-      css: ['1'],
+      css: ['controls__button'],
       callback: () => {
         this.puzzle.resetGame();
         this.timer.stopTimer();
@@ -110,7 +110,7 @@ export default class MainView extends View {
     const newGame = new NodeCreator({
       tag: 'button',
       text: 'new game',
-      css: ['1'],
+      css: ['controls__button'],
       callback: () => {
         this.pickNewGame();
         this.timer.stopTimer();
@@ -120,8 +120,8 @@ export default class MainView extends View {
     });
     const solution = new NodeCreator({
       tag: 'button',
-      text: 'show solution',
-      css: ['1'],
+      text: 'solution',
+      css: ['controls__button'],
       callback: () => {
         saveGame.getNode().disabled = true;
         this.puzzle.showSolution();
@@ -146,6 +146,7 @@ export default class MainView extends View {
   }
 
   showVictory() {
+    // eslint-disable-next-line no-unused-vars
     const greetingModal = new GreetingView(
       this.gameName,
       this.fieldSize,
@@ -154,18 +155,3 @@ export default class MainView extends View {
     this.timer.stopTimer();
   }
 }
-
-/* 
-new game    best results
-
-
-random
-
-
-reset game
-save game
-load game
-show solution
-stopwatch
-
-*/

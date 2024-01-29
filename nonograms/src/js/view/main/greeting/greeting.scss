@@ -4,14 +4,22 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 98%;
-  max-width: 600px;
+  max-width: 650px;
   height: 100%;
   max-height: 500px;
-  background-color: rgba(0, 0, 0, 0.833);
+  padding-inline: 15px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.913);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 25px;
+  border-radius: 15px;
+}
+
+.greeting__text {
+  text-align: center;
 }
 
 .close {

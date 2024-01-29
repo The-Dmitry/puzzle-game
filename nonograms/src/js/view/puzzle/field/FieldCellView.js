@@ -61,6 +61,7 @@ export default class FieldCellView extends View {
       return;
     }
     if (this.needPaint) {
+      this.viewNode.removeCLassName('cell_flagged');
       this.viewNode.addClassName('cell_marked');
     }
   }

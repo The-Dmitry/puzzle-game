@@ -20,6 +20,13 @@ export default class FieldView extends View {
     };
     super(params);
     this.configureView();
+    this.observer.subscribe(ObserverActions.blockField, (bool) => {
+      if (bool) {
+        this.viewNode.addClassName('solution');
+        return;
+      }
+      this.viewNode.removeCLassName('solution');
+    });
   }
 
   configureView() {}
@@ -45,13 +52,11 @@ export default class FieldView extends View {
     }
     for (let i = 0; i < this.playArea.length; i += 1) {
       if (!this.playArea[i].isMarkedCorrectly()) {
-        console.log('NOT WIN');
         return false;
       }
     }
     this.viewNode.addClassName('solution');
     this.observer.dispatch(ObserverActions.victory);
-    // this.observer.dispatch(ObserverActions.stopGame);
     return true;
   }
 
