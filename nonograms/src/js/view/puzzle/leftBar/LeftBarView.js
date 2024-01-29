@@ -10,7 +10,6 @@ export default class LeftBarView extends View {
       css: ['left-bar', 'bar'],
     };
     super(params);
-    // this.configureView();
   }
 
   configureView() {}

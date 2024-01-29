@@ -2,8 +2,6 @@ import './NewGameView.scss';
 import NodeCreator from '../../../classes/NodeCreator';
 import View from '../../../classes/View';
 
-const MODE = ['5x5', '10x10', '15x15'];
-
 export default class NewGameView extends View {
   constructor(gameData, startNewGame) {
     const params = {

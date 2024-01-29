@@ -19,7 +19,6 @@ export default class TimerView extends View {
       this.startTimer()
     );
     this.#observer.subscribe(ObserverActions.stopGame, () => this.stopTimer());
-    // this.startTimer();
   }
 
   startTimer() {
