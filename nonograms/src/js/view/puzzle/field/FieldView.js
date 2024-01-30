@@ -3,6 +3,7 @@ import View from '../../../classes/View';
 import FieldCellView from './FieldCellView';
 import Observer from '../../../classes/observer/Observer';
 import ObserverActions from '../../../classes/observer/observerActions';
+import sounds from '../../../data/sounds';
 
 export default class FieldView extends View {
   playArea = [];
@@ -56,6 +57,7 @@ export default class FieldView extends View {
       }
     }
     this.viewNode.addClassName('solution');
+    this.playSound(sounds.fanfare);
     this.observer.dispatch(ObserverActions.victory);
     return true;
   }
@@ -68,6 +70,7 @@ export default class FieldView extends View {
 
   showSolution() {
     this.viewNode.addClassName('solution');
+    this.playSound(sounds.solution);
     this.playArea.forEach((cell) => cell.showSolution());
   }
 

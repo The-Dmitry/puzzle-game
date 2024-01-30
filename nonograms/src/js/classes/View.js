@@ -20,4 +20,10 @@ export default class View {
     }
     this.viewNode.removeCLassName('blocked');
   }
+
+  playSound(sound) {
+    const audio = new Audio();
+    audio.src = sound;
+    audio.play();
+  }
 }

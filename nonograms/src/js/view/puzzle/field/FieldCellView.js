@@ -1,4 +1,5 @@
 import View from '../../../classes/View';
+import sounds from '../../../data/sounds';
 
 export default class FieldCellView extends View {
   isMarked = false;
@@ -11,11 +12,15 @@ export default class FieldCellView extends View {
       css: ['cell'],
       callback: () => {
         this.setMark();
+        this.playSound(sounds.popdown);
         checkVictory();
       },
     };
     super(params);
-    this.viewNode.setCallback((e) => this.setFlag(e), 'contextmenu');
+    this.viewNode.setCallback((e) => {
+      this.playSound(sounds.popup);
+      this.setFlag(e);
+    }, 'contextmenu');
     this.needPaint = needPaint;
   }
 
@@ -23,6 +28,7 @@ export default class FieldCellView extends View {
     if (this.isMarked) {
       this.viewNode.removeCLassName('cell_marked');
       this.isMarked = false;
+
       return;
     }
     this.viewNode.addClassName('cell_marked');
