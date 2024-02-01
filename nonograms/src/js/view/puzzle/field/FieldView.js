@@ -6,13 +6,11 @@ import ObserverActions from '../../../classes/observer/observerActions';
 import sounds from '../../../data/sounds';
 
 export default class FieldView extends View {
-  playArea = [];
+  #playArea = [];
 
-  scheme;
+  #isPlaying = false;
 
-  isPlaying = false;
-
-  observer = Observer.getInstance();
+  #observer = Observer.getInstance();
 
   constructor() {
     const params = {
@@ -21,7 +19,7 @@ export default class FieldView extends View {
     };
     super(params);
     this.configureView();
-    this.observer.subscribe(ObserverActions.blockField, (bool) => {
+    this.#observer.subscribe(ObserverActions.blockField, (bool) => {
       if (bool) {
         this.viewNode.addClassName('solution');
         return;
@@ -33,45 +31,45 @@ export default class FieldView extends View {
   configureView() {}
 
   generateField(scheme, savedField) {
-    this.isPlaying = false;
+    this.#isPlaying = false;
     this.viewNode.removeAllChildren();
     this.viewNode.setClassNames(['field', `field_${scheme.length}`]);
-    this.playArea = scheme.map((arr) =>
+    this.#playArea = scheme.map((arr) =>
       arr.map((info) => new FieldCellView(info, this.isVictory.bind(this)))
     );
-    this.playArea.forEach((arr) => this.addViewInside(...arr));
-    this.playArea = this.playArea.flat(5);
+    this.#playArea.forEach((arr) => this.addViewInside(...arr));
+    this.#playArea = this.#playArea.flat(5);
     if (savedField) {
       this.loadSavedField(savedField);
     }
   }
 
   isVictory() {
-    if (!this.isPlaying) {
-      this.isPlaying = true;
-      this.observer.dispatch(ObserverActions.startTimer);
+    if (!this.#isPlaying) {
+      this.#isPlaying = true;
+      this.#observer.dispatch(ObserverActions.startTimer);
     }
-    for (let i = 0; i < this.playArea.length; i += 1) {
-      if (!this.playArea[i].isMarkedCorrectly()) {
+    for (let i = 0; i < this.#playArea.length; i += 1) {
+      if (!this.#playArea[i].isMarkedCorrectly()) {
         return false;
       }
     }
     this.viewNode.addClassName('solution');
     this.playSound(sounds.fanfare);
-    this.observer.dispatch(ObserverActions.victory);
+    this.#observer.dispatch(ObserverActions.victory);
     return true;
   }
 
   resetGame() {
     this.viewNode.removeCLassName('solution');
-    this.isPlaying = false;
-    this.playArea.forEach((cell) => cell.resetCell());
+    this.#isPlaying = false;
+    this.#playArea.forEach((cell) => cell.resetCell());
   }
 
   showSolution() {
     this.viewNode.addClassName('solution');
     this.playSound(sounds.solution);
-    this.playArea.forEach((cell) => cell.showSolution());
+    this.#playArea.forEach((cell) => cell.showSolution());
   }
 
   saveGame() {

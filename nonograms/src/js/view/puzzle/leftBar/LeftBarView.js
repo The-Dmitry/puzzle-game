@@ -12,8 +12,6 @@ export default class LeftBarView extends View {
     super(params);
   }
 
-  configureView() {}
-
   generateGame(scheme) {
     this.viewNode.removeAllChildren();
     const { length } = scheme;

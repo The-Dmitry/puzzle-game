@@ -5,7 +5,7 @@ import ObserverActions from '../../../classes/observer/observerActions';
 export default class TimerView extends View {
   #seconds = 0;
 
-  stopwatch;
+  #stopwatch;
 
   #observer = Observer.getInstance();
 
@@ -22,7 +22,7 @@ export default class TimerView extends View {
   }
 
   startTimer() {
-    this.stopwatch = setTimeout(() => {
+    this.#stopwatch = setTimeout(() => {
       this.#seconds += 1;
       this.updateText();
       this.startTimer();
@@ -30,7 +30,7 @@ export default class TimerView extends View {
   }
 
   stopTimer() {
-    clearTimeout(this.stopwatch);
+    clearTimeout(this.#stopwatch);
   }
 
   updateText(num = this.#seconds) {

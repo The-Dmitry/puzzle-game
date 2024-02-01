@@ -12,9 +12,9 @@ import ObserverActions from '../../classes/observer/observerActions';
 import SettingsView from './settingsView/SettingsView';
 
 export default class MainView extends View {
-  gameName;
+  #gameName;
 
-  fieldSize = 0;
+  #fieldSize = 0;
 
   #observer = Observer.getInstance();
 
@@ -39,8 +39,8 @@ export default class MainView extends View {
   }
 
   generateGame(scheme, gameName, savedField = null) {
-    this.fieldSize = scheme.length;
-    this.gameName = gameName;
+    this.#fieldSize = scheme.length;
+    this.#gameName = gameName;
     this.puzzle.generateGame(scheme, gameName, savedField);
     this.newGame.viewNode.removeNode();
     this.viewNode.addInnerNode(this.controls);
@@ -57,7 +57,7 @@ export default class MainView extends View {
   saveGame() {
     const game = {
       field: this.puzzle.saveGame(),
-      gameName: this.gameName,
+      gameName: this.#gameName,
       time: this.timer.getSeconds,
     };
     localStorage.setItem('saved-game', JSON.stringify(game));
@@ -148,8 +148,8 @@ export default class MainView extends View {
   showVictory() {
     // eslint-disable-next-line no-unused-vars
     const greetingModal = new GreetingView(
-      this.gameName,
-      this.fieldSize,
+      this.#gameName,
+      this.#fieldSize,
       this.timer.getSeconds
     );
     this.timer.stopTimer();

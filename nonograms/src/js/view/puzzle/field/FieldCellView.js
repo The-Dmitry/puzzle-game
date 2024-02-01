@@ -2,9 +2,11 @@ import View from '../../../classes/View';
 import sounds from '../../../data/sounds';
 
 export default class FieldCellView extends View {
-  isMarked = false;
+  #isMarked = false;
 
-  isFlagged = false;
+  #isFlagged = false;
+
+  #needPaint;
 
   constructor(needPaint, checkVictory) {
     const params = {
@@ -21,52 +23,53 @@ export default class FieldCellView extends View {
       this.playSound(sounds.popup);
       this.setFlag(e);
     }, 'contextmenu');
-    this.needPaint = needPaint;
+    this.#needPaint = needPaint;
   }
 
   setMark() {
-    if (this.isMarked) {
+    if (this.#isMarked) {
       this.viewNode.removeCLassName('cell_marked');
-      this.isMarked = false;
+      this.#isMarked = false;
 
       return;
     }
     this.viewNode.addClassName('cell_marked');
-    this.isMarked = true;
-    this.isFlagged = true;
+    this.#isMarked = true;
+    this.#isFlagged = true;
     this.setFlag();
   }
 
   setFlag() {
-    if (this.isFlagged) {
+    if (this.#isFlagged) {
       this.viewNode.removeCLassName('cell_flagged');
-      this.isFlagged = false;
+      this.#isFlagged = false;
       return;
     }
     this.viewNode.addClassName('cell_flagged');
-    this.isMarked = true;
-    this.isFlagged = true;
+    this.#isMarked = true;
+    this.#isFlagged = true;
     this.setMark();
   }
 
   isMarkedCorrectly() {
     return (
-      (this.isMarked && this.needPaint) || (!this.isMarked && !this.needPaint)
+      (this.#isMarked && this.#needPaint) ||
+      (!this.#isMarked && !this.#needPaint)
     );
   }
 
   resetCell() {
-    this.isMarked = false;
-    this.isFlagged = false;
+    this.#isMarked = false;
+    this.#isFlagged = false;
     this.viewNode.setClassNames(['cell']);
   }
 
   showSolution() {
-    if (!this.needPaint && this.isMarked) {
+    if (!this.#needPaint && this.#isMarked) {
       this.viewNode.removeCLassName('cell_marked');
       return;
     }
-    if (this.needPaint) {
+    if (this.#needPaint) {
       this.viewNode.removeCLassName('cell_flagged');
       this.viewNode.addClassName('cell_marked');
     }

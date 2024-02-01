@@ -7,7 +7,7 @@ import ObserverActions from '../../../classes/observer/observerActions';
 export default class SettingsView extends View {
   resultNode = null;
 
-  darkMode = false;
+  #darkMode = false;
 
   #observer = Observer.getInstance();
 
@@ -18,12 +18,12 @@ export default class SettingsView extends View {
     };
     super(params);
     window.addEventListener('load', () => {
-      this.darkMode = JSON.parse(localStorage.getItem('darkMode')) || false;
+      this.#darkMode = JSON.parse(localStorage.getItem('darkMode')) || false;
       this.switchDarkMode();
       this.configureView();
     });
     window.addEventListener('beforeunload', () => {
-      localStorage.setItem('darkMode', JSON.stringify(this.darkMode));
+      localStorage.setItem('darkMode', JSON.stringify(this.#darkMode));
     });
   }
 
@@ -39,7 +39,7 @@ export default class SettingsView extends View {
       callback: () => this.handleDarkMode(theme),
     });
     label.addInnerNode(theme);
-    theme.getNode().checked = this.darkMode;
+    theme.getNode().checked = this.#darkMode;
     const score = new NodeCreator({
       tag: 'button',
       css: ['result__button'],
@@ -136,13 +136,13 @@ export default class SettingsView extends View {
 
   handleDarkMode(checkbox) {
     const node = checkbox;
-    this.darkMode = !this.darkMode;
-    node.getNode().checked = this.darkMode;
+    this.#darkMode = !this.#darkMode;
+    node.getNode().checked = this.#darkMode;
     this.switchDarkMode();
   }
 
   switchDarkMode() {
-    if (this.darkMode) {
+    if (this.#darkMode) {
       document.body.classList.add('dark');
       return;
     }
