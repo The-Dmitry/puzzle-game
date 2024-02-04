@@ -76,10 +76,10 @@ export default class FieldView extends View {
   }
 
   saveGame() {
-    return this.playArea.map((cell) => cell.getStatus());
+    return this.#playArea.map((cell) => cell.getStatus());
   }
 
   loadSavedField(savedField) {
-    this.playArea.forEach((cell, index) => cell.setStatus(savedField[index]));
+    this.#playArea.forEach((cell, index) => cell.setStatus(savedField[index]));
   }
 }

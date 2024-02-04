@@ -76,10 +76,10 @@ export default class FieldCellView extends View {
   }
 
   getStatus() {
-    if (this.isMarked) {
+    if (this.#isMarked) {
       return 'marked';
     }
-    if (this.isFlagged) {
+    if (this.#isFlagged) {
       return 'flagged';
     }
     return false;
