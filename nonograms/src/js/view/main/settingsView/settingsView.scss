@@ -75,3 +75,7 @@
 .result__label:has(.result__input:checked) {
   background: url(/src/assets/icons/night.png) center / cover no-repeat;
 }
+
+.block-for-score {
+  pointer-events: none;
+}

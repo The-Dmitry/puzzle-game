@@ -49,6 +49,7 @@ export default class SettingsView extends View {
           this.resultNode.removeNode();
         }
         this.showBestResult();
+        this.#observer.dispatch(ObserverActions.closeGreeting);
       },
     });
     this.viewNode.addInnerNode(label, score);
@@ -64,23 +65,33 @@ export default class SettingsView extends View {
       tag: 'button',
       css: ['close'],
       callback: () => {
-        this.#observer.dispatch(ObserverActions.blockField);
         resultNode.removeNode();
+        this.#observer.dispatch(
+          ObserverActions.blockField,
+          false,
+          'block-for-score'
+        );
       },
     });
     const resultFromLs =
       JSON.parse(localStorage.getItem('nonogram-result')) || [];
-    const list = this.generateResultList(resultFromLs);
+    const list = this.generateResultList(
+      resultFromLs.sort((a, b) => a.seconds - b.seconds)
+    );
     resultNode.addInnerNode(closeResult, list);
     document.body.append(resultNode.getNode());
-    this.#observer.dispatch(ObserverActions.blockField, true);
+    this.#observer.dispatch(
+      ObserverActions.blockField,
+      true,
+      'block-for-score'
+    );
   }
 
   generateResultList(list) {
     if (!list.length) {
       return new NodeCreator({
         tag: 'p',
-        text: 'List is empty',
+        text: 'Win at least one game',
       });
     }
     const listNode = new NodeCreator({

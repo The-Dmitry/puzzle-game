@@ -20,10 +20,10 @@ export default class Observer {
     }
   }
 
-  dispatch(eventName, parameter) {
+  dispatch(eventName, ...params) {
     const list = this.#listeners.get(eventName);
     if (list && list.size) {
-      list.forEach((func) => func(parameter));
+      list.forEach((func) => func(...params));
     }
   }
 }

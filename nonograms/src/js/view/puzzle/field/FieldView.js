@@ -19,13 +19,16 @@ export default class FieldView extends View {
     };
     super(params);
     this.configureView();
-    this.#observer.subscribe(ObserverActions.blockField, (bool) => {
-      if (bool) {
-        this.viewNode.addClassName('solution');
-        return;
+    this.#observer.subscribe(
+      ObserverActions.blockField,
+      (bool, className = 'solution') => {
+        if (bool) {
+          this.viewNode.addClassName(className);
+          return;
+        }
+        this.viewNode.removeCLassName(className);
       }
-      this.viewNode.removeCLassName('solution');
-    });
+    );
   }
 
   configureView() {}

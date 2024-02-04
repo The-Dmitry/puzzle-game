@@ -1,7 +1,11 @@
 import NodeCreator from '../../../classes/NodeCreator';
 import View from '../../../classes/View';
+import Observer from '../../../classes/observer/Observer';
+import ObserverActions from '../../../classes/observer/observerActions';
 
 export default class GreetingView extends View {
+  #observer = Observer.getInstance();
+
   constructor(gameName, fieldSize, seconds) {
     super({
       tag: 'div',
@@ -24,6 +28,9 @@ export default class GreetingView extends View {
     this.viewNode.addInnerNode(close, text);
     document.body.append(this.viewNode.getNode());
     this.saveResult(gameName, `${fieldSize}x${fieldSize}`, seconds);
+    this.#observer.subscribe(ObserverActions.closeGreeting, () =>
+      this.viewNode.removeNode()
+    );
   }
 
   saveResult(gameName, fieldSize, seconds) {
@@ -32,9 +39,7 @@ export default class GreetingView extends View {
     resultFromLs.push({ gameName, fieldSize, seconds });
     localStorage.setItem(
       'nonogram-result',
-      JSON.stringify(
-        resultFromLs.sort((a, b) => a.seconds - b.seconds).slice(0, 5)
-      )
+      JSON.stringify(resultFromLs.slice(-5))
     );
   }
 }
