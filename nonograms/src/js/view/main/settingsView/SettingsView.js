@@ -28,9 +28,13 @@ export default class SettingsView extends View {
   }
 
   configureView() {
-    const label = new NodeCreator({
+    const themeLabel = new NodeCreator({
       tag: 'label',
       css: ['result__label'],
+    });
+    const soundLabel = new NodeCreator({
+      tag: 'label',
+      css: ['sound__label'],
     });
     const theme = new NodeCreator({
       tag: 'input',
@@ -38,7 +42,19 @@ export default class SettingsView extends View {
       type: 'checkbox',
       callback: () => this.handleDarkMode(theme),
     });
-    label.addInnerNode(theme);
+    const sound = new NodeCreator({
+      tag: 'input',
+      css: ['sound__input'],
+      type: 'checkbox',
+      callback: () => {
+        this.#observer.dispatch(
+          ObserverActions.muteSound,
+          sound.getNode().checked
+        );
+      },
+    });
+    soundLabel.addInnerNode(sound);
+    themeLabel.addInnerNode(theme);
     theme.getNode().checked = this.#darkMode;
     const score = new NodeCreator({
       tag: 'button',
@@ -52,7 +68,7 @@ export default class SettingsView extends View {
         this.#observer.dispatch(ObserverActions.closeGreeting);
       },
     });
-    this.viewNode.addInnerNode(label, score);
+    this.viewNode.addInnerNode(soundLabel, themeLabel, score);
   }
 
   showBestResult() {

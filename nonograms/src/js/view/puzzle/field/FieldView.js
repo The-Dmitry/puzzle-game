@@ -12,6 +12,8 @@ export default class FieldView extends View {
 
   #observer = Observer.getInstance();
 
+  #soundMuted = false;
+
   constructor() {
     const params = {
       tag: 'div',
@@ -29,6 +31,9 @@ export default class FieldView extends View {
         this.viewNode.removeCLassName(className);
       }
     );
+    this.#observer.subscribe(ObserverActions.muteSound, (boolean) => {
+      this.#soundMuted = boolean;
+    });
   }
 
   configureView() {}
@@ -38,7 +43,10 @@ export default class FieldView extends View {
     this.viewNode.removeAllChildren();
     this.viewNode.setClassNames(['field', `field_${scheme.length}`]);
     this.#playArea = scheme.map((arr) =>
-      arr.map((info) => new FieldCellView(info, this.isVictory.bind(this)))
+      arr.map(
+        (info) =>
+          new FieldCellView(info, this.isVictory.bind(this), this.#soundMuted)
+      )
     );
     this.#playArea.forEach((arr) => this.addViewInside(...arr));
     this.#playArea = this.#playArea.flat(5);
@@ -58,7 +66,9 @@ export default class FieldView extends View {
       }
     }
     this.viewNode.addClassName('solution');
-    this.playSound(sounds.fanfare);
+    if (!this.#soundMuted) {
+      this.playSound(sounds.fanfare);
+    }
     this.#observer.dispatch(ObserverActions.victory);
     return true;
   }
@@ -71,7 +81,9 @@ export default class FieldView extends View {
 
   showSolution() {
     this.viewNode.addClassName('solution');
-    this.playSound(sounds.solution);
+    if (!this.#soundMuted) {
+      this.playSound(sounds.solution);
+    }
     this.#playArea.forEach((cell) => cell.showSolution());
   }
 

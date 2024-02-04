@@ -1,4 +1,6 @@
 import View from '../../../classes/View';
+import Observer from '../../../classes/observer/Observer';
+import ObserverActions from '../../../classes/observer/observerActions';
 import sounds from '../../../data/sounds';
 
 export default class FieldCellView extends View {
@@ -8,22 +10,34 @@ export default class FieldCellView extends View {
 
   #needPaint;
 
-  constructor(needPaint, checkVictory) {
+  #soundMuted = false;
+
+  #observer = Observer.getInstance();
+
+  constructor(needPaint, checkVictory, soundState) {
     const params = {
       tag: 'div',
       css: ['cell'],
       callback: () => {
         this.setMark();
-        this.playSound(sounds.popdown);
+        if (!this.#soundMuted) {
+          this.playSound(sounds.popdown);
+        }
         checkVictory();
       },
     };
     super(params);
     this.viewNode.setCallback((e) => {
-      this.playSound(sounds.popup);
+      if (!this.#soundMuted) {
+        this.playSound(sounds.popup);
+      }
       this.setFlag(e);
     }, 'contextmenu');
+    this.#soundMuted = soundState;
     this.#needPaint = needPaint;
+    this.#observer.subscribe(ObserverActions.muteSound, (boolean) => {
+      this.#soundMuted = boolean;
+    });
   }
 
   setMark() {

@@ -59,6 +59,7 @@
   text-transform: capitalize;
 }
 
+.sound__input,
 .result__input {
   display: none;
 }
@@ -66,7 +67,6 @@
 .result__label {
   cursor: pointer;
   display: inline-block;
-  background-color: red;
   height: 40px;
   width: 40px;
   background: url(/src/assets/icons/day.png) center / cover no-repeat;
@@ -78,4 +78,16 @@
 
 .block-for-score {
   pointer-events: none;
+}
+
+.sound__label {
+  cursor: pointer;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  background: url(/src/assets/icons/sound.png) center / cover no-repeat;
+}
+
+.sound__label:has(.sound__input:checked) {
+  background: url(/src/assets/icons/sound-off.png) center / cover no-repeat;
 }
