@@ -9,7 +9,7 @@ export default interface Article {
     content: string;
 }
 
-export interface Source {
+interface Source {
     id: string;
     name: string;
 }
