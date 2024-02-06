@@ -1,4 +1,5 @@
 import { HttpMethod } from '../../models/enums/HttpMethod';
+import ArticleResponse from '../../models/interfaces/ArticleResponse';
 import { LoaderOption } from '../../models/types/LoaderOption';
 import { ResponseOption } from '../../models/types/ResponseOption';
 
@@ -13,8 +14,8 @@ class Loader {
     }
 
     getResp(
-        { endpoint, options = {} }: { endpoint: string; options: ResponseOption },
-        callback = () => {
+        { endpoint, options = {} }: { endpoint: string; options?: ResponseOption },
+        callback: (data: ArticleResponse) => void | (() => void) = () => {
             console.error('No callback for GET response');
         }
     ) {
@@ -45,7 +46,7 @@ class Loader {
     load(
         method: keyof typeof HttpMethod,
         endpoint: string,
-        callback: (data: unknown) => void,
+        callback: (data: ArticleResponse) => void | (() => void),
         options: ResponseOption = {}
     ) {
         fetch(this.makeUrl(options, endpoint), { method })
