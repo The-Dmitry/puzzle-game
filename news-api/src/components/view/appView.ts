@@ -14,12 +14,12 @@ export class AppView {
     }
 
     drawNews(data: ArticleResponse) {
-        const values = data?.articles ? data?.articles : [];
+        const values = data.articles ? data.articles : [];
         this.news.draw(values);
     }
 
     drawSources(data: NewsSourceResponse) {
-        const values = data?.sources ? data?.sources : [];
+        const values = data.sources ? data.sources : [];
         this.sources.draw(values);
     }
 }
