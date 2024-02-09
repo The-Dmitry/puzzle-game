@@ -1,23 +1,26 @@
-import { HttpMethod } from '../../models/enums/HttpMethod';
+import { HttpMethod } from '../../models/enums/ApiMethod';
+import { Endpoint } from '../../models/enums/Endpoint';
 import { LoaderOption } from '../../models/types/LoaderOption';
-import { ResponseOption } from '../../models/types/ResponseOption';
+import { Source } from '../../models/types/Source';
 
 class Loader {
     private baseLink: string;
 
     private options: LoaderOption;
 
-    constructor(baseLink: string, options: LoaderOption) {
+    constructor(baseLink: string, options: Readonly<LoaderOption>) {
         this.baseLink = baseLink;
         this.options = options;
     }
 
     getResp<T>(
-        { endpoint, options = {} }: { endpoint: string; options?: ResponseOption },
+        { endpoint, options = {} }: { endpoint: Endpoint; options?: Source },
         callback: (data: T) => void = (): void => {
             console.error('No callback for GET response');
         }
     ) {
+        console.log(options);
+
         this.load(HttpMethod.GET, endpoint, callback, options);
     }
 
@@ -31,7 +34,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options: ResponseOption, endpoint: string) {
+    makeUrl(options: Source, endpoint: Endpoint) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -42,12 +45,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load<U>(
-        method: keyof typeof HttpMethod,
-        endpoint: string,
-        callback: (data: U) => void,
-        options: ResponseOption = {}
-    ) {
+    load<U>(method: keyof typeof HttpMethod, endpoint: Endpoint, callback: (data: U) => void, options: Source = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())

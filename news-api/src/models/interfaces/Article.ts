@@ -1,5 +1,7 @@
+import NewsSource from './NewsSource';
+
 export default interface Article {
-    source: Source;
+    source: Pick<NewsSource, 'id' | 'name'>;
     author: string;
     title: string;
     description: string;
@@ -7,9 +9,4 @@ export default interface Article {
     urlToImage: string;
     publishedAt: string;
     content: string;
-}
-
-export interface Source {
-    id: string;
-    name: string;
 }
