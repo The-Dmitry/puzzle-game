@@ -1,4 +1,4 @@
 export enum Endpoint {
-    sources = 'sources',
-    everything = 'everything',
+  sources = 'sources',
+  everything = 'everything',
 }

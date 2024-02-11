@@ -2,21 +2,24 @@ import NewsSource from '../../../models/interfaces/NewsSource';
 import './sources.css';
 
 class Sources {
-    public draw(data: NewsSource[]) {
-        const fragment = document.createDocumentFragment();
-        const sourceItemTemp = document.querySelector<HTMLTemplateElement>('#sourceItemTemp')!;
+  private sourcesList: NewsSource[] | null = null;
 
-        data.forEach((item) => {
-            const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
+  public draw(data: NewsSource[]) {
+    this.sourcesList = data;
+    const fragment = document.createDocumentFragment();
+    const sourceItemTemp = document.querySelector<HTMLTemplateElement>('#sourceItemTemp')!;
 
-            sourceClone.querySelector('.source__item-name')!.textContent = item.name;
-            sourceClone.querySelector('.source__item')!.setAttribute('data-source-id', item.id);
+    data.forEach((item) => {
+      const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
 
-            fragment.append(sourceClone);
-        });
+      sourceClone.querySelector('.source__item-name')!.textContent = item.name;
+      sourceClone.querySelector('.source__item')!.setAttribute('data-source-id', item.id);
 
-        document.querySelector('.sources')!.append(fragment);
-    }
+      fragment.append(sourceClone);
+    });
+
+    document.querySelector('.sources')!.append(fragment);
+  }
 }
 
 export default Sources;

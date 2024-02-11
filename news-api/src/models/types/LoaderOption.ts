@@ -1,3 +1,3 @@
 export type LoaderOption = {
-    apiKey: string;
+  apiKey: string;
 };
