@@ -1,0 +1,27 @@
+.sources-filter {
+  grid-column: span 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sources-filter__button {
+  background: none;
+  font: inherit;
+  line-height: 1;
+  border: none;
+  border-bottom: 1px dashed transparent;
+  text-transform: capitalize;
+  padding: 0.4vw;
+  color: #70d6ff;
+  transition: 0.25s;
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    @media (hover: hover) {
+      color: #69db7e;
+      border-bottom: 1px dashed currentColor;
+      transform: translateY(-0.25em);
+    }
+  }
+}

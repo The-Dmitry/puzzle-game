@@ -1,3 +1,4 @@
+import './sourcesFilter.css';
 import NewsSource from '../../../models/interfaces/NewsSource';
 
 export default class SourceFilter {

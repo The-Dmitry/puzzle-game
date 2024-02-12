@@ -21,19 +21,21 @@ body {
   font-family: sans-serif;
 }
 
-.header {
-}
-
 header h1 {
   font-size: 40px;
   font-weight: 800;
+  margin-left: 10px;
 }
 
 .main {
-  /* flex: 1 1 100%; */
-  /* display: flex; */
   display: grid;
   grid-template-columns: 270px 1fr;
+  gap: 5px;
+  padding-inline: 10px;
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 footer {

@@ -16,9 +16,6 @@ class News {
       if (item.urlToImage) {
         newsClone.querySelector<HTMLElement>('.news__meta-photo')!.style.backgroundImage = `url(${item.urlToImage})`;
       }
-      // newsClone.querySelector<HTMLElement>('.news__meta-photo')!.style.backgroundImage = `url(${
-      //   item.urlToImage || 'img/news_placeholder.jpg'
-      // })`;
       newsClone.querySelector('.news__meta-author')!.textContent = item.author || item.source.name;
       newsClone.querySelector('.news__meta-date')!.textContent = item.publishedAt
         .slice(0, 10)
