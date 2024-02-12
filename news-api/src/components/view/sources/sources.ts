@@ -2,10 +2,8 @@ import NewsSource from '../../../models/interfaces/NewsSource';
 import './sources.css';
 
 class Sources {
-  private sourcesList: NewsSource[] | null = null;
-
   public draw(data: NewsSource[]) {
-    this.sourcesList = data;
+    document.querySelector('.sources')!.innerHTML = '';
     const fragment = document.createDocumentFragment();
     const sourceItemTemp = document.querySelector<HTMLTemplateElement>('#sourceItemTemp')!;
 
