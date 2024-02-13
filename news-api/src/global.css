@@ -37,7 +37,7 @@ header h1 {
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: 270px 1fr;
-  gap: 5px;
+  gap: 10px;
   padding-inline: 10px;
   @media (max-width: 800px) {
     display: flex;
