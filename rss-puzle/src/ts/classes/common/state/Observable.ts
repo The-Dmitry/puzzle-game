@@ -22,7 +22,11 @@ export default class Observable<T> {
   }
 
   public next(callback: (value?: T) => T) {
-    this.value = callback(this.value);
+    const result = callback(this.value);
+    if (result === this.value) {
+      return;
+    }
+    this.value = result;
     this.notifySubscribers();
   }
 

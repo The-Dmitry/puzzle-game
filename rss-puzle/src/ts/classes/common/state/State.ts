@@ -21,23 +21,25 @@ export default class State {
     action: T,
     callback: (value: StateParams[T]) => void
   ): Observable<StateParams[T]> {
-    if (!this.observables.has(action)) {
-      this.observables.set(action, new Observable<StateParams[T]>());
-    }
-    const inst = this.observables.get(action)!;
+    this.isObservableExist(action);
+    const inst = this.observables.get(action);
     inst.subscribe(node, callback);
     return inst;
   }
 
-  public next<T extends keyof StateParams>(action: T, callback: (value: StateParams[T]) => StateParams[T]) {
-    if (!this.observables.has(action)) {
-      this.observables.set(action, new Observable<StateParams[T]>());
-    }
+  public next<T extends keyof StateParams>(action: T, callback: (value?: StateParams[T]) => StateParams[T]) {
+    this.isObservableExist(action);
     this.observables.get(action)!.next(callback);
   }
 
   public log<T extends keyof StateParams>(action: T) {
     this.observables.get(action)?.logSub();
+  }
+
+  private isObservableExist<T extends keyof StateParams>(action: T) {
+    if (!this.observables.has(action)) {
+      this.observables.set(action, new Observable<StateParams[T]>());
+    }
   }
 
   private saveToLocalStorage() {
