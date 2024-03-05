@@ -26,22 +26,23 @@ const nodesData: Record<string, NodeParams> = {
 };
 
 export default class StartScreenView extends View {
-  constructor() {
+  constructor(renderGamePage: () => void) {
     super({
       tag: 'div',
       css: ['start-screen'],
     });
-    this.render();
+    this.render(renderGamePage);
   }
 
-  private render() {
+  private render(renderGamePage: () => void) {
     const container = new NodeCreator({ ...nodesData.container });
     const greeting = new NodeCreator({ ...nodesData.greeting });
-    const startBtn = new NodeCreator({ ...nodesData.startBtn });
+    const startBtn = new NodeCreator({ ...nodesData.startBtn, callback: () => renderGamePage() });
     const logOutBtn = new NodeCreator({
       ...nodesData.logOutBtn,
       callback: () => this.state.next('loginData', () => undefined),
     });
+
     container.addInnerNode(greeting, startBtn, logOutBtn);
     this.viewNode.addInnerNode(container);
 

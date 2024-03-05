@@ -2,31 +2,33 @@ import './mainView.scss';
 import View from '../common/view/VIew';
 import LoginPageView from '../loginPage/LoginPageView';
 import StartScreenView from '../startScreen/StartScreenView';
+import GamePageView from '../gamePage/gamePageView';
 
 export default class MainView extends View {
-  private loginPage: LoginPageView | null = null;
-
-  private startScreen: StartScreenView | null = null;
+  private activePage: View | null = null;
 
   constructor() {
     super({
       tag: 'div',
-      css: ['main'],
+      css: ['app'],
     });
-    this.render();
+    this.configureView();
   }
 
-  private render() {
+  private configureView() {
     this.state.subscribe(this.viewNode, 'loginData', (v) => {
       if (!v) {
-        this.loginPage = new LoginPageView();
-        this.startScreen?.remove();
-        this.addNodeInside(this.loginPage);
+        this.render(new LoginPageView());
         return;
       }
-      this.startScreen = new StartScreenView();
-      this.loginPage?.remove();
-      this.addNodeInside(this.startScreen);
+      this.render(new StartScreenView(() => this.render(new GamePageView())));
     });
+  }
+
+  private render(page: View) {
+    this.activePage?.remove();
+    this.activePage = null;
+    this.activePage = page;
+    this.addNodeInside(this.activePage);
   }
 }
