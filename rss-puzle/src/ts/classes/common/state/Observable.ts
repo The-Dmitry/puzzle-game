@@ -10,14 +10,14 @@ export default class Observable<T> {
     this.subscribers.add((v) => v);
   }
 
-  public subscribe(node: NodeCreator, callback: (params?: T) => void) {
+  public subscribe(node: NodeCreator, callback: (params?: T) => T) {
     this.subscribers.add(callback);
     callback(this.value);
     node.saveSubscription(() => this.subscribers.delete(callback));
   }
 
+  // delete this method
   private get getValue() {
-    console.log('удалить этот метод');
     return this.value;
   }
 

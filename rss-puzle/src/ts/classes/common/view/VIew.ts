@@ -15,7 +15,7 @@ export default abstract class View<T extends keyof HTMLElementTagNameMap = keyof
     return this.viewNodeClass.node;
   }
 
-  public get viewNodeCreator() {
+  public get viewNode() {
     return this.viewNodeClass;
   }
 
@@ -31,5 +31,9 @@ export default abstract class View<T extends keyof HTMLElementTagNameMap = keyof
 
   public remove() {
     this.viewNodeClass.remove();
+  }
+
+  public logChild() {
+    this.viewNode.logChildren();
   }
 }

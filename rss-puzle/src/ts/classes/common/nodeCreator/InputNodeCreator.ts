@@ -1,8 +1,10 @@
 import InputNodeParams from '../../../interfaces/InputNodeParams';
 import NodeCreator from './NodeCreator';
 
-export default class InputNodeCreator extends NodeCreator {
-  constructor(params: InputNodeParams) {
+export default class InputNodeCreator<
+  T extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap,
+> extends NodeCreator<T> {
+  constructor(params: InputNodeParams<T>) {
     super(params);
     this.setType(params.type);
     this.setPlaceholder(params.placeholder);

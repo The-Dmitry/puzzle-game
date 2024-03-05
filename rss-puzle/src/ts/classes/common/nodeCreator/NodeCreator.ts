@@ -3,7 +3,7 @@ import NodeParams from 'ts/interfaces/NodeParams';
 export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap> {
   private nodeElement: HTMLElementTagNameMap[T];
 
-  private unsubscribe: null | (() => boolean) = null;
+  private unsubscribe: (() => boolean)[] = [];
 
   private children: NodeCreator[] = [];
 
@@ -66,15 +66,15 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
     });
   }
 
-  public prependInnerNode(...list: (NodeCreator | HTMLElement)[]) {
-    list.forEach((item) => {
-      if (item instanceof NodeCreator) {
-        this.nodeElement.prepend(item.node);
-      } else {
-        this.nodeElement.prepend(item);
-      }
-    });
-  }
+  // public prependInnerNode(...list: (NodeCreator | HTMLElement)[]) {
+  //   list.forEach((item) => {
+  //     if (item instanceof NodeCreator) {
+  //       this.nodeElement.prepend(item.node);
+  //     } else {
+  //       this.nodeElement.prepend(item);
+  //     }
+  //   });
+  // }
 
   public removeAllChildren() {
     this.children.forEach((child) => child.remove());
@@ -84,13 +84,21 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
   }
 
   public saveSubscription(subFunc: () => boolean) {
-    this.unsubscribe = subFunc;
+    this.unsubscribe.push(subFunc);
   }
 
   public remove() {
+    if (this.children) {
+      this.removeAllChildren();
+    }
+
     if (this.unsubscribe) {
-      this.unsubscribe();
+      this.unsubscribe.forEach((func) => func());
     }
     this.nodeElement.remove();
+  }
+
+  public logChildren() {
+    console.log(this.unsubscribe);
   }
 }

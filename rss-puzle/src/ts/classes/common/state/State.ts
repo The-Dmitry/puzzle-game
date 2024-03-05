@@ -20,20 +20,23 @@ export default class State {
     node: NodeCreator,
     action: T,
     callback: (value: StateParams[T]) => void
-  ) {
+  ): Observable<StateParams[T]> {
     if (!this.observables.has(action)) {
       this.observables.set(action, new Observable<StateParams[T]>());
     }
-    this.observables.get(action)!.subscribe(node, callback);
+    const inst = this.observables.get(action)!;
+    inst.subscribe(node, callback);
+    return inst;
   }
 
   public next<T extends keyof StateParams>(action: T, callback: (value: StateParams[T]) => StateParams[T]) {
-    if (this.observables.has(action)) {
-      this.observables.get(action)!.next(callback);
+    if (!this.observables.has(action)) {
+      this.observables.set(action, new Observable<StateParams[T]>());
     }
+    this.observables.get(action)!.next(callback);
   }
 
-  public log(action: string) {
+  public log<T extends keyof StateParams>(action: T) {
     this.observables.get(action)?.logSub();
   }
 
