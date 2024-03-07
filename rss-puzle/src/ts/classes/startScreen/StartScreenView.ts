@@ -44,9 +44,9 @@ export default class StartScreenView extends View {
     });
 
     container.addInnerNode(greeting, startBtn, logOutBtn);
-    this.viewNode.addInnerNode(container);
+    this.viewCreator.addInnerNode(container);
 
-    this.state.subscribe(this.viewNode, 'loginData', (data) => {
+    this.state.subscribe(this.viewCreator, 'loginData', (data) => {
       greeting.setTextContent(`Hello, ${data?.join(' ')}`);
     });
   }

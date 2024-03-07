@@ -11,18 +11,14 @@ export default abstract class View<T extends keyof HTMLElementTagNameMap = keyof
     this.viewNodeClass = new NodeCreator(params);
   }
 
-  public get node() {
-    return this.viewNodeClass.node;
-  }
-
-  public get viewNode() {
+  public get viewCreator() {
     return this.viewNodeClass;
   }
 
-  public addNodeInside(...view: (View | NodeCreator | HTMLElement)[]) {
+  public addNodeInside(...view: (View | NodeCreator)[]) {
     view.forEach((item) => {
       if (item instanceof View) {
-        this.viewNodeClass.addInnerNode(item.node);
+        this.viewNodeClass.addInnerNode(item.viewCreator);
         return;
       }
       this.viewNodeClass.addInnerNode(item);
@@ -33,7 +29,7 @@ export default abstract class View<T extends keyof HTMLElementTagNameMap = keyof
     this.viewNodeClass.remove();
   }
 
-  public logChild() {
-    this.viewNode.logChildren();
+  protected removeAllChildren() {
+    this.viewNodeClass.removeAllChildren();
   }
 }

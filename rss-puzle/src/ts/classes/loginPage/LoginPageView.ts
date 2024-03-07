@@ -43,7 +43,7 @@ export default class LoginPageView extends View {
       tag: 'button',
       callback: () => this.submitUserData(),
     });
-    container.addInnerNode(nameInput.viewNode, surnameInput.viewNode, submit);
+    container.addInnerNode(nameInput.viewCreator, surnameInput.viewCreator, submit);
     this.addNodeInside(container);
     this.makeSubscription(submit);
   }
@@ -51,14 +51,14 @@ export default class LoginPageView extends View {
   private makeSubscription(submit: NodeCreator<'button'>) {
     const { node } = submit;
     this.state
-      .subscribe(this.viewNode, 'validFirstName', (v) => {
+      .subscribe(this.viewCreator, 'validFirstName', (v) => {
         this.isNameValid = v;
         node.disabled = !(this.isNameValid && this.isSurNameValid);
       })
       .next(() => undefined);
 
     this.state
-      .subscribe(this.viewNode, 'validSurname', (v) => {
+      .subscribe(this.viewCreator, 'validSurname', (v) => {
         this.isSurNameValid = v;
         node.disabled = !(this.isNameValid && this.isSurNameValid);
       })

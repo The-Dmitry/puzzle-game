@@ -55,14 +55,10 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
     this.nodeElement.setAttribute(type, name);
   }
 
-  public addInnerNode(...list: (NodeCreator | HTMLElement)[]) {
+  public addInnerNode(...list: NodeCreator[]) {
     list.forEach((item) => {
-      if (item instanceof NodeCreator) {
-        this.nodeElement.append(item.node);
-        this.children.push(item);
-      } else {
-        this.nodeElement.append(item);
-      }
+      this.nodeElement.append(item.node);
+      this.children.push(item);
     });
   }
 
@@ -78,9 +74,6 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
 
   public removeAllChildren() {
     this.children.forEach((child) => child.remove());
-    while (this.nodeElement.firstChild) {
-      this.nodeElement.removeChild(this.nodeElement.firstChild);
-    }
   }
 
   public saveSubscription(subFunc: () => boolean) {
@@ -88,17 +81,10 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
   }
 
   public remove() {
-    if (this.children) {
-      this.removeAllChildren();
-    }
+    if (this.children) this.removeAllChildren();
+    console.log(this.node.className);
 
-    if (this.unsubscribe) {
-      this.unsubscribe.forEach((func) => func());
-    }
+    if (this.unsubscribe) this.unsubscribe.forEach((func) => func());
     this.nodeElement.remove();
-  }
-
-  public logChildren() {
-    console.log(this.unsubscribe);
   }
 }

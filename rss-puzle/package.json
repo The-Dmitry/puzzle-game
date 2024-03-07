@@ -8,6 +8,7 @@
     "start": "webpack serve --env dev",
     "prepare": "cd .. && husky rss-puzzle/.husky",
     "prettier:check": "prettier ./src --check",
+    "prettier:format": "prettier ./src --write",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },

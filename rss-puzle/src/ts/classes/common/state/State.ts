@@ -32,11 +32,6 @@ export default class State {
     this.observables.get(action)!.next(callback);
   }
 
-  public log<T extends keyof StateParams>(action?: T) {
-    this.observables.forEach((obs) => obs.logSub());
-    this.observables.get(action)?.logSub();
-  }
-
   private isObservableExist<T extends keyof StateParams>(action: T) {
     if (!this.observables.has(action)) {
       this.observables.set(action, new Observable<StateParams[T]>());

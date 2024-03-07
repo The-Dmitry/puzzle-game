@@ -2,7 +2,7 @@ import './mainView.scss';
 import View from '../common/view/VIew';
 import LoginPageView from '../loginPage/LoginPageView';
 import StartScreenView from '../startScreen/StartScreenView';
-import GamePageView from '../gamePage/gamePageView';
+import GamePageView from '../gamePage/GamePageView';
 
 export default class MainView extends View {
   private activePage: View | null = null;
@@ -16,18 +16,18 @@ export default class MainView extends View {
   }
 
   private configureView() {
-    this.state.subscribe(this.viewNode, 'loginData', (v) => {
-      if (!v) {
-        this.render(new LoginPageView());
-        return;
-      }
-      this.render(new StartScreenView(() => this.render(new GamePageView())));
-    });
+    // this.state.subscribe(this.viewCreator, 'loginData', (v) => {
+    //   if (!v) {
+    //     this.render(new LoginPageView());
+    //     return;
+    //   }
+    //   this.render(new StartScreenView(() => this.render(new GamePageView())));
+    // });
+    this.render(new GamePageView());
   }
 
   private render(page: View) {
     this.activePage?.remove();
-    this.activePage = null;
     this.activePage = page;
     this.addNodeInside(this.activePage);
   }

@@ -8,6 +8,6 @@ export default class App {
   }
 
   public start() {
-    document.body.append(this.main.node);
+    document.body.append(this.main.viewCreator.node);
   }
 }
