@@ -25,3 +25,9 @@
   width: calc(0.6vw * var(--width));
   font-size: 2vw;
 }
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

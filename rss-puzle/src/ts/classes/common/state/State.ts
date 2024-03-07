@@ -19,11 +19,12 @@ export default class State {
   public subscribe<T extends keyof StateParams>(
     node: NodeCreator,
     action: T,
-    callback: (value: StateParams[T]) => void
+    callback: (value: StateParams[T]) => void,
+    trigger: boolean = true
   ): Observable<StateParams[T]> {
     this.isObservableExist(action);
     const inst = this.observables.get(action);
-    inst.subscribe(node, callback);
+    inst.subscribe(node, callback, trigger);
     return inst;
   }
 

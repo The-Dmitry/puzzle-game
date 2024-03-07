@@ -82,8 +82,6 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
 
   public remove() {
     if (this.children) this.removeAllChildren();
-    console.log(this.node.className);
-
     if (this.unsubscribe) this.unsubscribe.forEach((func) => func());
     this.nodeElement.remove();
   }

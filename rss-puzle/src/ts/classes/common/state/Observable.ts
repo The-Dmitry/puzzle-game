@@ -5,9 +5,9 @@ export default class Observable<T> {
 
   constructor(private value: T | undefined = undefined) {}
 
-  public subscribe(node: NodeCreator, callback: (params?: T) => T) {
+  public subscribe(node: NodeCreator, callback: (params?: T) => T, trigger: boolean) {
     this.subscribers.add(callback);
-    callback(this.value);
+    if (trigger) callback(this.value);
     node.saveSubscription(() => this.subscribers.delete(callback));
   }
 
