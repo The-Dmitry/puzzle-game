@@ -2,7 +2,10 @@ import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/VIew';
 
 export default class GameControlsView extends View {
-  constructor(private readonly checkSentence: () => boolean) {
+  constructor(
+    private readonly checkSentence: () => boolean,
+    private readonly autoComplete: () => void
+  ) {
     super({
       tag: 'div',
       css: ['game-controls'],
@@ -36,7 +39,14 @@ export default class GameControlsView extends View {
     next.setCallback(() => {
       this.state.next('nextLevel', () => 1);
       next.remove();
+      stupid.node.disabled = false;
       this.addNodeInside(check);
+    });
+    stupid.setCallback(() => {
+      this.autoComplete();
+      stupid.node.disabled = true;
+      check.remove();
+      this.addNodeInside(next);
     });
 
     this.addNodeInside(stupid, check);

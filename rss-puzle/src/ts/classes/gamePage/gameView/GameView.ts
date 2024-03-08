@@ -16,6 +16,8 @@ export default class GameView extends View {
 
   private puzzleRows: PuzzleRowView[] = [];
 
+  private currentLvlPuzzles: PuzzleItemView[] = [];
+
   private round = 0;
 
   private level = -1;
@@ -40,7 +42,10 @@ export default class GameView extends View {
     this.addNodeInside(
       this.allRowsBlock,
       this.startBlock,
-      new GameControlsView(() => this.checkSentence()).viewCreator
+      new GameControlsView(
+        () => this.checkSentence(),
+        () => this.autoComplete()
+      ).viewCreator
     );
   }
 
@@ -49,7 +54,6 @@ export default class GameView extends View {
       const row = new PuzzleRowView();
       this.puzzleRows.push(row);
       this.allRowsBlock.addInnerNode(row.viewCreator);
-      // this.puzzleRows[this.round].makeActive(true);
     });
   }
 
@@ -62,9 +66,12 @@ export default class GameView extends View {
       const width = defaultWidth * word.length;
       const item = new PuzzleItemView(word, width, bgShift, (node) => this.moveItemBetweenRows(node));
       bgShift += width;
-      this.startBlock.addInnerNode(item.viewCreator);
       this.allPuzzles.push(item);
+      this.currentLvlPuzzles.push(item);
     });
+    [...this.currentLvlPuzzles]
+      .sort(() => 0.5 - Math.random())
+      .forEach((puzzle) => this.startBlock.addInnerNode(puzzle.viewCreator));
   }
 
   private nextLevel() {
@@ -72,7 +79,7 @@ export default class GameView extends View {
     if (this.level > 9) {
       this.nextRound();
     }
-    console.log(this.level);
+    this.currentLvlPuzzles = [];
     this.resultBlock = this.puzzleRows[this.level];
     this.createPuzzleItems();
     this.state.next('checkSentence', () => undefined);
@@ -108,5 +115,12 @@ export default class GameView extends View {
       }
     }
     return true;
+  }
+
+  private autoComplete() {
+    if (this.currentLvlPuzzles.length) {
+      this.currentLvlPuzzles.forEach((puzzle) => this.resultBlock?.viewCreator.node.append(puzzle.viewCreator.node));
+    }
+    this.checkSentence();
   }
 }
