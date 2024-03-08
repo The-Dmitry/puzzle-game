@@ -2,7 +2,7 @@ import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/VIew';
 
 export default class GameControlsView extends View {
-  constructor(private readonly checkSentence: () => void) {
+  constructor(private readonly checkSentence: () => boolean) {
     super({
       tag: 'div',
       css: ['game-controls'],
@@ -11,6 +11,11 @@ export default class GameControlsView extends View {
   }
 
   private render() {
+    const next = new NodeCreator({
+      tag: 'button',
+      css: ['game-controls_button'],
+      text: 'continue',
+    });
     const stupid = new NodeCreator({
       tag: 'button',
       css: ['game-controls_button'],
@@ -20,14 +25,29 @@ export default class GameControlsView extends View {
       tag: 'button',
       css: ['game-controls_button'],
       text: 'check',
-      callback: () => this.checkSentence(),
     });
+    check.setCallback(() => {
+      const result = this.checkSentence();
+      if (result) {
+        check.remove();
+        this.addNodeInside(next);
+      }
+    });
+    next.setCallback(() => {
+      this.state.next('nextLevel', () => 1);
+      next.remove();
+      this.addNodeInside(check);
+    });
+
     this.addNodeInside(stupid, check);
 
-    this.state
-      .subscribe(check, 'checkSentence', (v) => {
+    this.state.subscribe(
+      this.viewCreator,
+      'checkSentence',
+      (v) => {
         check.node.disabled = !v || false;
-      })
-      .next(() => undefined);
+      },
+      false
+    );
   }
 }

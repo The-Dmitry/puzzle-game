@@ -18,7 +18,7 @@ export default class GameView extends View {
 
   private round = 0;
 
-  private level = 0;
+  private level = -1;
 
   private startBlock = new NodeCreator({
     tag: 'div',
@@ -32,6 +32,7 @@ export default class GameView extends View {
   constructor(private gameData: WordCollection) {
     super({ tag: 'div', css: ['game', 'drag-area'] });
     this.render();
+    this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
   }
 
   private render() {
@@ -41,7 +42,6 @@ export default class GameView extends View {
       this.startBlock,
       new GameControlsView(() => this.checkSentence()).viewCreator
     );
-    this.createPuzzleItems(this.gameData.rounds[this.round]);
   }
 
   private createPuzzleRows() {
@@ -49,12 +49,11 @@ export default class GameView extends View {
       const row = new PuzzleRowView();
       this.puzzleRows.push(row);
       this.allRowsBlock.addInnerNode(row.viewCreator);
-      this.puzzleRows[this.round].makeActive(true);
-      this.resultBlock = this.puzzleRows[this.round];
+      // this.puzzleRows[this.round].makeActive(true);
     });
   }
 
-  private createPuzzleItems(roundData: Round) {
+  private createPuzzleItems(roundData: Round = this.gameData.rounds[this.round]) {
     const level = roundData.words[this.level];
     this.currentSentence = level.textExample.split(' ');
     const defaultWidth = 100 / level.textExample.replaceAll(' ', '').length;
@@ -66,6 +65,23 @@ export default class GameView extends View {
       this.startBlock.addInnerNode(item.viewCreator);
       this.allPuzzles.push(item);
     });
+  }
+
+  private nextLevel() {
+    this.level += 1;
+    if (this.level > 9) {
+      this.nextRound();
+    }
+    console.log(this.level);
+    this.resultBlock = this.puzzleRows[this.level];
+    this.createPuzzleItems();
+    this.state.next('checkSentence', () => undefined);
+  }
+
+  private nextRound() {
+    this.allPuzzles.forEach((puzzle) => puzzle.remove());
+    this.round += 1;
+    this.level = 0;
   }
 
   private moveItemBetweenRows(node: Element) {
@@ -83,8 +99,14 @@ export default class GameView extends View {
   }
 
   private checkSentence() {
-    console.log(
-      [...this.resultBlock!.viewCreator.node.children].every((node, i) => node.textContent === this.currentSentence[i])
-    );
+    const children = this.resultBlock?.viewCreator.node.children;
+    if (!children?.length) return false;
+    for (let i = 0; i < this.currentSentence.length; i += 1) {
+      if (!children[i]) return false;
+      if (this.currentSentence[i] !== children[i].textContent) {
+        return false;
+      }
+    }
+    return true;
   }
 }
