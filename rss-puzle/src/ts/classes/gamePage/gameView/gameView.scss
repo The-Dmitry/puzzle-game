@@ -10,7 +10,7 @@
 .puzzle-row {
   width: 60vw;
   height: 3vw;
-  border: 1px solid rgb(0, 255, 60);
+  border: 0.5px solid rgb(255, 255, 255);
   margin: 0 auto;
   display: flex;
 }
@@ -23,11 +23,16 @@
   justify-content: center;
   align-items: center;
   height: 3vw;
+  color: rgb(166, 198, 211);
   background-color: rgb(171, 210, 30);
-  border: 1px solid red;
+  border: 1px solid rgb(255, 255, 255);
+  color: white;
   box-sizing: border-box;
   width: calc(0.6vw * var(--width));
+  background-size: 60vw 30vw;
+  background-position-x: calc(((0.6vw * var(--bgShift) * -1)));
   font-size: 2vw;
+  background-repeat: no-repeat;
 }
 
 .puzzle-item_active {

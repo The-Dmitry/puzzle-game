@@ -5,6 +5,8 @@ const ANIMATION_DURATION = 0.3;
 
 const ACTIVE_PUZZLE = 'puzzle-item_active';
 
+const URL_TO_IMG = 'https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/images/';
+
 export default class PuzzleItemView extends View {
   private isAllowedToMove: boolean = true;
 
@@ -39,6 +41,8 @@ export default class PuzzleItemView extends View {
     text: string,
     itemWidth: number,
     bgShift: number,
+    order: number,
+    bgSrc: string,
     onClick: (node: Element) => void,
     placeholder: NodeCreator
   ) {
@@ -61,6 +65,7 @@ export default class PuzzleItemView extends View {
       },
       false
     );
+    this.addBackground(bgSrc, order);
   }
 
   private onMouseDown(event: Event | TouchEvent) {
@@ -225,5 +230,18 @@ export default class PuzzleItemView extends View {
   private setCoordsForReturn() {
     const { offsetLeft, offsetTop } = this.viewCreator.node;
     this.coordsForReturn = { x: offsetLeft, y: offsetTop };
+  }
+
+  private addBackground(src: string, order: number) {
+    const url = `url(${URL_TO_IMG}${src})`;
+    this.viewCreator.node.style.backgroundImage = url;
+    this.viewCreator.node.style.backgroundPositionY = `${11.11 * order}%`;
+  }
+
+  public autocomplete(resultBlock: Element | undefined) {
+    if (resultBlock) {
+      resultBlock.append(this.viewCreator.node);
+      this.makeItemInactive();
+    }
   }
 }

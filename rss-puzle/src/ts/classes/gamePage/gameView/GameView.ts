@@ -77,7 +77,15 @@ export default class GameView extends View {
     let bgShift = 0;
     this.currentSentence.forEach((word) => {
       const width = defaultWidth * word.length;
-      const item = new PuzzleItemView(word, width, bgShift, (node) => this.moveItemBetweenRows(node), this.placeHolder);
+      const item = new PuzzleItemView(
+        word,
+        width,
+        bgShift,
+        this.level,
+        roundData.levelData.imageSrc,
+        (node) => this.moveItemBetweenRows(node),
+        this.placeHolder
+      );
       bgShift += width;
       this.allPuzzles.push(item);
       this.currentLvlPuzzles.push(item);
@@ -135,9 +143,8 @@ export default class GameView extends View {
 
   private autoComplete() {
     if (this.currentLvlPuzzles.length) {
-      this.currentLvlPuzzles.forEach((puzzle) => this.resultBlock?.viewCreator.node.append(puzzle.viewCreator.node));
+      this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
     }
-    this.checkSentence();
   }
 
   private makeActiveRow() {
