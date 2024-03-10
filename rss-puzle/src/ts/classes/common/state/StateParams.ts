@@ -5,6 +5,8 @@ interface Params {
   checkSentence: undefined | true;
   nextRound: number;
   nextLevel: number;
+  afterItemMoving: undefined;
+  isAllowedToMovePuzzle: true;
 }
 
 export default interface StateParams extends Partial<Params> {}

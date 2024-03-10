@@ -5,36 +5,49 @@ import { Round, WordCollection } from '../../../interfaces/WordCollection';
 import PuzzleItemView from './puzzleItem/PuzzleItemView';
 import PuzzleRowView from './puzzleRow/PuzzleRowView';
 import GameControlsView from './gameControls/GameControlsView';
+import NodeParams from '../../../interfaces/NodeParams';
 
-export default class GameView extends View {
-  private allPuzzles: View[] = [];
-
-  private allRowsBlock = new NodeCreator({
+const nodesData: Record<string, NodeParams> = {
+  placeholder: {
+    tag: 'div',
+    css: ['placeholder'],
+  },
+  allRowsBlock: {
     tag: 'div',
     css: ['all-rows'],
-  });
+  },
+  startBlock: {
+    tag: 'div',
+    css: ['start-zone', 'puzzle-row', 'puzzle-row_active'],
+  },
+};
+
+export default class GameView extends View {
+  private allRowsBlock = new NodeCreator({ ...nodesData.allRowsBlock });
+
+  private startBlock = new NodeCreator({ ...nodesData.startBlock });
+
+  private placeHolder = new NodeCreator({ ...nodesData.placeholder });
+
+  private allPuzzles: PuzzleItemView[] = [];
 
   private puzzleRows: PuzzleRowView[] = [];
 
   private currentLvlPuzzles: PuzzleItemView[] = [];
 
-  private round = 0;
-
-  private level = -1;
-
-  private startBlock = new NodeCreator({
-    tag: 'div',
-    css: ['start-zone', 'puzzle-row'],
-  });
-
   private resultBlock: PuzzleRowView | null = null;
 
   private currentSentence: string[] = [];
+
+  private round = 0;
+
+  private level = -1;
 
   constructor(private gameData: WordCollection) {
     super({ tag: 'div', css: ['game', 'drag-area'] });
     this.render();
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
+    this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty());
   }
 
   private render() {
@@ -64,7 +77,7 @@ export default class GameView extends View {
     let bgShift = 0;
     this.currentSentence.forEach((word) => {
       const width = defaultWidth * word.length;
-      const item = new PuzzleItemView(word, width, bgShift, (node) => this.moveItemBetweenRows(node));
+      const item = new PuzzleItemView(word, width, bgShift, (node) => this.moveItemBetweenRows(node), this.placeHolder);
       bgShift += width;
       this.allPuzzles.push(item);
       this.currentLvlPuzzles.push(item);
@@ -79,6 +92,8 @@ export default class GameView extends View {
     if (this.level > 9) {
       this.nextRound();
     }
+    this.allPuzzles.forEach((puzzle) => puzzle.makeItemInactive());
+    this.makeActiveRow();
     this.currentLvlPuzzles = [];
     this.resultBlock = this.puzzleRows[this.level];
     this.createPuzzleItems();
@@ -114,6 +129,7 @@ export default class GameView extends View {
         return false;
       }
     }
+    console.log('correct sentence');
     return true;
   }
 
@@ -122,5 +138,9 @@ export default class GameView extends View {
       this.currentLvlPuzzles.forEach((puzzle) => this.resultBlock?.viewCreator.node.append(puzzle.viewCreator.node));
     }
     this.checkSentence();
+  }
+
+  private makeActiveRow() {
+    this.puzzleRows.forEach((row, i) => row.makeActive(i === this.level));
   }
 }

@@ -10,9 +10,9 @@ export default class PuzzleRowView extends View {
 
   public makeActive(isActive: boolean) {
     if (isActive) {
-      this.viewCreator.addClassName('active-row');
+      this.viewCreator.addClassName('puzzle-row_active');
       return;
     }
-    this.viewCreator.removeCLassName('active-row');
+    this.viewCreator.removeCLassName('puzzle-row_active');
   }
 }

@@ -1,5 +1,24 @@
+import NodeParams from '../../../../interfaces/NodeParams';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/VIew';
+
+const nodesData: Record<string, NodeParams> = {
+  nextBtn: {
+    tag: 'button',
+    css: ['game-controls_button'],
+    text: 'continue',
+  },
+  hintBtn: {
+    tag: 'button',
+    css: ['game-controls_button'],
+    text: "don't know",
+  },
+  checkBtn: {
+    tag: 'button',
+    css: ['game-controls_button'],
+    text: 'check',
+  },
+};
 
 export default class GameControlsView extends View {
   constructor(
@@ -14,21 +33,9 @@ export default class GameControlsView extends View {
   }
 
   private render() {
-    const next = new NodeCreator({
-      tag: 'button',
-      css: ['game-controls_button'],
-      text: 'continue',
-    });
-    const stupid = new NodeCreator({
-      tag: 'button',
-      css: ['game-controls_button'],
-      text: "don't know",
-    });
-    const check = new NodeCreator({
-      tag: 'button',
-      css: ['game-controls_button'],
-      text: 'check',
-    });
+    const next = new NodeCreator({ ...nodesData.nextBtn });
+    const stupid = new NodeCreator({ ...nodesData.hintBtn, tag: 'button' });
+    const check = new NodeCreator({ ...nodesData.checkBtn, tag: 'button' });
     check.setCallback(() => {
       const result = this.checkSentence();
       if (result) {
@@ -51,13 +58,10 @@ export default class GameControlsView extends View {
 
     this.addNodeInside(stupid, check);
 
-    this.state.subscribe(
-      this.viewCreator,
-      'checkSentence',
-      (v) => {
+    this.state
+      .subscribe(this.viewCreator, 'checkSentence', (v) => {
         check.node.disabled = !v || false;
-      },
-      false
-    );
+      })
+      .next(() => undefined);
   }
 }
