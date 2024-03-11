@@ -98,11 +98,7 @@ export default class GameView extends View {
 
   private nextLevel() {
     this.level += 1;
-    if (this.level > 9) {
-      this.state.next('showStatistics', (v) => (v ? null : 1));
-      this.state.next('saveCompletedGame', (v) => (v ? null : 1));
-      return;
-    }
+    if (this.level > 9) return;
     this.currentLvlPuzzles = [];
     this.allPuzzles.forEach((puzzle) => puzzle.makeItemInactive());
     this.makeActiveRow();
@@ -121,8 +117,6 @@ export default class GameView extends View {
 
   private isStartBLockEmpty() {
     const isEmpty = this.startBlock.node.children.length;
-    console.log('Check for');
-
     this.state.next('checkSentence', () => !!isEmpty);
   }
 
@@ -135,6 +129,11 @@ export default class GameView extends View {
         return false;
       }
     }
+    if (this.level >= 9) {
+      console.log('checked');
+
+      this.state.next('addNextRoundButton', () => true);
+    }
     console.log('correct sentence');
     return true;
   }
@@ -142,6 +141,9 @@ export default class GameView extends View {
   private autoComplete() {
     if (this.currentLvlPuzzles.length) {
       this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
+      if (this.level >= 9) {
+        this.state.next('addNextRoundButton', () => true);
+      }
     }
   }
 

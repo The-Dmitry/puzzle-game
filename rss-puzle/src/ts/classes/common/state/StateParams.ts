@@ -14,6 +14,7 @@ interface Params {
     round: number;
   };
   showStatistics: number;
+  addNextRoundButton: boolean;
 }
 
 type ValueOrNull<T> = {

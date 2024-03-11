@@ -18,8 +18,6 @@ import StatisticsView from './statisticView/StatisticsView';
 export default class GamePageView extends View {
   private httpClient = new HttpClient();
 
-  private wordCollection = wordCollection;
-
   private currentDiffData: WordCollection | null = null;
 
   private activeViews: View[] = [];
@@ -83,6 +81,8 @@ export default class GamePageView extends View {
 
   private renderGame(data: Round) {
     if (!this.currentDiffData) return;
+    console.log('ROUND:', this.round);
+
     this.clearGamePage();
     this.activeViews.push(new HeaderView(), new GameView(data));
     this.addNodeInside(...this.activeViews);
