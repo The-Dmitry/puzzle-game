@@ -1,11 +1,11 @@
 import NodeCreator from '../nodeCreator/NodeCreator';
 
 export default class Observable<T> {
-  private subscribers = new Set<(params?: T) => void>();
+  private subscribers = new Set<(params: T | null) => void>();
 
-  constructor(private value: T | undefined = undefined) {}
+  constructor(private value: T | null = null) {}
 
-  public subscribe(node: NodeCreator, callback: (params?: T) => T, trigger: boolean) {
+  public subscribe(node: NodeCreator, callback: (params: T | null) => T | null, trigger: boolean) {
     this.subscribers.add(callback);
     if (trigger) {
       callback(this.value);
@@ -13,12 +13,8 @@ export default class Observable<T> {
     node.saveSubscription(() => this.subscribers.delete(callback));
   }
 
-  public next(callback: (value?: T) => T) {
-    const result = callback(this.value);
-    if (result === undefined && this.value === undefined) {
-      return;
-    }
-    this.value = result;
+  public next(callback: (value: T | null) => T | null) {
+    this.value = callback(this.value);
     this.notifySubscribers();
   }
 
@@ -28,5 +24,9 @@ export default class Observable<T> {
 
   public get getValue() {
     return this.value;
+  }
+
+  public clearValue() {
+    this.value = null
   }
 }

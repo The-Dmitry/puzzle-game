@@ -40,7 +40,7 @@ export default class StartScreenView extends View {
     const startBtn = new NodeCreator({ ...nodesData.startBtn, callback: () => renderGamePage() });
     const logOutBtn = new NodeCreator({
       ...nodesData.logOutBtn,
-      callback: () => this.state.next('loginData', () => undefined),
+      callback: () => this.state.next('loginData', () => null),
     });
 
     container.addInnerNode(greeting, startBtn, logOutBtn);

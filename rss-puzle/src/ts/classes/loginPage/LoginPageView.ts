@@ -21,9 +21,9 @@ const nodesData: Record<string, NodeParams> = {
 };
 
 export default class LoginPageView extends View {
-  private isNameValid: string | undefined = undefined;
+  private isNameValid: string | null = null;
 
-  private isSurNameValid: string | undefined = undefined;
+  private isSurNameValid: string | null = null;
 
   constructor() {
     super({ ...nodesData.parentNode });
@@ -55,20 +55,20 @@ export default class LoginPageView extends View {
         this.isNameValid = v;
         node.disabled = !(this.isNameValid && this.isSurNameValid);
       })
-      .next(() => undefined);
+      .next(() => null);
 
     this.state
       .subscribe(this.viewCreator, 'validSurname', (v) => {
         this.isSurNameValid = v;
         node.disabled = !(this.isNameValid && this.isSurNameValid);
       })
-      .next(() => undefined);
+      .next(() => null);
   }
 
   private submitUserData() {
     this.state.next('loginData', () => {
       if (!(typeof this.isNameValid === 'string' && typeof this.isSurNameValid === 'string')) {
-        return undefined;
+        return null;
       }
       return [this.isNameValid, this.isSurNameValid];
     });

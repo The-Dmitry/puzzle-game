@@ -23,7 +23,7 @@ export default class HeaderView extends View {
   private render() {
     const logOut = new NodeCreator({
       ...nodesData.logOut,
-      callback: () => this.state.next('loginData', () => undefined),
+      callback: () => this.state.next('loginData', () => null),
     });
     this.addNodeInside(logOut);
   }

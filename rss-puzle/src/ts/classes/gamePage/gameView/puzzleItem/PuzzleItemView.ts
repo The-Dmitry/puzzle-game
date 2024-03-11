@@ -70,7 +70,7 @@ export default class PuzzleItemView extends View {
 
   private onMouseDown(event: Event | TouchEvent) {
     if (!this.isAllowedToMove) return;
-    this.state.next('isAllowedToMovePuzzle', () => undefined);
+    this.state.next('isAllowedToMovePuzzle', () => null);
     this.setCoordsForReturn();
     this.clickTime = new Date().getTime();
     if (event instanceof MouseEvent) {

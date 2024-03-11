@@ -16,14 +16,15 @@ export default class MainView extends View {
   }
 
   private configureView() {
-    // this.state.subscribe(this.viewCreator, 'loginData', (v) => {
-    //   if (!v) {
-    //     this.render(new LoginPageView());
-    //     return;
-    //   }
-    //   this.render(new StartScreenView(() => this.render(new GamePageView())));
-    // });
-    this.render(new GamePageView());
+    this.state.subscribe(this.viewCreator, 'loginData', (v) => {
+      if (!v) {
+        this.render(new LoginPageView());
+        this.state.clearState();
+        return;
+      }
+      this.render(new StartScreenView(() => this.render(new GamePageView())));
+    });
+    // this.render(new GamePageView());
   }
 
   private render(page: View) {

@@ -47,22 +47,22 @@ export default class LoginInputView extends View {
     notice.setTextContent(' ');
     if (!text.length) {
       notice.setTextContent(' ');
-      this.state.next(this.actionName as keyof StateParams, () => undefined);
+      this.state.next(this.actionName as keyof StateParams, () => null);
       return;
     }
     if (text && !/^[a-zA-Z-^]+$/.test(text)) {
       notice.setTextContent('Use only english characters');
-      this.state.next(this.actionName as keyof StateParams, () => undefined);
+      this.state.next(this.actionName as keyof StateParams, () => null);
       return;
     }
     if ((text && text[0] !== text[0].toUpperCase()) || text[0] === '-') {
       notice.setTextContent('The first letter must be uppercase');
-      this.state.next(this.actionName as keyof StateParams, () => undefined);
+      this.state.next(this.actionName as keyof StateParams, () => null);
       return;
     }
     if (text && text.length < this.minLength) {
       notice.setTextContent(`${this.inputName} is too short`);
-      this.state.next(this.actionName as keyof StateParams, () => undefined);
+      this.state.next(this.actionName as keyof StateParams, () => null);
       return;
     }
     if (text) this.state.next(this.actionName as keyof StateParams, () => text);

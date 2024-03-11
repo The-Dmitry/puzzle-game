@@ -60,8 +60,12 @@ export default class GameControlsView extends View {
 
     this.state
       .subscribe(this.viewCreator, 'checkSentence', (v) => {
-        check.node.disabled = !v || false;
+        if (typeof v === 'boolean') {
+          check.node.disabled = v;
+          return;
+        }
+        check.node.disabled = true;
       })
-      .next(() => undefined);
+      .next(() => true);
   }
 }

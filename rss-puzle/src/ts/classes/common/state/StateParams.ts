@@ -2,11 +2,23 @@ interface Params {
   validFirstName: string;
   validSurname: string;
   loginData: [string, string];
-  checkSentence: undefined | true;
-  nextRound: number;
+  checkSentence: boolean;
   nextLevel: number;
-  afterItemMoving: undefined;
+  afterItemMoving: boolean;
   isAllowedToMovePuzzle: true;
+  gameRound: number;
+  gameDifficulty: number;
+  saveCompletedGame: number;
+  lastCompletedGame: {
+    difficulty: number;
+    round: number;
+  };
+  showStatistics: number;
 }
 
-export default interface StateParams extends Partial<Params> {}
+type ValueOrNull<T> = {
+  [P in keyof T]: T[P] | null;
+};
+
+// export default interface StateParams extends Partial<Params> {}
+export default interface StateParams extends ValueOrNull<Params> {}

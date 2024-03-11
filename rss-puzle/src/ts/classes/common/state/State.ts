@@ -28,9 +28,9 @@ export default class State {
     return inst;
   }
 
-  public next<T extends keyof StateParams>(action: T, callback: (value?: StateParams[T]) => StateParams[T]) {
+  public next<T extends keyof StateParams>(action: T, callback: (value: StateParams[T]) => StateParams[T]) {
     this.isObservableExist(action);
-    this.observables.get(action)!.next(callback);
+    this.observables.get(action).next(callback);
   }
 
   private isObservableExist<T extends keyof StateParams>(action: T) {
@@ -51,5 +51,9 @@ export default class State {
         this.observables.set(action, new Observable(value));
       });
     }
+  }
+
+  public clearState() {
+    this.observables.forEach((inst) => inst.clearValue());
   }
 }

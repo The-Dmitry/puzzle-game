@@ -1,7 +1,7 @@
 import './gameView.scss';
 import View from '../../common/view/VIew';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
-import { Round, WordCollection } from '../../../interfaces/WordCollection';
+import { Round } from '../../../interfaces/WordCollection';
 import PuzzleItemView from './puzzleItem/PuzzleItemView';
 import PuzzleRowView from './puzzleRow/PuzzleRowView';
 import GameControlsView from './gameControls/GameControlsView';
@@ -39,15 +39,16 @@ export default class GameView extends View {
 
   private currentSentence: string[] = [];
 
-  private round = 0;
-
   private level = -1;
 
-  constructor(private gameData: WordCollection) {
+  constructor(private gameData: Round) {
     super({ tag: 'div', css: ['game', 'drag-area'] });
     this.render();
+    // console.log(gameData);
+
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
-    this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty());
+    // // this.state.subscribe(this.viewCreator, 'gameRound', (round) => this.nextRound(round));
+    this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty(), false).next(() => true);
   }
 
   private render() {
@@ -63,14 +64,14 @@ export default class GameView extends View {
   }
 
   private createPuzzleRows() {
-    this.gameData.rounds[this.round].words.forEach(() => {
+    this.gameData.words.forEach(() => {
       const row = new PuzzleRowView();
       this.puzzleRows.push(row);
       this.allRowsBlock.addInnerNode(row.viewCreator);
     });
   }
 
-  private createPuzzleItems(roundData: Round = this.gameData.rounds[this.round]) {
+  private createPuzzleItems(roundData: Round = this.gameData) {
     const level = roundData.words[this.level];
     this.currentSentence = level.textExample.split(' ');
     const defaultWidth = 100 / level.textExample.replaceAll(' ', '').length;
@@ -98,20 +99,16 @@ export default class GameView extends View {
   private nextLevel() {
     this.level += 1;
     if (this.level > 9) {
-      this.nextRound();
+      this.state.next('showStatistics', (v) => (v ? null : 1));
+      this.state.next('saveCompletedGame', (v) => (v ? null : 1));
+      return;
     }
+    this.currentLvlPuzzles = [];
     this.allPuzzles.forEach((puzzle) => puzzle.makeItemInactive());
     this.makeActiveRow();
-    this.currentLvlPuzzles = [];
     this.resultBlock = this.puzzleRows[this.level];
     this.createPuzzleItems();
-    this.state.next('checkSentence', () => undefined);
-  }
-
-  private nextRound() {
-    this.allPuzzles.forEach((puzzle) => puzzle.remove());
-    this.round += 1;
-    this.level = 0;
+    this.state.next('checkSentence', () => true);
   }
 
   private moveItemBetweenRows(node: Element) {
@@ -120,12 +117,13 @@ export default class GameView extends View {
     } else {
       this.startBlock.node.append(node);
     }
-    this.isStartBLockEmpty();
   }
 
   private isStartBLockEmpty() {
     const isEmpty = this.startBlock.node.children.length;
-    this.state.next('checkSentence', () => (!isEmpty ? true : undefined));
+    console.log('Check for');
+
+    this.state.next('checkSentence', () => !!isEmpty);
   }
 
   private checkSentence() {
