@@ -28,9 +28,10 @@
 
   background-color: rgb(171, 210, 30);
   border: 1px solid rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
-  // -webkit-text-stroke: 1px rgb(0, 0, 0);
-  // text-stroke: 1px rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  -webkit-text-stroke: 1px rgb(255, 255, 255);
+  text-stroke: 1px rgb(255, 255, 255);
   box-sizing: border-box;
   width: calc(0.6vw * var(--width));
   background-size: 60vw 30vw;
@@ -46,10 +47,18 @@
 .placeholder {
   height: 3vw;
   box-sizing: border-box;
+  border: 1px solid red;
 }
 
 .game-controls {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+
+.translation-hint {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
 }

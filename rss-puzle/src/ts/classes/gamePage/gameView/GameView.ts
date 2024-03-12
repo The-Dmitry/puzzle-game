@@ -20,9 +20,15 @@ const nodesData: Record<string, NodeParams> = {
     tag: 'div',
     css: ['start-zone', 'puzzle-row', 'puzzle-row_active'],
   },
+  translationHint: {
+    tag: 'p',
+    css: ['translation-hint'],
+  },
 };
 
 export default class GameView extends View {
+  private translationHint = new NodeCreator({ ...nodesData.translationHint });
+
   private allRowsBlock = new NodeCreator({ ...nodesData.allRowsBlock });
 
   private startBlock = new NodeCreator({ ...nodesData.startBlock });
@@ -48,6 +54,15 @@ export default class GameView extends View {
 
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
     this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty(), false).next(() => true);
+    this.state
+      .subscribe(this.viewCreator, 'showTranslationHint', (show) => {
+        if (show) {
+          this.addNodeInside(this.translationHint);
+        } else {
+          this.translationHint.remove();
+        }
+      })
+      .next(() => false);
     this.state.next('unresolvedSentences', () => []);
   }
 
@@ -73,6 +88,7 @@ export default class GameView extends View {
 
   private createPuzzleItems(roundData: Round = this.gameData) {
     const level = roundData.words[this.level];
+    this.translationHint.setTextContent(level.textExampleTranslate);
     this.currentSentence = level.textExample.split(' ');
     const defaultWidth = 100 / level.textExample.replaceAll(' ', '').length;
     let bgShift = 0;
@@ -105,6 +121,7 @@ export default class GameView extends View {
     this.resultBlock = this.puzzleRows[this.level];
     this.createPuzzleItems();
     this.state.next('checkSentence', () => true);
+    this.state.next('showTranslationHint', (v) => v);
   }
 
   private moveItemBetweenRows(node: Element) {
@@ -134,7 +151,7 @@ export default class GameView extends View {
 
       this.state.next('addNextRoundButton', () => true);
     }
-    console.log('correct sentence');
+    this.addNodeInside(this.translationHint);
     return true;
   }
 
@@ -145,6 +162,7 @@ export default class GameView extends View {
       if (this.level >= 9) {
         this.state.next('addNextRoundButton', () => true);
       }
+      this.addNodeInside(this.translationHint);
     }
   }
 
