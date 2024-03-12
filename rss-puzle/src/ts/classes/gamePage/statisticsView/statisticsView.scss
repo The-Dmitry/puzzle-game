@@ -1,0 +1,8 @@
+.statistics-group__title {
+  &::after {
+    content: attr(amount);
+  }
+}
+
+.statistics {
+}

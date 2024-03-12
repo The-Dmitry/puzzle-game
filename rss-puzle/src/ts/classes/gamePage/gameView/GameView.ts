@@ -47,8 +47,8 @@ export default class GameView extends View {
     // console.log(gameData);
 
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
-    // // this.state.subscribe(this.viewCreator, 'gameRound', (round) => this.nextRound(round));
     this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty(), false).next(() => true);
+    this.state.next('unresolvedSentences', () => []);
   }
 
   private render() {
@@ -141,6 +141,7 @@ export default class GameView extends View {
   private autoComplete() {
     if (this.currentLvlPuzzles.length) {
       this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
+      this.state.next('unresolvedSentences', (v) => (v ? [...v, this.level] : []));
       if (this.level >= 9) {
         this.state.next('addNextRoundButton', () => true);
       }

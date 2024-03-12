@@ -15,11 +15,11 @@ interface Params {
   };
   showStatistics: number;
   addNextRoundButton: boolean;
+  unresolvedSentences: number[];
 }
 
 type ValueOrNull<T> = {
   [P in keyof T]: T[P] | null;
 };
 
-// export default interface StateParams extends Partial<Params> {}
 export default interface StateParams extends ValueOrNull<Params> {}

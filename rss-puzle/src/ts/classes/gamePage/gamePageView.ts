@@ -6,7 +6,7 @@ import View from '../common/view/VIew';
 import HeaderView from '../header/HeaderView';
 import GameView from './gameView/GameView';
 import { Round, WordCollection } from '../../interfaces/WordCollection';
-import StatisticsView from './statisticView/StatisticsView';
+import StatisticsView from './statisticsView/StatisticsView';
 
 // const nodesData: Record<string, NodeParams> = {
 //   container: {
@@ -89,8 +89,9 @@ export default class GamePageView extends View {
   }
 
   private renderStatistics() {
+    if (!this.currentDiffData) return;
     this.clearGamePage();
-    this.activeViews.push(new StatisticsView());
+    this.activeViews.push(new StatisticsView(this.currentDiffData.rounds[this.round]));
     this.addNodeInside(...this.activeViews);
   }
 
