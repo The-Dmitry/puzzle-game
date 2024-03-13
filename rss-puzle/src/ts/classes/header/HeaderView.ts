@@ -9,6 +9,11 @@ const nodesData: Record<string, NodeParams> = {
     css: ['header__button'],
     text: 'logout',
   },
+  showTranslationHint: {
+    tag: 'button',
+    css: ['header__button', 'translation-button'],
+    text: 'text hint',
+  },
 };
 
 export default class HeaderView extends View {
@@ -25,6 +30,17 @@ export default class HeaderView extends View {
       ...nodesData.logOut,
       callback: () => this.state.next('loginData', () => null),
     });
-    this.addNodeInside(logOut);
+    const showTranslationHint = new NodeCreator({
+      ...nodesData.showTranslationHint,
+      callback: () => this.state.next('showTranslationHint', (v) => !v),
+    });
+    this.addNodeInside(logOut, showTranslationHint);
+    this.state.subscribe(showTranslationHint, 'showTranslationHint', (v) => {
+      if (v) {
+        showTranslationHint.addClassName('translation-button_active');
+        return;
+      }
+      showTranslationHint.removeCLassName('translation-button_active');
+    });
   }
 }

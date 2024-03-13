@@ -54,15 +54,9 @@ export default class GameView extends View {
 
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
     this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty(), false).next(() => true);
-    this.state
-      .subscribe(this.viewCreator, 'showTranslationHint', (show) => {
-        if (show) {
-          this.addNodeInside(this.translationHint);
-        } else {
-          this.translationHint.remove();
-        }
-      })
-      .next(() => false);
+    this.state.subscribe(this.viewCreator, 'showTranslationHint', (show) =>
+      show ? this.addNodeInside(this.translationHint) : this.translationHint.remove()
+    );
     this.state.next('unresolvedSentences', () => []);
   }
 
