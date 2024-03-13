@@ -14,6 +14,11 @@ const nodesData: Record<string, NodeParams> = {
     css: ['header__button', 'translation-button'],
     text: 'text hint',
   },
+  showAudioHint: {
+    tag: 'button',
+    css: ['header__button', 'audio-button'],
+    text: 'audio hint',
+  },
 };
 
 export default class HeaderView extends View {
@@ -34,13 +39,18 @@ export default class HeaderView extends View {
       ...nodesData.showTranslationHint,
       callback: () => this.state.next('showTranslationHint', (v) => !v),
     });
-    this.addNodeInside(logOut, showTranslationHint);
-    this.state.subscribe(showTranslationHint, 'showTranslationHint', (v) => {
-      if (v) {
-        showTranslationHint.addClassName('translation-button_active');
-        return;
-      }
-      showTranslationHint.removeCLassName('translation-button_active');
+    const showAudioHint = new NodeCreator({
+      ...nodesData.showAudioHint,
+      callback: () => this.state.next('showAudioHint', (v) => !v),
     });
+    this.addNodeInside(logOut, showTranslationHint, showAudioHint);
+    this.state.subscribe(showTranslationHint, 'showTranslationHint', (v) =>
+      v
+        ? showTranslationHint.addClassName('translation-button_active')
+        : showTranslationHint.removeCLassName('translation-button_active')
+    );
+    this.state.subscribe(showAudioHint, 'showAudioHint', (v) =>
+      v ? showAudioHint.addClassName('audio-button_active') : showAudioHint.removeCLassName('audio-button_active')
+    );
   }
 }
