@@ -62,16 +62,6 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
     });
   }
 
-  // public prependInnerNode(...list: (NodeCreator | HTMLElement)[]) {
-  //   list.forEach((item) => {
-  //     if (item instanceof NodeCreator) {
-  //       this.nodeElement.prepend(item.node);
-  //     } else {
-  //       this.nodeElement.prepend(item);
-  //     }
-  //   });
-  // }
-
   public removeAllChildren() {
     this.children.forEach((child) => child.remove());
   }
@@ -82,7 +72,11 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
 
   public remove() {
     if (this.children) this.removeAllChildren();
-    if (this.unsubscribe) this.unsubscribe.forEach((func) => func());
+    this.unsubscribeFromState();
     this.nodeElement.remove();
+  }
+
+  public unsubscribeFromState() {
+    this.unsubscribe.forEach((func) => func());
   }
 }

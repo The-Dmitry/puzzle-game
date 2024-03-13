@@ -37,6 +37,12 @@ export default class PuzzleItemView extends View {
 
   private mouseUpFunc: (e: Event) => void = this.resetItem.bind(this);
 
+  private isBgActive: boolean = false;
+
+  private bgSrc: string;
+
+  private bgOrder: number;
+
   constructor(
     text: string,
     itemWidth: number,
@@ -51,6 +57,8 @@ export default class PuzzleItemView extends View {
       css: ['puzzle-item', 'puzzle-item_active'],
       text,
     });
+    this.bgSrc = bgSrc;
+    this.bgOrder = order;
     this.onClick = onClick;
     this.placeholder = placeholder;
     this.viewCreator.node.style.setProperty('--width', `${itemWidth.toFixed(2)}`);
@@ -65,7 +73,9 @@ export default class PuzzleItemView extends View {
       },
       false
     );
-    this.addBackground(bgSrc, order);
+    this.state.subscribe(this.viewCreator, 'showPuzzleBg', (v) =>
+      v ? this.addBackground(bgSrc, order) : this.addBackground(null, order)
+    );
   }
 
   private onMouseDown(event: Event | TouchEvent) {
@@ -225,6 +235,9 @@ export default class PuzzleItemView extends View {
     this.viewCreator.removeCLassName('puzzle-item_active');
     this.viewCreator.node.removeEventListener('mousedown', this.onDownFunc);
     this.viewCreator.node.removeEventListener('touchstart', this.onTouchStart);
+    this.viewCreator.unsubscribeFromState();
+    if (this.isBgActive) return;
+    this.addBackground(this.bgSrc, this.bgOrder);
   }
 
   private setCoordsForReturn() {
@@ -232,10 +245,15 @@ export default class PuzzleItemView extends View {
     this.coordsForReturn = { x: offsetLeft, y: offsetTop };
   }
 
-  private addBackground(src: string, order: number) {
-    const url = `url(${URL_TO_IMG}${src})`;
-    this.viewCreator.node.style.backgroundImage = url;
-    this.viewCreator.node.style.backgroundPositionY = `${11.11 * order}%`;
+  private addBackground(src: string | null, order: number) {
+    if (src) {
+      const url = `url(${URL_TO_IMG}${src})`;
+      this.viewCreator.node.style.backgroundImage = url;
+      this.viewCreator.node.style.backgroundPositionY = `${11.11 * order}%`;
+      return;
+    }
+    this.isBgActive = false;
+    this.viewCreator.node.style.removeProperty('background-image');
   }
 
   public autocomplete(resultBlock: Element | undefined) {

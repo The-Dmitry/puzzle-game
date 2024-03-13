@@ -18,6 +18,7 @@ interface Params {
   unresolvedSentences: number[];
   showTranslationHint: boolean;
   showAudioHint: boolean;
+  showPuzzleBg: boolean;
 }
 
 type ValueOrNull<T> = {
