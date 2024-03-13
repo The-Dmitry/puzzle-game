@@ -6,6 +6,7 @@ import PuzzleItemView from './puzzleItem/PuzzleItemView';
 import PuzzleRowView from './puzzleRow/PuzzleRowView';
 import GameControlsView from './gameControls/GameControlsView';
 import NodeParams from '../../../interfaces/NodeParams';
+import AudioHintView from '../audioHintView.ts/AudioHintView';
 
 const nodesData: Record<string, NodeParams> = {
   placeholder: {
@@ -28,6 +29,8 @@ const nodesData: Record<string, NodeParams> = {
 
 export default class GameView extends View {
   private translationHint = new NodeCreator({ ...nodesData.translationHint });
+
+  private audioHint = new AudioHintView();
 
   private allRowsBlock = new NodeCreator({ ...nodesData.allRowsBlock });
 
@@ -57,6 +60,9 @@ export default class GameView extends View {
     this.state.subscribe(this.viewCreator, 'showTranslationHint', (show) =>
       show ? this.addNodeInside(this.translationHint) : this.translationHint.remove()
     );
+    this.state.subscribe(this.viewCreator, 'showAudioHint', (show) =>
+      show ? this.addNodeInside(this.audioHint) : this.audioHint.remove()
+    );
     this.state.next('unresolvedSentences', () => []);
   }
 
@@ -83,6 +89,7 @@ export default class GameView extends View {
   private createPuzzleItems(roundData: Round = this.gameData) {
     const level = roundData.words[this.level];
     this.translationHint.setTextContent(level.textExampleTranslate);
+    this.audioHint.setAudioSrc = level.audioExample;
     this.currentSentence = level.textExample.split(' ');
     const defaultWidth = 100 / level.textExample.replaceAll(' ', '').length;
     let bgShift = 0;

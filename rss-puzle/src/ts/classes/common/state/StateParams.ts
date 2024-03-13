@@ -17,6 +17,7 @@ interface Params {
   addNextRoundButton: boolean;
   unresolvedSentences: number[];
   showTranslationHint: boolean;
+  showAudioHint: boolean;
 }
 
 type ValueOrNull<T> = {

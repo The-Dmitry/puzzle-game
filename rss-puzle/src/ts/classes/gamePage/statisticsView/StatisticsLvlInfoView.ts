@@ -17,17 +17,17 @@ export default class StatisticsLvlInfoView extends View {
     const author = new NodeCreator({
       tag: 'p',
       css: ['statistics__author'],
-      text: data.author,
+      text: `Author: ${data.author}`,
     });
     const name = new NodeCreator({
       tag: 'p',
       css: ['statistics__name'],
-      text: data.name,
+      text: `Painting title:${data.name}`,
     });
     const year = new NodeCreator({
       tag: 'p',
       css: ['statistics__year'],
-      text: data.year,
+      text: `Year: ${data.year}`,
     });
     const image = new NodeCreator({
       tag: 'div',
