@@ -1,6 +1,7 @@
 import { Word } from '../../../interfaces/WordCollection';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
 import View from '../../common/view/VIew';
+import AudioHintView from '../audioHintView.ts/AudioHintView';
 
 export default class StatisticsGroupItemView extends View {
   constructor(data: Word) {
@@ -9,11 +10,12 @@ export default class StatisticsGroupItemView extends View {
   }
 
   private render(data: Word) {
+    const audio = new AudioHintView(data.audioExample);
     const text = new NodeCreator({
       tag: 'p',
       css: ['statistics-item__text'],
       text: data.textExample,
     });
-    this.addNodeInside(text);
+    this.addNodeInside(audio, text);
   }
 }

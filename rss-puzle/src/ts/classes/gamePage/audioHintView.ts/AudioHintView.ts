@@ -3,9 +3,7 @@ import View from '../../common/view/VIew';
 const URL_TO_AUDIO = 'https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main/';
 
 export default class AudioHintView extends View {
-  private audioSrc: string | null = null;
-
-  constructor() {
+  constructor(private audioSrc: string | null = null) {
     super({
       tag: 'button',
       css: ['audio-hint'],
