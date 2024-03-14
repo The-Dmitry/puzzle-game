@@ -10,3 +10,11 @@
 .statistics-item {
   display: flex;
 }
+
+.statistics__image {
+  height: 160px;
+  aspect-ratio: 2 / 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
