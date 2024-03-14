@@ -247,9 +247,14 @@ export default class PuzzleItemView extends View {
 
   private addBackground(src: string | null, order: number) {
     if (src) {
-      const url = `url(${URL_TO_IMG}${src})`;
-      this.viewCreator.node.style.backgroundImage = url;
-      this.viewCreator.node.style.backgroundPositionY = `${11.11 * order}%`;
+      const url = `${URL_TO_IMG}${src}`;
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        this.viewCreator.node.style.backgroundImage = `url(${url})`;
+        this.viewCreator.node.style.backgroundPositionY = `${11.11 * order}%`;
+        this.isBgActive = true;
+      };
       return;
     }
     this.isBgActive = false;

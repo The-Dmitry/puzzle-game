@@ -78,6 +78,11 @@ export default class GameControlsView extends View {
     });
 
     this.addNodeInside(stupid, check);
+    this.state
+      .subscribe(stupid, 'blockStupidButton', (v) => {
+        stupid.node.disabled = !!v;
+      })
+      .next(() => false);
     this.state.subscribe(
       this.viewCreator,
       'addNextRoundButton',

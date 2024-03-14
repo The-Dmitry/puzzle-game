@@ -18,6 +18,7 @@
 
 .puzzle-item {
   cursor: pointer;
+  // position: relative;
   pointer-events: none;
   user-select: none;
   display: flex;
@@ -25,8 +26,7 @@
   align-items: center;
   height: 3vw;
   font-weight: 400;
-
-  background-color: rgb(92, 104, 49);
+  background-color: rgb(51, 130, 122);
   border: 1px solid rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   font-weight: 600;
@@ -38,6 +38,57 @@
   background-position-x: calc(((0.6vw * var(--bgShift) * -1)));
   font-size: 2vw;
   background-repeat: no-repeat;
+  transition: background-image linear 10s;
+}
+
+.puzzle-item_correct {
+  animation: correct 3s linear;
+}
+
+.puzzle-item_incorrect {
+  animation: incorrect 3s linear;
+}
+
+@keyframes correct {
+  15% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  30% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+  45% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  60% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+  75% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  90% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+}
+
+@keyframes incorrect {
+  15% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  30% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
+  45% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  60% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
+  75% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  90% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
 }
 
 .puzzle-item_active {

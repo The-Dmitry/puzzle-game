@@ -22,6 +22,7 @@ interface Params {
   collectionLoaded: boolean;
   toggleBurgerMenu: boolean;
   completedGames: Record<string, number[]>;
+  blockStupidButton: boolean;
 }
 
 type ValueOrNull<T> = {

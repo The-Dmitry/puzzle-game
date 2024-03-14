@@ -139,19 +139,30 @@ export default class GameView extends View {
   private checkSentence() {
     const children = this.resultBlock?.viewCreator.node.children;
     if (!children?.length) return false;
-    for (let i = 0; i < this.currentSentence.length; i += 1) {
-      if (!children[i]) return false;
-      if (this.currentSentence[i] !== children[i].textContent) {
-        return false;
+    let result = true;
+    this.currentSentence.forEach((word, index) => {
+      if (word !== children[index].textContent) {
+        result = false;
+        children[index].classList.add('puzzle-item_incorrect');
+      } else {
+        children[index].classList.add('puzzle-item_correct');
       }
+      (children[index] as HTMLElement).addEventListener('animationend', () => {
+        children[index].classList.remove('puzzle-item_correct');
+        children[index].classList.remove('puzzle-item_incorrect');
+      });
+    });
+    if (!result) {
+      return result;
     }
+    this.state.next('blockStupidButton', () => true);
     if (this.level >= 9) {
       this.state.next('addNextRoundButton', () => true);
       this.state.next('saveCompletedGame', (v) => v);
     }
-    this.currentLvlPuzzles.forEach((puzzle) => puzzle.makeItemInactive());
+    this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
     this.addNodeInside(this.translationHint);
-    return true;
+    return result;
   }
 
   private autoComplete() {
