@@ -74,7 +74,7 @@ export default class PuzzleItemView extends View {
       false
     );
     this.state.subscribe(this.viewCreator, 'showPuzzleBg', (v) =>
-      v ? this.addBackground(bgSrc, order) : this.addBackground(null, order)
+      v ? this.addBackground(null, order) : this.addBackground(bgSrc, order)
     );
   }
 

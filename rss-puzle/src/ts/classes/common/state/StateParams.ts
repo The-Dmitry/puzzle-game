@@ -19,6 +19,9 @@ interface Params {
   showTranslationHint: boolean;
   showAudioHint: boolean;
   showPuzzleBg: boolean;
+  collectionLoaded: boolean;
+  toggleBurgerMenu: boolean;
+  completedGames: Record<string, number[]>;
 }
 
 type ValueOrNull<T> = {

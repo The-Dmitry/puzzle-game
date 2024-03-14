@@ -3,9 +3,16 @@ import View from '../common/view/VIew';
 import LoginPageView from '../loginPage/LoginPageView';
 import StartScreenView from '../startScreen/StartScreenView';
 import GamePageView from '../gamePage/gamePageView';
+import HttpClient from '../common/httpClient/HttpClient';
+import wordCollection from '../../data/wordCollection';
+import { WordCollection } from '../../interfaces/WordCollection';
 
 export default class MainView extends View {
   private activePage: View | null = null;
+
+  private httpClient = new HttpClient();
+
+  private collection: WordCollection[] = [];
 
   constructor() {
     super({
@@ -13,6 +20,7 @@ export default class MainView extends View {
       css: ['app'],
     });
     this.configureView();
+    this.getAllJson(wordCollection);
   }
 
   private configureView() {
@@ -22,7 +30,7 @@ export default class MainView extends View {
         this.state.clearState();
         return;
       }
-      this.render(new StartScreenView(() => this.render(new GamePageView())));
+      this.render(new StartScreenView(() => this.render(new GamePageView(this.collection))));
     });
     // this.render(new GamePageView());
   }
@@ -31,5 +39,11 @@ export default class MainView extends View {
     this.activePage?.remove();
     this.activePage = page;
     this.addNodeInside(this.activePage);
+  }
+
+  private async getAllJson(urls: string[]) {
+    const result = await Promise.all(urls.map((url) => this.httpClient.fetch<WordCollection>(url)));
+    this.collection = result;
+    this.state.next('collectionLoaded', () => true);
   }
 }

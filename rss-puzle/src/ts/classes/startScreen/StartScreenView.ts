@@ -37,7 +37,7 @@ export default class StartScreenView extends View {
   private render(renderGamePage: () => void) {
     const container = new NodeCreator({ ...nodesData.container });
     const greeting = new NodeCreator({ ...nodesData.greeting });
-    const startBtn = new NodeCreator({ ...nodesData.startBtn, callback: () => renderGamePage() });
+    const startBtn = new NodeCreator({ ...nodesData.startBtn, tag: 'button', callback: () => renderGamePage() });
     const logOutBtn = new NodeCreator({
       ...nodesData.logOutBtn,
       callback: () => this.state.next('loginData', () => null),
@@ -49,5 +49,10 @@ export default class StartScreenView extends View {
     this.state.subscribe(this.viewCreator, 'loginData', (data) => {
       greeting.setTextContent(`Hello, ${data?.join(' ')}`);
     });
+    this.state
+      .subscribe(this.viewCreator, 'collectionLoaded', (v) => {
+        startBtn.node.disabled = !v;
+      })
+      .next(() => false);
   }
 }

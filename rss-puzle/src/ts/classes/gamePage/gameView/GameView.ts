@@ -53,15 +53,13 @@ export default class GameView extends View {
   constructor(private gameData: Round) {
     super({ tag: 'div', css: ['game', 'drag-area'] });
     this.render();
-    // console.log(gameData);
-
     this.state.subscribe(this.viewCreator, 'nextLevel', () => this.nextLevel());
     this.state.subscribe(this.viewCreator, 'afterItemMoving', () => this.isStartBLockEmpty(), false).next(() => true);
     this.state.subscribe(this.viewCreator, 'showTranslationHint', (show) =>
-      show ? this.addNodeInside(this.translationHint) : this.translationHint.remove()
+      show ? this.translationHint.remove() : this.addNodeInside(this.translationHint)
     );
     this.state.subscribe(this.viewCreator, 'showAudioHint', (show) =>
-      show ? this.addNodeInside(this.audioHint) : this.audioHint.remove()
+      show ? this.audioHint.remove() : this.addNodeInside(this.audioHint)
     );
     this.state.next('unresolvedSentences', () => []);
   }
@@ -148,10 +146,10 @@ export default class GameView extends View {
       }
     }
     if (this.level >= 9) {
-      console.log('checked');
-
       this.state.next('addNextRoundButton', () => true);
+      this.state.next('saveCompletedGame', (v) => v);
     }
+    this.currentLvlPuzzles.forEach((puzzle) => puzzle.makeItemInactive());
     this.addNodeInside(this.translationHint);
     return true;
   }
@@ -162,6 +160,7 @@ export default class GameView extends View {
       this.state.next('unresolvedSentences', (v) => (v ? [...v, this.level] : []));
       if (this.level >= 9) {
         this.state.next('addNextRoundButton', () => true);
+        this.state.next('saveCompletedGame', (v) => v);
       }
       this.addNodeInside(this.translationHint);
     }

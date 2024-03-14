@@ -1,24 +1,13 @@
 import './gamePageView.scss';
-// import NodeParams from '../../interfaces/NodeParams';
-import wordCollection from '../../data/wordCollection';
-import HttpClient from '../common/httpClient/HttpClient';
 import View from '../common/view/VIew';
 import HeaderView from '../header/HeaderView';
 import GameView from './gameView/GameView';
 import { Round, WordCollection } from '../../interfaces/WordCollection';
 import StatisticsView from './statisticsView/StatisticsView';
-
-// const nodesData: Record<string, NodeParams> = {
-//   container: {
-//     tag: 'div',
-//     css: ['start-screen__container'],
-//   },
-// };
+import MenuView from '../menu/MenuView';
 
 export default class GamePageView extends View {
-  private httpClient = new HttpClient();
-
-  private currentDiffData: WordCollection | null = null;
+  private burgerMenu = new MenuView(this.collection);
 
   private activeViews: View[] = [];
 
@@ -26,7 +15,7 @@ export default class GamePageView extends View {
 
   private difficulty = 0;
 
-  constructor() {
+  constructor(private collection: WordCollection[]) {
     super({
       tag: 'div',
       css: ['game-page'],
@@ -37,13 +26,10 @@ export default class GamePageView extends View {
       this.state.next('gameRound', () => (data ? data.round : 0));
       return data;
     });
-    // this.state.next('gameRound', () => 20);
-    // this.state.next('gameDifficulty', () => 5);
     this.state.subscribe(this.viewCreator, 'gameDifficulty', (diff) => {
       if (typeof diff === 'number' && diff >= 0) {
-        if (diff > wordCollection.length - 1) {
-          this.difficulty = 0;
-          this.currentDiffData = null;
+        if (diff > this.collection.length - 1) {
+          this.state.next('gameDifficulty', () => 0);
         } else {
           this.difficulty = diff;
         }
@@ -57,46 +43,52 @@ export default class GamePageView extends View {
     });
     this.state.subscribe(this.viewCreator, 'showStatistics', () => this.renderStatistics(), false);
     this.state.subscribe(this.viewCreator, 'saveCompletedGame', () => this.saveCompletedGame(), false);
+    this.state.subscribe(
+      this.viewCreator,
+      'toggleBurgerMenu',
+      () => this.addNodeInside(new MenuView(this.collection)),
+      false
+    );
   }
 
   private nextRound() {
-    if (!this.currentDiffData) {
-      this.getData();
+    if (!this.collection) {
       return;
     }
-    if (this.round > this.currentDiffData.roundsCount - 1) {
-      this.currentDiffData = null;
+    if (this.round > this.collection[this.difficulty].roundsCount - 1) {
       this.state.next('gameDifficulty', (diff) => (typeof diff === 'number' ? diff + 1 : 0));
       this.state.next('gameRound', () => 0);
       return;
     }
-    this.renderGame(this.currentDiffData.rounds[this.round]);
-  }
-
-  private async getData() {
-    const data = await this.httpClient.fetch<WordCollection>(wordCollection[this.difficulty]);
-    this.currentDiffData = data;
-    this.nextRound();
+    this.renderGame(this.collection[this.difficulty].rounds[this.round]);
   }
 
   private renderGame(data: Round) {
-    if (!this.currentDiffData) return;
-    console.log('ROUND:', this.round);
-
+    if (!data) return;
     this.clearGamePage();
     this.activeViews.push(new HeaderView(), new GameView(data));
     this.addNodeInside(...this.activeViews);
   }
 
   private renderStatistics() {
-    if (!this.currentDiffData) return;
     this.clearGamePage();
-    this.activeViews.push(new StatisticsView(this.currentDiffData.rounds[this.round]));
+    this.activeViews.push(new StatisticsView(this.collection[this.difficulty].rounds[this.round]));
     this.addNodeInside(...this.activeViews);
   }
 
   private saveCompletedGame() {
     this.state.next('lastCompletedGame', () => ({ difficulty: this.difficulty, round: this.round }));
+    this.state.next('completedGames', (v) => {
+      const obj = v || {};
+      if (obj[this.difficulty]) {
+        obj[this.difficulty].push(this.round);
+      } else {
+        obj[this.difficulty] = [this.round];
+      }
+      console.log(obj);
+
+      return obj;
+    });
   }
 
   private clearGamePage() {

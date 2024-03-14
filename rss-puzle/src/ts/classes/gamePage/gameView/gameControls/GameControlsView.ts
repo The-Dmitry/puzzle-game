@@ -51,7 +51,6 @@ export default class GameControlsView extends View {
       ...nodesData.resultBtn,
       tag: 'button',
       callback: () => {
-        this.state.next('saveCompletedGame', (v) => v);
         this.state.next('showStatistics', (v) => v);
       },
     });
@@ -75,7 +74,6 @@ export default class GameControlsView extends View {
       stupid.node.disabled = true;
     });
     nextRound.setCallback(() => {
-      this.state.next('saveCompletedGame', (v) => v);
       this.state.next('gameRound', (v) => v! + 1);
     });
 
