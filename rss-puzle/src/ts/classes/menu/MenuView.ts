@@ -147,9 +147,9 @@ export default class MenuView extends View {
           this.state.next('gameRound', () => i);
         },
       });
-      // if (completedRounds.has(i)) {
-      //   btn.addClassName('round-button_completed');
-      // }
+      if (completedRounds.has(i)) {
+        btn.addClassName('round-button_completed');
+      }
       container.addInnerNode(btn);
     });
   }

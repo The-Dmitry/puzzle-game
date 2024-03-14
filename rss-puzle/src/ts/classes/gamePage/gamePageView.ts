@@ -85,8 +85,6 @@ export default class GamePageView extends View {
       } else {
         obj[this.difficulty] = [this.round];
       }
-      console.log(obj);
-
       return obj;
     });
   }
