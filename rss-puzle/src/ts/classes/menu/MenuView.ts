@@ -32,6 +32,7 @@ export default class MenuView extends View {
     super({
       tag: 'div',
       css: ['menu'],
+      callback: () => this.remove(),
     });
     this.render();
   }
@@ -41,11 +42,11 @@ export default class MenuView extends View {
       tag: 'button',
       css: ['menu-close'],
       text: 'close-menu',
-      callback: () => this.viewCreator.remove(),
     });
     const container = new NodeCreator({
       tag: 'div',
       css: ['menu-container'],
+      callback: (e) => e.stopPropagation(),
     });
     container.addInnerNode(
       this.translationHint(),

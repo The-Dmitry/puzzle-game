@@ -11,9 +11,16 @@
 .puzzle-row {
   width: 60vw;
   height: 3vw;
-  border: 0.5px solid rgb(255, 255, 255);
+  // border: 0.5px solid rgb(255, 255, 255);
+  box-shadow: inset 0px 0px 0px 1px rgb(255, 255, 255);
   margin: 0 auto;
   display: flex;
+  text-align: center;
+}
+
+.puzzle-row_text {
+  justify-content: center;
+  align-items: center;
 }
 
 .puzzle-item {
@@ -26,7 +33,7 @@
   align-items: center;
   height: 3vw;
   font-weight: 400;
-  background-color: rgb(51, 130, 122);
+  background-color: rgb(50, 129, 121);
   border: 1px solid rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   font-weight: 600;
@@ -38,7 +45,15 @@
   background-position-x: calc(((0.6vw * var(--bgShift) * -1)));
   font-size: 2vw;
   background-repeat: no-repeat;
-  transition: background-image linear 10s;
+  transition: background-image linear 1s;
+}
+
+.puzzle-item_hide {
+  transition: all linear 0.3s;
+  color: transparent;
+  border: none;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0);
+  text-stroke: 1px rgba(255, 255, 255, 0);
 }
 
 .puzzle-item_correct {
@@ -101,6 +116,7 @@
 }
 
 .game-controls {
+  order: 3;
   display: flex;
   justify-content: center;
   gap: 20px;

@@ -267,4 +267,8 @@ export default class PuzzleItemView extends View {
       this.makeItemInactive();
     }
   }
+
+  public hideTextAndBorder() {
+    this.viewCreator.addClassName('puzzle-item_hide')
+  }
 }

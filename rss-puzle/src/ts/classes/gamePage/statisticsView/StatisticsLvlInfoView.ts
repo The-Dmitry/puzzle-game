@@ -33,7 +33,11 @@ export default class StatisticsLvlInfoView extends View {
       tag: 'div',
       css: ['statistics__image'],
     });
-    image.node.style.backgroundImage = `url(${URL_TO_IMG}${data.cutSrc})`;
+    const img = new Image();
+    img.src = `${URL_TO_IMG}${data.cutSrc}`;
+    img.onload = () => {
+      image.node.style.backgroundImage = `url(${URL_TO_IMG}${data.cutSrc})`;
+    };
     this.addNodeInside(image, author, name, year);
   }
 }

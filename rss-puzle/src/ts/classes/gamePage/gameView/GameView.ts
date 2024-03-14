@@ -156,12 +156,12 @@ export default class GameView extends View {
       return result;
     }
     this.state.next('blockStupidButton', () => true);
-    if (this.level >= 9) {
-      this.state.next('addNextRoundButton', () => true);
-      this.state.next('saveCompletedGame', (v) => v);
-    }
+
     this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
     this.addNodeInside(this.translationHint);
+    if (this.level >= 9) {
+      this.onCompleteRound();
+    }
     return result;
   }
 
@@ -169,15 +169,29 @@ export default class GameView extends View {
     if (this.currentLvlPuzzles.length) {
       this.currentLvlPuzzles.forEach((puzzle) => puzzle.autocomplete(this.resultBlock?.viewCreator.node));
       this.state.next('unresolvedSentences', (v) => (v ? [...v, this.level] : []));
-      if (this.level >= 9) {
-        this.state.next('addNextRoundButton', () => true);
-        this.state.next('saveCompletedGame', (v) => v);
-      }
       this.addNodeInside(this.translationHint);
+      if (this.level >= 9) {
+        this.onCompleteRound();
+      }
     }
   }
 
   private makeActiveRow() {
     this.puzzleRows.forEach((row, i) => row.makeActive(i === this.level));
+  }
+
+  private onCompleteRound() {
+    this.state.next('addNextRoundButton', () => true);
+    this.state.next('saveCompletedGame', (v) => v);
+    setTimeout(() => {
+      this.allPuzzles.forEach((puzzle) => puzzle.hideTextAndBorder());
+      this.showImageInfo();
+    }, 3000);
+  }
+
+  private showImageInfo() {
+    const { author, name, year } = this.gameData.levelData;
+    this.startBlock.addClassName('puzzle-row_text');
+    this.startBlock.setTextContent(`${author} - ${name} (${year})`);
   }
 }
