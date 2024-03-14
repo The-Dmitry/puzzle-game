@@ -8,10 +8,19 @@ const nodesData: Record<string, NodeParams> = {
     tag: 'div',
     css: ['start-screen__container'],
   },
-  greeting: {
+  title: {
     tag: 'h1',
+    css: ['start-screen__title'],
+    text: 'english puzzle',
+  },
+  greeting: {
+    tag: 'h2',
     css: ['start-screen__greeting'],
-    text: 'adsdas',
+  },
+  description: {
+    tag: 'p',
+    css: ['start-screen__description'],
+    text: 'Click on words, collect phrases. You can drag and drop words. Select tooltip in the menu',
   },
   startBtn: {
     tag: 'button',
@@ -36,6 +45,8 @@ export default class StartScreenView extends View {
 
   private render(renderGamePage: () => void) {
     const container = new NodeCreator({ ...nodesData.container });
+    const title = new NodeCreator({ ...nodesData.title });
+    const description = new NodeCreator({ ...nodesData.description });
     const greeting = new NodeCreator({ ...nodesData.greeting });
     const startBtn = new NodeCreator({ ...nodesData.startBtn, tag: 'button', callback: () => renderGamePage() });
     const logOutBtn = new NodeCreator({
@@ -43,7 +54,7 @@ export default class StartScreenView extends View {
       callback: () => this.state.next('loginData', () => null),
     });
 
-    container.addInnerNode(greeting, startBtn, logOutBtn);
+    container.addInnerNode(title, greeting, description, startBtn, logOutBtn);
     this.viewCreator.addInnerNode(container);
 
     this.state.subscribe(this.viewCreator, 'loginData', (data) => {
