@@ -183,6 +183,7 @@ export default class GameView extends View {
   private onCompleteRound() {
     this.state.next('addNextRoundButton', () => true);
     this.state.next('saveCompletedGame', (v) => v);
+    this.state.next('closeBurger', (v) => !v);
     setTimeout(() => {
       this.allPuzzles.forEach((puzzle) => puzzle.hideTextAndBorder());
       this.showImageInfo();

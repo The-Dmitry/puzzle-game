@@ -1,0 +1,93 @@
+.puzzle-item {
+  cursor: pointer;
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: calc(var(--row-width) / 38);
+  color: rgb(255, 255, 255);
+  background-color: rgb(56 101 140);
+  border: 1px solid rgb(255, 255, 255);
+  text-shadow:
+    2px 0 2px #000000,
+    0 1px 1px #000000,
+    -1px 0 1px #000000,
+    0 -1px 1px #000000;
+  box-sizing: border-box;
+  height: calc((var(--row-width) / 18));
+  width: calc(((var(--row-width) / 100) * var(--width)));
+  background-size: var(--row-width) calc(var(--row-width) / 18 * 10);
+  background-position-x: calc((((var(--row-width) / 100) * var(--bgShift) * -1)));
+  background-repeat: no-repeat;
+  transition: background-image linear 1s;
+  @media (hover: hover) {
+    &:hover {
+      border: 1px solid rgb(230, 187, 14);
+    }
+  }
+}
+
+.puzzle-item_active {
+  pointer-events: auto;
+}
+
+.puzzle-item_hide {
+  transition: all linear 0.3s;
+  color: transparent;
+  border: none;
+  text-shadow: none;
+}
+
+.puzzle-item_correct {
+  pointer-events: none;
+  animation: correct 3s linear;
+}
+
+.puzzle-item_incorrect {
+  pointer-events: none;
+  animation: incorrect 3s linear;
+}
+
+@keyframes correct {
+  15% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  30% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+  45% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  60% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+  75% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
+  }
+  90% {
+    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
+  }
+}
+
+@keyframes incorrect {
+  15% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  30% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
+  45% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  60% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
+  75% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
+  }
+  90% {
+    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
+  }
+}

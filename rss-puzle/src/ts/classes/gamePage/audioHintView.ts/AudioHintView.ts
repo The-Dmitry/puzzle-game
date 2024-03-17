@@ -1,3 +1,4 @@
+import './audioHintView.scss';
 import View from '../../common/view/VIew';
 
 const URL_TO_AUDIO = 'https://github.com/rolling-scopes-school/rss-puzzle-data/raw/main/';
@@ -7,7 +8,6 @@ export default class AudioHintView extends View {
     super({
       tag: 'button',
       css: ['audio-hint'],
-      text: 'play audio',
       callback: () => this.playAudio(),
     });
   }

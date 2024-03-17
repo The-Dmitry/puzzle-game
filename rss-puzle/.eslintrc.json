@@ -20,7 +20,7 @@
   "root": true,
   "rules": {
     // "prettier/prettier": "error",
-    "no-console": "warn",
+    // "no-console": "warn",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-explicit-any": "error",

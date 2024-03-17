@@ -1,35 +1,112 @@
 .menu {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.782);
+  width: 300px;
+  height: 100%;
+  background-color: rgb(20 124 153 / 99%);
+  padding: 70px 10px 0 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-evenly;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.menu_open-animation {
+  animation: from-right 0.3s linear;
+}
+
+.menu_close-animation {
+  animation: from-right 0.3s linear reverse;
+}
+
+@keyframes from-right {
+  0% {
+    transform: translateX(100%);
+  }
+}
+
+.menu-title {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.menu__button {
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  transition: border-color linear 0.3s;
+}
+
+.menu-button_active {
+  border: 3px solid rgb(10, 192, 10);
+}
+
+.menu__button:nth-child(1) {
+  background: url(/src/assets/images/text-hint.png) center/ cover no-repeat;
+}
+.menu__button:nth-child(2) {
+  background: url(/src/assets/images/sound.png) center/ cover no-repeat;
+}
+.menu__button:nth-child(3) {
+  background: url(/src/assets/images/bg-image.jpg) center/ cover no-repeat;
 }
 
 .menu-close {
+  cursor: pointer;
   position: absolute;
-  top: 3%;
-  right: 3%;
-}
-
-.menu-container {
-  width: 70%;
-  height: 70%;
-  background-color: aliceblue;
-  border-radius: 10px;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    transform: rotate(45deg);
+  }
+  &::before {
+    transform: rotate(-45deg);
+  }
 }
 
 .difficulty-selector {
-  display: flex;
+  flex: 1 1 auto;
 }
 
-.level-selector {
-  display: flex;
-  flex-direction: column;
+.level-selector,
+.round-selector {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+}
+
+.difficulty-button,
+.round-button {
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 1.5rem;
+}
+
+.difficulty-button__active {
+  background-color: rgb(255, 204, 0);
 }
 
 .round-button_completed {
-  background-color: green;
+  background-color: rgb(0, 205, 0);
 }

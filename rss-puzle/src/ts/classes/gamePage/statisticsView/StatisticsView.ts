@@ -13,8 +13,6 @@ export default class StatisticsView extends View {
       tag: 'div',
       css: ['statistics'],
     });
-    console.log(data);
-
     this.state.subscribe(this.viewCreator, 'unresolvedSentences', (v) => {
       if (!Array.isArray(v)) return;
       this.unresolvedSentences = v;
@@ -23,30 +21,34 @@ export default class StatisticsView extends View {
   }
 
   private render() {
-    const toRender = [];
+    const toRender: NodeCreator[] = [];
+    const container = new NodeCreator({
+      tag: 'div',
+      css: ['group-container'],
+    });
     const info = new StatisticsLvlInfoView(this.data.levelData);
-    toRender.push(info);
+    toRender.push(info.viewCreator);
     if (this.unresolvedSentences.length !== 10) {
       const uKnow = new StatisticsGroupView(
-        'You Know',
+        'You Know:',
         this.data.words.filter((_, i) => !this.unresolvedSentences.includes(i))
       );
-      toRender.push(uKnow);
+      container.addInnerNode(uKnow.viewCreator);
     }
     if (this.unresolvedSentences.length !== 0) {
       const uDontKnow = new StatisticsGroupView(
-        "You don't Know",
+        "You don't Know:",
         this.data.words.filter((_, i) => this.unresolvedSentences.includes(i))
       );
-      toRender.push(uDontKnow);
+      container.addInnerNode(uDontKnow.viewCreator);
     }
     const btn = new NodeCreator({
       tag: 'button',
-      text: 'Next game',
+      text: 'Continue',
+      css: ['statistics-button'],
       callback: () => this.state.next('gameRound', (v) => v! + 1),
     });
-    toRender.push(btn);
-
+    toRender.push(container, btn);
     this.addNodeInside(...toRender);
   }
 }

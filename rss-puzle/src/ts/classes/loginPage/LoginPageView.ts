@@ -36,8 +36,8 @@ export default class LoginPageView extends View {
 
   private generateLoginForm() {
     const container = new NodeCreator({ ...nodesData.loginContainer });
-    const nameInput = new LoginInputView('first name', 3, 'validFirstName');
-    const surnameInput = new LoginInputView('surname', 4, 'validSurname');
+    const nameInput = new LoginInputView('First name', 3, 'validFirstName');
+    const surnameInput = new LoginInputView('Surname', 4, 'validSurname');
     const submit = new NodeCreator({
       ...nodesData.submitBtn,
       tag: 'button',

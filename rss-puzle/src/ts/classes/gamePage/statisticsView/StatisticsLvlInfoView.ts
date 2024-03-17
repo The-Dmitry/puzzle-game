@@ -14,20 +14,10 @@ export default class StatisticsLvlInfoView extends View {
   }
 
   private render(data: LevelData) {
-    const author = new NodeCreator({
+    const text = new NodeCreator({
       tag: 'p',
-      css: ['statistics__author'],
-      text: `Author: ${data.author}`,
-    });
-    const name = new NodeCreator({
-      tag: 'p',
-      css: ['statistics__name'],
-      text: `Painting title:${data.name}`,
-    });
-    const year = new NodeCreator({
-      tag: 'p',
-      css: ['statistics__year'],
-      text: `Year: ${data.year}`,
+      css: ['statistics__text'],
+      text: `${data.author} - ${data.name}. (${data.year})`,
     });
     const image = new NodeCreator({
       tag: 'div',
@@ -38,6 +28,6 @@ export default class StatisticsLvlInfoView extends View {
     img.onload = () => {
       image.node.style.backgroundImage = `url(${URL_TO_IMG}${data.cutSrc})`;
     };
-    this.addNodeInside(image, author, name, year);
+    this.addNodeInside(image, text);
   }
 }

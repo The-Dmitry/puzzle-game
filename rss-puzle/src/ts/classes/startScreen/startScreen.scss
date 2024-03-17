@@ -1,6 +1,57 @@
 .start-screen {
-  height: 100%;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url(/src/assets/images/bg-image.jpg) center/ cover no-repeat;
+  color: white;
+  padding-inline: 10px;
+}
+
+.start-screen__container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 400px));
+  row-gap: 30px;
+}
+
+.start-screen__title {
+  font-size: 5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  text-shadow: 1px 1px 1px #000;
+  grid-column: span 2;
+  text-align: center;
+}
+
+.start-screen__greeting {
+  grid-column: span 2;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.start-screen__description {
+  grid-column: span 2;
+  text-align: center;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.start-screen-button {
+  cursor: pointer;
+  width: min(150px, 200px);
+  line-height: 2rem;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  justify-self: center;
+  border-radius: 10px;
+  background-color: #00ae93;
+  transition: all linear 0.3s;
+  border-color: transparent;
+  color: white;
+  @media (hover: hover) {
+    &:hover {
+      background-color: #00edca;
+      color: black;
+    }
+  }
 }

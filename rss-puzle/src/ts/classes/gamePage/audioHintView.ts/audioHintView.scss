@@ -1,0 +1,29 @@
+.audio-hint {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background: url(/src/assets/images/sound.png) center / 100% no-repeat;
+  border: none;
+}
+
+.game .audio-hint {
+  position: absolute;
+  top: 55px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  transform: translateX(-50%);
+}
+
+.audio-hint {
+  &:disabled {
+    cursor: auto;
+    animation: pulse 1s linear infinite;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}

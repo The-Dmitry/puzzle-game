@@ -1,6 +1,17 @@
 @import url('./scss/normalize.scss');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300..800&display=swap');
 
 html,
 body {
-  height: 100dvh;
+  min-height: 100dvh;
+}
+
+html {
+  font-size: 15px;
+}
+
+body {
+  font-family: 'Merriweather Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

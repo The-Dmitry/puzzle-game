@@ -1,17 +1,32 @@
+.game-page {
+  background: url(/src/assets/images/bg-image.jpg) center/ cover no-repeat;
+}
+
 .game {
   user-select: none;
   flex: 1 1 auto;
-  background-color: rgb(128, 137, 141);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  gap: 20px;
+  padding-top: 95px;
   width: 100%;
+  background-color: rgb(93 142 125);
+  --row-width: 60vw;
+  @media (max-width: 1400px) {
+    --row-width: 70vw;
+  }
+  @media (max-width: 1200px) {
+    --row-width: 80vw;
+  }
+  @media (max-width: 1000px) {
+    --row-width: 95vw;
+  }
 }
 
 .puzzle-row {
-  width: 60vw;
-  height: 3vw;
-  // border: 0.5px solid rgb(255, 255, 255);
+  width: calc(var(--row-width));
+  height: calc((var(--row-width) / 18));
   box-shadow: inset 0px 0px 0px 1px rgb(255, 255, 255);
   margin: 0 auto;
   display: flex;
@@ -23,95 +38,8 @@
   align-items: center;
 }
 
-.puzzle-item {
-  cursor: pointer;
-  // position: relative;
-  pointer-events: none;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3vw;
-  font-weight: 400;
-  background-color: rgb(50, 129, 121);
-  border: 1px solid rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  font-weight: 600;
-  -webkit-text-stroke: 1px rgb(255, 255, 255);
-  text-stroke: 1px rgb(255, 255, 255);
-  box-sizing: border-box;
-  width: calc(0.6vw * var(--width));
-  background-size: 60vw 30vw;
-  background-position-x: calc(((0.6vw * var(--bgShift) * -1)));
-  font-size: 2vw;
-  background-repeat: no-repeat;
-  transition: background-image linear 1s;
-}
-
-.puzzle-item_hide {
-  transition: all linear 0.3s;
-  color: transparent;
-  border: none;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0);
-  text-stroke: 1px rgba(255, 255, 255, 0);
-}
-
-.puzzle-item_correct {
-  animation: correct 3s linear;
-}
-
-.puzzle-item_incorrect {
-  animation: incorrect 3s linear;
-}
-
-@keyframes correct {
-  15% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
-  }
-  30% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
-  }
-  45% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
-  }
-  60% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
-  }
-  75% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0.468);
-  }
-  90% {
-    box-shadow: inset 0px 0px 0px 100px rgba(102, 255, 0, 0);
-  }
-}
-
-@keyframes incorrect {
-  15% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
-  }
-  30% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
-  }
-  45% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
-  }
-  60% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
-  }
-  75% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0.483);
-  }
-  90% {
-    box-shadow: inset 0px 0px 0px 100px rgba(255, 0, 0, 0);
-  }
-}
-
-.puzzle-item_active {
-  pointer-events: auto;
-}
-
 .placeholder {
-  height: 3vw;
+  height: calc(1vw * (var(--row-width) / 18));
   box-sizing: border-box;
 }
 
@@ -124,17 +52,28 @@
 
 .translation-hint {
   position: absolute;
-  top: 60px;
+  padding: 0 20px;
+  margin: 0;
+  top: 105px;
   left: 50%;
+  width: calc(100% - 40px);
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
   transform: translateX(-50%);
+  text-shadow:
+    2px 0 2px #000000,
+    0 1px 1px #000000,
+    -1px 0 1px #000000,
+    0 -1px 1px #000000;
 }
 
-.audio-hint {
-}
-
-.game .audio-hint {
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+.start-zone {
+  font-size: calc(var(--row-width) / 45);
+  color: white;
+  text-shadow:
+    2px 0 2px #000000,
+    0 1px 1px #000000,
+    -1px 0 1px #000000,
+    0 -1px 1px #000000;
 }

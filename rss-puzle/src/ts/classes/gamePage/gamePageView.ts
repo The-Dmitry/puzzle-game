@@ -7,8 +7,6 @@ import StatisticsView from './statisticsView/StatisticsView';
 import MenuView from '../menu/MenuView';
 
 export default class GamePageView extends View {
-  private burgerMenu = new MenuView(this.collection);
-
   private activeViews: View[] = [];
 
   private round = 0;

@@ -51,7 +51,7 @@ export default class LoginInputView extends View {
       return;
     }
     if (text && !/^[a-zA-Z-^]+$/.test(text)) {
-      notice.setTextContent('Use only english characters');
+      notice.setTextContent('Use only english letters');
       this.state.next(this.actionName as keyof StateParams, () => null);
       return;
     }

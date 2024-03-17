@@ -1,6 +1,97 @@
 .login-page {
-  height: 100%;
+  min-height: 100dvh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url(/src/assets/images/bg-image.jpg) center/ cover no-repeat;
+}
+
+.login-page__container {
+  width: min(600px, 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 45px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(1.6px);
+  -webkit-backdrop-filter: blur(1.6px);
+  border-radius: 20px;
+  padding-block: 100px;
+  transition: all linear 0.7s;
+  animation: start-opacity linear 2s;
+  margin-inline: 10px;
+  @media (hover: hover) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+  }
+}
+
+@keyframes start-opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.field {
+  position: relative;
+  width: min(300px, 100%);
+}
+
+.login-input {
+  width: calc(100% - 10px);
+  line-height: 40px;
+  background: rgba(255, 255, 255, 0.612);
+  color: black;
+  border-radius: 15px;
+  padding-left: 15px;
+  margin-left: -5px;
+  font-size: 1.5rem;
+  border: none;
+  &::placeholder {
+    line-height: inherit;
+    color: rgba(0, 0, 0, 0.804);
+  }
+}
+
+.login-button {
+  cursor: pointer;
+  width: min(200px, 100%);
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  background-color: rgb(0 193 104);
+  color: white;
+  transition: all linear 0.3s;
+  border-color: transparent;
+  &:disabled {
+    pointer-events: none;
+    background-color: rgba(240, 248, 255, 0.629);
+    color: black;
+  }
+  @media (hover: hover) {
+    &:hover {
+      border-color: black;
+      background-color: rgb(0, 141, 75);
+    }
+  }
+}
+
+.login-notice {
+  position: absolute;
+  top: 25px;
+  font-size: 1.4rem;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  text-align: center;
 }

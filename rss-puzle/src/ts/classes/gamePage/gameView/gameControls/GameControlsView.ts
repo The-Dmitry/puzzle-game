@@ -1,3 +1,4 @@
+import './gameControlsView.scss';
 import NodeParams from '../../../../interfaces/NodeParams';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/VIew';

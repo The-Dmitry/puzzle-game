@@ -1,3 +1,4 @@
+import './puzzleItemView.scss';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/VIew';
 
@@ -269,6 +270,6 @@ export default class PuzzleItemView extends View {
   }
 
   public hideTextAndBorder() {
-    this.viewCreator.addClassName('puzzle-item_hide')
+    this.viewCreator.addClassName('puzzle-item_hide');
   }
 }

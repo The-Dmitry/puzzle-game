@@ -32,16 +32,19 @@ export default class MainView extends View {
       }
       this.render(new StartScreenView(() => this.render(new GamePageView(this.collection))));
     });
-    // this.render(new GamePageView());
   }
 
   private render(page: View) {
+    if (this.collection.length) {
+      this.state.next('collectionLoaded', () => true);
+    }
     this.activePage?.remove();
     this.activePage = page;
     this.addNodeInside(this.activePage);
   }
 
-  private async getAllJson(urls: string[]) {
+  public async getAllJson(urls: string[]) {
+    this.state.next('collectionLoaded', () => false);
     const result = await Promise.all(urls.map((url) => this.httpClient.fetch<WordCollection>(url)));
     this.collection = result;
     this.state.next('collectionLoaded', () => true);

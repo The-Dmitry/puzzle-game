@@ -24,12 +24,12 @@ const nodesData: Record<string, NodeParams> = {
   },
   startBtn: {
     tag: 'button',
-    css: ['start-screen__start'],
+    css: ['start-screen-button', 'start-screen-button__start'],
     text: 'start',
   },
   logOutBtn: {
     tag: 'button',
-    css: ['start-screen__log-out'],
+    css: ['start-screen-button', 'start-screen-button__log-out'],
     text: 'log out',
   },
 };
@@ -58,12 +58,10 @@ export default class StartScreenView extends View {
     this.viewCreator.addInnerNode(container);
 
     this.state.subscribe(this.viewCreator, 'loginData', (data) => {
-      greeting.setTextContent(`Hello, ${data?.join(' ')}`);
+      greeting.setTextContent(`Hello, ${data?.join(' ')}!`);
     });
-    this.state
-      .subscribe(this.viewCreator, 'collectionLoaded', (v) => {
-        startBtn.node.disabled = !v;
-      })
-      .next(() => false);
+    this.state.subscribe(this.viewCreator, 'collectionLoaded', (v) => {
+      startBtn.node.disabled = !v;
+    });
   }
 }

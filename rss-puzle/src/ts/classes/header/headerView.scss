@@ -1,6 +1,62 @@
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
   height: 50px;
   background-color: rgb(0, 149, 255);
   width: 100%;
+}
+
+.header__button {
+  position: relative;
+  cursor: pointer;
+  width: 40px;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 0;
+}
+
+.burger-button {
+  justify-self: right;
+  margin-right: 10px;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+  }
+  &::after {
+    top: 20%;
+  }
+  &::before {
+    bottom: 20%;
+  }
+}
+
+.burger-button > span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+}
+
+.logout-button {
+  margin-left: 10px;
+  background: url(/src/assets/images/logout.png) center / 90% no-repeat;
+}
+
+.header > .mode {
+  justify-self: center;
+  color: white;
+  font-size: 1.8rem;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

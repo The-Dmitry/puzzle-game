@@ -1,0 +1,21 @@
+.game-controls_button {
+  cursor: pointer;
+  text-transform: capitalize;
+  line-height: 2rem;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  background-color: #045ba5;
+  transition: all linear 0.3s;
+  border-color: transparent;
+  color: white;
+  width: min(150px, 200px);
+  @media (hover: hover) {
+    &:hover {
+      background-color: #1d46b6;
+    }
+  }
+  &:disabled {
+    cursor: auto;
+    background-color: #5d7ac8;
+  }
+}

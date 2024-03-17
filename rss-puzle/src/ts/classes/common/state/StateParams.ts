@@ -23,6 +23,7 @@ interface Params {
   toggleBurgerMenu: boolean;
   completedGames: Record<string, number[]>;
   blockStupidButton: boolean;
+  closeBurger: boolean;
 }
 
 type ValueOrNull<T> = {
