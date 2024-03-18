@@ -60,6 +60,7 @@ export default class MenuView extends View {
       this.viewCreator.removeCLassName('menu_open-animation');
     }, 'animationend');
     this.render();
+    document.body.classList.add('block');
     this.state.subscribe(this.viewCreator, 'closeBurger', () => this.closeMenu(), false);
   }
 
@@ -75,6 +76,7 @@ export default class MenuView extends View {
   }
 
   private closeMenu() {
+    document.body.classList.remove('block');
     this.viewCreator.addClassName('menu_close-animation');
     this.viewCreator.setCallback(() => {
       this.viewCreator.remove();

@@ -12,6 +12,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(200px, 400px));
   row-gap: 30px;
+  max-height: 650px;
 }
 
 .start-screen__title {

@@ -1,12 +1,13 @@
 .menu {
   position: fixed;
+  overflow-x: auto;
   top: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   width: 300px;
   height: 100%;
   background-color: rgb(20 124 153 / 99%);
-  padding: 70px 10px 0 10px;
+  padding: 70px 10px 70px 10px;
   display: flex;
   justify-content: space-evenly;
   align-content: flex-start;
@@ -84,6 +85,7 @@
 
 .difficulty-selector {
   flex: 1 1 auto;
+  padding-bottom: 90px;
 }
 
 .level-selector,
