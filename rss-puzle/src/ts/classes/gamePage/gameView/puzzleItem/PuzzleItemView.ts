@@ -143,7 +143,7 @@ export default class PuzzleItemView extends View {
   }
 
   private onMouseup(e: Event | TouchEvent) {
-    if (new Date().getTime() - this.clickTime < 100) {
+    if (new Date().getTime() - this.clickTime < 300) {
       this.onClick(this.viewCreator.node);
       this.smoothMovement();
       this.smoothlyHidePlaceholder();

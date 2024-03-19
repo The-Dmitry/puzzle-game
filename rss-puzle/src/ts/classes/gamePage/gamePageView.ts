@@ -21,7 +21,7 @@ export default class GamePageView extends View {
 
     this.state.next('lastCompletedGame', (data) => {
       this.state.next('gameDifficulty', () => (data ? data.difficulty : 0));
-      this.state.next('gameRound', () => (data ? data.round : 0));
+      this.state.next('gameRound', () => (data ? data.round + 1 : 0));
       return data;
     });
     this.state.subscribe(this.viewCreator, 'gameDifficulty', (diff) => {
