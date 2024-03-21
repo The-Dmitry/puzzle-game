@@ -4,7 +4,7 @@ import View from '../../common/view/View';
 export class HeaderLinkView extends View {
   private headerLinks: HeaderLinkView[] = [];
 
-  constructor({ text, href }: HeaderLinkParams, links: HeaderLinkView[]) {
+  constructor({ text, href }: HeaderLinkParams) {
     super({
       tag: 'a',
       css: ['header-link'],
@@ -12,16 +12,15 @@ export class HeaderLinkView extends View {
       href,
       callback: (e) => this.onClick(e),
     });
-    this.headerLinks = links;
   }
 
   private onClick(e: Event) {
     e.preventDefault();
+    window.history.pushState(null, '', (e.target as HTMLAnchorElement).href);
     this.setActiveStyle();
   }
 
   public setActiveStyle() {
-    this.headerLinks.forEach((link) => link.removeActiveStyle());
     this.viewCreator.addClassName('header-link_active');
   }
 

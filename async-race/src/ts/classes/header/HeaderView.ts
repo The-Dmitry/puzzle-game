@@ -1,19 +1,22 @@
 import { HeaderLinkParams } from '../../types/HeaderLinkParams';
 import View from '../common/view/View';
 import { HeaderLinkView } from './headerLinkView/HeaderLinkView';
+import { Routes } from '../common/router/Routes';
 
 const linksData: HeaderLinkParams[] = [
   {
     text: 'garage',
-    href: '/garage',
+    href: Routes.garage,
   },
   {
     text: 'winners',
-    href: '/winners',
+    href: Routes.winners,
   },
 ];
 
 export default class HeaderView extends View {
+  private links: Map<string, HeaderLinkView> = new Map();
+
   constructor() {
     super({
       tag: 'header',
@@ -23,16 +26,18 @@ export default class HeaderView extends View {
   }
 
   private render() {
-    const links: HeaderLinkView[] = [];
     linksData.forEach((data) => {
-      const link = new HeaderLinkView(data, links);
-      links.push(link);
+      const link = new HeaderLinkView(data);
+      this.addNodeInside(link.viewCreator);
+      this.links.set(data.href, link);
     });
-    this.addNodeInside(...links);
+    console.log(this.links);
   }
 
-  private removeLinkActiveStyle() {
-    const links: HeaderLinkView[] = [];
-    links.forEach((link) => link.removeActiveStyle());
+  public handleLinkStyle(href: string) {
+    this.links.forEach((link) => link.removeActiveStyle());
+    if (href) {
+      this.links.get(href)?.setActiveStyle();
+    }
   }
 }

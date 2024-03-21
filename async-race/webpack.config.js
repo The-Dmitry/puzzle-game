@@ -61,5 +61,6 @@ module.exports = ({ dev }) => ({
     open: true,
     port: 8080,
     static: './dist',
+    historyApiFallback: true,
   },
 });

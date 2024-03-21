@@ -1,11 +1,11 @@
 import NodeCreator from '../common/nodeCreator/NodeCreator';
 import View from '../common/view/View';
 
-export default class WinnersView extends View {
+export default class NotFoundView extends View {
   constructor() {
     super({
       tag: 'div',
-      css: ['winners'],
+      css: ['garage'],
     });
     this.render();
   }
@@ -13,7 +13,7 @@ export default class WinnersView extends View {
   private render() {
     const text = new NodeCreator({
       tag: 'p',
-      text: 'WINNERS',
+      text: 'NOT FOUND',
     });
     this.addNodeInside(text);
   }

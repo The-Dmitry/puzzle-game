@@ -1,3 +1,3 @@
 import NodeParams from '../interfaces/NodeParams';
 
-export type HeaderLinkParams = Pick<NodeParams, 'text' | 'href'>;
+export type HeaderLinkParams = Required<Pick<NodeParams, 'text' | 'href'>>;
