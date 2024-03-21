@@ -21,6 +21,7 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
     if (params.text) this.setTextContent(params.text);
     if (params.callback) this.setCallback(params.callback);
     if (params.id) this.setId(params.id);
+    if (params.href) this.setHref(params.href);
     return this.node;
   }
 
@@ -53,6 +54,12 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
 
   public setAttribute(name: string, type: string = 'for') {
     this.nodeElement.setAttribute(type, name);
+  }
+
+  public setHref(path: string) {
+    if (this.nodeElement instanceof HTMLAnchorElement) {
+      this.nodeElement.href = path;
+    }
   }
 
   public addInnerNode(...list: NodeCreator[]) {

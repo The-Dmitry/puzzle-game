@@ -5,4 +5,5 @@ export default interface NodeParams<T = keyof HTMLElementTagNameMap> {
   callback?: (e: Event) => void;
   id?: string;
   subscription?: () => void;
+  href?: string;
 }
