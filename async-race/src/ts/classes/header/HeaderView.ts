@@ -1,3 +1,4 @@
+import './headerView.scss';
 import { HeaderLinkParams } from '../../types/HeaderLinkParams';
 import View from '../common/view/View';
 import { HeaderLinkView } from './headerLinkView/HeaderLinkView';
@@ -31,7 +32,6 @@ export default class HeaderView extends View {
       this.addNodeInside(link.viewCreator);
       this.links.set(data.href, link);
     });
-    console.log(this.links);
   }
 
   public handleLinkStyle(href: string) {

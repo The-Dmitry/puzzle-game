@@ -3,7 +3,7 @@ import NodeCreator from '../nodeCreator/NodeCreator';
 import Observable from './Observable';
 
 export default class State {
-  private static instanceEventEmitter = new State();
+  private static instanceState = new State();
 
   private observables = new Map();
 
@@ -13,7 +13,7 @@ export default class State {
   }
 
   public static getInstance() {
-    return this.instanceEventEmitter;
+    return this.instanceState;
   }
 
   public subscribe<T extends keyof StateParams>(

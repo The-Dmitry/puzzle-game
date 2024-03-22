@@ -5,6 +5,13 @@ body {
   min-height: 100dvh;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(89, 125, 125);
+  padding-inline: 20px;
+}
+
 .locked {
   overflow: hidden;
 }

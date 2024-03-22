@@ -1,5 +1,6 @@
 import NodeCreator from '../common/nodeCreator/NodeCreator';
 import View from '../common/view/View';
+import TrackView from './trackView/TrackView';
 
 export default class GarageView extends View {
   constructor() {
@@ -7,14 +8,10 @@ export default class GarageView extends View {
       tag: 'div',
       css: ['garage'],
     });
-    this.render()
+    this.render();
   }
 
   private render() {
-    const text = new NodeCreator({
-      tag: 'p',
-      text: 'GARAGE'
-    })
-    this.addNodeInside(text)
+    this.addNodeInside(new TrackView());
   }
 }

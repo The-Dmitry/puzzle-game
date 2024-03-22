@@ -5,12 +5,7 @@
     "node": true
   },
   "plugins": ["@typescript-eslint", "prettier"],
-  "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base",
-    // "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["airbnb-base", "airbnb-typescript/base", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",

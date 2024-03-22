@@ -1,0 +1,17 @@
+.header {
+  background-color: rgb(189, 118, 74);
+  display: flex;
+  justify-content: center;
+  gap: 20%;
+}
+
+.header-link {
+  font-size: 1.5rem;
+  color: white;
+  text-transform: capitalize;
+  text-decoration: none;
+}
+
+.header-link_active {
+  text-decoration: underline;
+}

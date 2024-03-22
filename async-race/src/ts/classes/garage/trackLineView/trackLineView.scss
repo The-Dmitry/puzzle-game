@@ -1,0 +1,26 @@
+.track-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  height: 50px;
+  // width: 100%;
+  margin-top: 40px;
+  background-color: rgba(0, 0, 0, 0.646);
+}
+.track-line_car {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: var(--shift);
+  filter: brightness(2);
+  svg {
+    width: 70px;
+  }
+}
+
+.track-line__controls {
+  position: absolute;
+  top: -30px;
+}
