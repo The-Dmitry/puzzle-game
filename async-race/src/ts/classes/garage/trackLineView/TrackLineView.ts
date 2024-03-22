@@ -13,6 +13,8 @@ export default class TrackLineView extends View {
 
   private isRace = false;
 
+  private width = 0;
+
   constructor(private carParams: CarInfo) {
     super({
       tag: 'li',
@@ -28,42 +30,37 @@ export default class TrackLineView extends View {
   }
 
   private async prepareToRace() {
-    const { distance, velocity } = await this.httpClient.toDrive(this.carParams.id);
+    const { distance, velocity } = await this.httpClient.engineControl(this.carParams.id, 'started');
     this.finishTime = +(distance / velocity / 1000).toFixed(3);
-    this.distancePerSecond = document.body.offsetWidth / (Math.round(distance / velocity) / 900) / 60;
-    console.log(this.finishTime, this.distancePerSecond);
+    this.distancePerSecond = +(document.body.offsetWidth / (Math.round(distance / velocity) / 900) / 60).toFixed(2);
     this.startRace();
   }
 
   private async startRace(id = this.carParams.id) {
     this.isRace = true;
-    this.controller = new AbortController();
     try {
       this.moveCar();
       const response = await this.httpClient.startCar(id, this.controller);
       console.log(response);
-      if (response.status === 200) {
-        console.log(id, 'finished');
+      if (response.status !== 200) {
+        this.isRace = false;
       }
     } catch (err) {
-      console.error(`${this.carParams.name} has broken`);
-    } finally {
-      this.isRace = false;
-      this.controller.abort();
+      console.error(err);
     }
   }
 
   private moveCar(coveredDistance = 0) {
-    // console.log(coveredDistance);
     if (!this.isRace) return;
-    const { width } = document.body.getBoundingClientRect();
+    this.width = document.body.getBoundingClientRect().width;
+
     let currentDistance = coveredDistance;
-    if (currentDistance < width - 70) {
-      currentDistance += this.distancePerSecond;
+    if (currentDistance < this.width - 110) {
       this.viewCreator.node.style.setProperty('--shift', `${currentDistance}px`);
+      currentDistance += this.distancePerSecond;
       requestAnimationFrame(this.moveCar.bind(this, currentDistance));
     } else {
-      this.viewCreator.node.style.setProperty('--shift', `${width - 70}px`);
+      this.isRace = false;
     }
   }
 
@@ -78,7 +75,22 @@ export default class TrackLineView extends View {
       text: 'start',
       callback: () => this.prepareToRace(),
     });
-    controls.addInnerNode(start);
+    const stop = new NodeCreator({
+      tag: 'button',
+      css: ['track-line__button'],
+      text: 'stop',
+      callback: () => this.resetCar(),
+    });
+    controls.addInnerNode(start, stop);
     return controls;
+  }
+
+  private async resetCar() {
+    this.controller.abort();
+    this.isRace = false;
+    this.viewCreator.node.removeAttribute('style');
+    const result = await this.httpClient.engineControl(this.carParams.id, 'stopped');
+    console.log(result);
+    this.controller = new AbortController();
   }
 }

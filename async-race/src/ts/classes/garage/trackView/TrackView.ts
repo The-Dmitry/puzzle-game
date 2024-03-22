@@ -12,10 +12,14 @@ export default class TrackView extends View {
   }
 
   private async render() {
-    const [carsParams, totalCount] = await this.httpClient.getCars(1);
-    if (carsParams) {
-      const tracks = carsParams.map((car) => new TrackLineView(car));
-      this.addNodeInside(...tracks);
+    try {
+      const [carsParams, totalCount] = await this.httpClient.getCars(1);
+      if (carsParams) {
+        const tracks = carsParams.map((car) => new TrackLineView(car));
+        this.addNodeInside(...tracks);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 }

@@ -19,9 +19,9 @@ export default class HttpClient {
     }
   }
 
-  public async toDrive(id: number): Promise<StartCarParams> {
+  public async engineControl(id: number, status: 'started' | 'stopped'): Promise<StartCarParams> {
     try {
-      const res = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=started`, {
+      const res = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=${status}`, {
         method: 'PATCH',
       });
       const data = await res.json();
@@ -39,7 +39,7 @@ export default class HttpClient {
       });
       return res;
     } catch (err) {
-      throw new Error(`Car ${id} has broken`);
+      throw new Error(`Car #${id} was stopped`);
     }
   }
 

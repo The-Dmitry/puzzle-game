@@ -1,5 +1,6 @@
 .track {
   position: relative;
+  margin-inline: 20px;
   &::after {
     content: '';
     position: absolute;
