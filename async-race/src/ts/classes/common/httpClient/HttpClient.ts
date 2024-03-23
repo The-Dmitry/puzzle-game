@@ -32,15 +32,21 @@ export default class HttpClient {
   }
 
   public async startCar(id: number, controller: AbortController) {
-    try {
-      const res = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=drive`, {
-        method: 'PATCH',
-        signal: controller.signal,
-      });
-      return res;
-    } catch (err) {
-      throw new Error(`Car #${id} was stopped`);
-    }
+    const res = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=drive`, {
+      method: 'PATCH',
+      signal: controller.signal,
+    });
+    return res;
+    // try {
+    // } catch (err) {
+    //   throw new Error(`Car #${id} was stopped`);
+    // }
+  }
+
+  public async deleteCar(id: number) {
+    await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+      method: 'DELETE',
+    });
   }
 
   // public async createWinner(winner: WinnerInfo) {

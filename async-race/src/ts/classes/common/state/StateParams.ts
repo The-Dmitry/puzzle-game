@@ -1,5 +1,6 @@
 interface Params {
-  changeRoute: boolean;
+  startSoloRace: boolean;
+  updateTrack: boolean;
 }
 
 type ValueOrNull<T> = {

@@ -4,12 +4,13 @@
   align-items: center;
   list-style: none;
   height: 50px;
-  // width: 100%;
+  text-align: center;
+  color: white;
   margin-top: 40px;
   background-color: rgba(0, 0, 0, 0.646);
 }
 .track-line_car {
-  position: relative;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,4 +24,9 @@
 .track-line__controls {
   position: absolute;
   top: -30px;
+}
+
+.track-line__text {
+  margin-left: 100px;
+  font-size: 1.5rem;
 }
