@@ -49,6 +49,39 @@ export default class HttpClient {
     });
   }
 
+  public async createCar(name: string, color: string) {
+    await fetch(`http://127.0.0.1:3000/garage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        color,
+      }),
+    });
+  }
+
+  public async deleteCarFromWinnersList(id: number) {
+    await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  public async updateCar({ id, name, color }: CarInfo) {
+    const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        color,
+      }),
+    });
+    return response;
+  }
+
   // public async createWinner(winner: WinnerInfo) {
   //   await fetch(`http://127.0.0.1:3000/winners`, {
   //     method: 'POST',

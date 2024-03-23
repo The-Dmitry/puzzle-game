@@ -3,6 +3,7 @@ import CarInfo from '../../../interfaces/CarInfo';
 import View from '../../common/view/View';
 import CarView from '../../carView/CarView';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
+import WorkshopView from '../createCarView/WorkshopView';
 
 export default class TrackLineView extends View {
   private startBtn = new NodeCreator({
@@ -22,10 +23,15 @@ export default class TrackLineView extends View {
     callback: () => this.resetCar(),
   });
 
-  private deleteCarBtn = new NodeCreator({
+  private deleteCarBtn = new NodeCreator({ tag: 'button', text: 'delete', callback: () => this.deleteCar() });
+
+  private tuneBtn = new NodeCreator({
     tag: 'button',
-    text: 'delete',
-    callback: () => this.deleteCar(),
+    css: ['track-line__button'],
+    text: 'tune',
+    callback: () => {
+      document.body.append(new WorkshopView(this.carParams).viewCreator.node);
+    },
   });
 
   private finishTime = 0;
@@ -39,21 +45,15 @@ export default class TrackLineView extends View {
   private width = 0;
 
   constructor(private carParams: CarInfo) {
-    super({
-      tag: 'li',
-      css: ['track-line'],
-    });
+    super({ tag: 'li', css: ['track-line'] });
     this.render();
   }
 
   private render() {
     this.stopBtn.node.disabled = true;
-    const text = new NodeCreator({
-      tag: 'p',
-      text: this.carParams.name,
-      css: ['track-line__text'],
-    });
-    this.addNodeInside(new CarView(this.carParams.color, ['track-line_car']), this.createControls(), text);
+    const text = new NodeCreator({ tag: 'p', text: this.carParams.name, css: ['track-line__text'] });
+    this.addNodeInside(new CarView(['track-line_car']), this.createControls(), text);
+    this.viewCreator.node.style.setProperty('--car-color', `${this.carParams.color}`);
   }
 
   private async soloRace() {
@@ -66,9 +66,7 @@ export default class TrackLineView extends View {
   }
 
   public async prepareToRace() {
-    this.startBtn.node.disabled = true;
-    this.stopBtn.node.disabled = false;
-    this.deleteCarBtn.node.disabled = true;
+    this.handleControls(true, false);
     try {
       const { distance, velocity } = await this.httpClient.engineControl(this.carParams.id, 'started');
       this.finishTime = +(distance / velocity / 1000).toFixed(3);
@@ -112,29 +110,38 @@ export default class TrackLineView extends View {
   }
 
   private createControls() {
-    const controls = new NodeCreator({
-      tag: 'div',
-      css: ['track-line__controls'],
+    const controls = new NodeCreator({ tag: 'div', css: ['track-line__controls'] });
+    const tune = new NodeCreator({
+      tag: 'button',
+      css: ['track-line__button'],
+      text: 'tune',
+      callback: () => {
+        document.body.append(new WorkshopView(this.carParams).viewCreator.node);
+      },
     });
-
-    controls.addInnerNode(this.startBtn, this.stopBtn, this.deleteCarBtn);
+    controls.addInnerNode(this.startBtn, this.stopBtn, this.deleteCarBtn, this.tuneBtn);
     return controls;
   }
 
   public async resetCar() {
     this.controller.abort();
     this.isRace = false;
-    this.viewCreator.node.removeAttribute('style');
+    this.viewCreator.node.style.removeProperty('--shift');
     this.controller = new AbortController();
     const result = await this.httpClient.engineControl(this.carParams.id, 'stopped');
-    this.startBtn.node.disabled = false;
-    this.stopBtn.node.disabled = true;
-    this.deleteCarBtn.node.disabled = false;
+    this.handleControls(false, true);
     return result;
   }
 
   private async deleteCar() {
     await this.httpClient.deleteCar(this.carParams.id);
     this.state.next('updateTrack', (v) => v);
+  }
+
+  private handleControls(first: boolean, second: boolean) {
+    this.startBtn.node.disabled = first;
+    this.stopBtn.node.disabled = second;
+    this.deleteCarBtn.node.disabled = first;
+    this.tuneBtn.node.disabled = first;
   }
 }

@@ -1,0 +1,14 @@
+.garage {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.pagination {
+  display: flex;
+}
+
+.garage__controls {
+  position: absolute;
+  right: 5%;
+  top: 10px;
+}
