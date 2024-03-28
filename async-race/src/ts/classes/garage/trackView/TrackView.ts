@@ -23,8 +23,13 @@ export default class TrackView extends View {
   public async startRace() {
     try {
       const prepare = await Promise.all(this.trackLines.map((track) => track.prepareToRace()));
-      const result = await Promise.any(this.trackLines.map((track) => track.startRace()));
-      console.log(result);
+      const { id, time, name } = await Promise.any(this.trackLines.map((track) => track.startRace()));
+      await this.httpClient.saveWinner({ id, time });
+      setTimeout(async () => {
+        const data = await this.httpClient.getWinnersList();
+        console.log(data);
+      }, 3000);
+      this.state.next('updateWinners', (v) => v);
     } catch (err) {
       console.log(`The race has been cancelled`);
     }

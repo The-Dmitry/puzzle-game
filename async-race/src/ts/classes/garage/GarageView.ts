@@ -3,6 +3,8 @@ import NodeCreator from '../common/nodeCreator/NodeCreator';
 import View from '../common/view/View';
 import TrackView from './trackView/TrackView';
 import WorkshopView from './createCarView/WorkshopView';
+import carBrands from '../../data/car-brands';
+import carModels from '../../data/car-models';
 
 export default class GarageView extends View {
   private track = new TrackView();
@@ -58,16 +60,26 @@ export default class GarageView extends View {
       text: 'create car',
       callback: () => document.body.append(new WorkshopView().viewCreator.node),
     });
-    this.addNodeInside(this.createControls(), this.track, this.createPagination(), addNewCar);
+    const addHundredCars = new NodeCreator({
+      tag: 'button',
+      css: ['garage-button', 'create-hundred__button'],
+      text: 'create 100',
+      callback: () => this.generateOneHundredCars(),
+    });
+    this.addNodeInside(this.createControls(), this.track, this.createPagination(), addNewCar, addHundredCars);
     this.stopBtn.node.disabled = true;
   }
 
   private async getCars() {
     try {
       const [carsParams, totalCount] = await this.httpClient.getCars(this.currentPage);
-      console.log(totalCount);
       this.totalPageCount = totalCount ? Math.ceil(+totalCount / 7) : 1;
       this.track.createTrackLines(carsParams);
+      if (this.currentPage > this.totalPageCount) {
+        this.switchPage(-1);
+      }
+
+      this.state.next('garagePage', (v) => v);
     } catch (e) {
       console.log(e);
     }
@@ -79,12 +91,51 @@ export default class GarageView extends View {
     return controls;
   }
 
+  private switchPage(num: number) {
+    this.currentPage += num;
+    this.getCars();
+    this.state.next('garagePage', (v) => v);
+  }
+
   private createPagination() {
     const pagination = new NodeCreator({ tag: 'div', css: ['pagination'] });
-    const prev = new NodeCreator({ tag: 'button', text: 'prev' });
-    const next = new NodeCreator({ tag: 'button', text: 'next' });
+    const prev = new NodeCreator({
+      tag: 'button',
+      text: 'prev',
+      callback: () => {
+        this.switchPage(-1);
+      },
+    });
+    const next = new NodeCreator({
+      tag: 'button',
+      text: 'next',
+      callback: () => {
+        this.switchPage(+1);
+      },
+    });
     const page = new NodeCreator({ tag: 'p', text: `${this.currentPage}` });
+    this.state.subscribe(this.viewCreator, 'garagePage', () => {
+      next.node.disabled = this.currentPage === this.totalPageCount;
+      prev.node.disabled = this.currentPage === 1;
+      page.setTextContent(`${this.currentPage}`);
+    });
     pagination.addInnerNode(prev, page, next);
     return pagination;
+  }
+
+  private async generateOneHundredCars() {
+    const brands = carBrands;
+    const models = carModels;
+    await Promise.all(
+      new Array(100)
+        .fill('')
+        .map(() =>
+          this.httpClient.createCar(
+            `${brands[Math.floor(Math.random() * brands.length)]} ${models[Math.floor(Math.random() * models.length)]}`,
+            `#${Math.floor(Math.random() * 16777215).toString(16)}`
+          )
+        )
+    );
+    this.getCars();
   }
 }
