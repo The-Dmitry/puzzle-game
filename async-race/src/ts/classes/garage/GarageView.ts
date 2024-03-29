@@ -5,9 +5,12 @@ import TrackView from './trackView/TrackView';
 import WorkshopView from './createCarView/WorkshopView';
 import carBrands from '../../data/car-brands';
 import carModels from '../../data/car-models';
+import VictoryView from './victoryView/VictoryView';
 
 export default class GarageView extends View {
-  private track = new TrackView();
+  private track = new TrackView(this.showWinner.bind(this));
+
+  private carCountNode = new NodeCreator({ tag: 'p', text: '0' });
 
   private currentPage = 1;
 
@@ -66,7 +69,14 @@ export default class GarageView extends View {
       text: 'create 100',
       callback: () => this.generateOneHundredCars(),
     });
-    this.addNodeInside(this.createControls(), this.track, this.createPagination(), addNewCar, addHundredCars);
+    this.addNodeInside(
+      this.createControls(),
+      this.carCountNode,
+      this.track,
+      this.createPagination(),
+      addNewCar,
+      addHundredCars
+    );
     this.stopBtn.node.disabled = true;
   }
 
@@ -74,6 +84,7 @@ export default class GarageView extends View {
     try {
       const [carsParams, totalCount] = await this.httpClient.getCars(this.currentPage);
       this.totalPageCount = totalCount ? Math.ceil(+totalCount / 7) : 1;
+      this.carCountNode.setTextContent(`Total: ${totalCount}`);
       this.track.createTrackLines(carsParams);
       if (this.currentPage > this.totalPageCount) {
         this.switchPage(-1);
@@ -137,5 +148,9 @@ export default class GarageView extends View {
         )
     );
     this.getCars();
+  }
+
+  private showWinner(name: string, time: number) {
+    this.addNodeInside(new VictoryView(name, time));
   }
 }

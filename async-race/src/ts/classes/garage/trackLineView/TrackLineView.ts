@@ -89,6 +89,8 @@ export default class TrackLineView extends View {
           time: this.finishTime,
         };
       }
+      console.log(`${this.carParams.name} has been broken`);
+
       return await Promise.reject();
     } catch (err) {
       this.isRace = false;
@@ -136,6 +138,8 @@ export default class TrackLineView extends View {
   private async deleteCar() {
     await this.httpClient.deleteCar(this.carParams.id);
     this.state.next('updateTrack', (v) => v);
+    await this.httpClient.deleteCarFromWinnersList(this.carParams.id);
+    this.state.next('updateWinners', (v) => v);
   }
 
   private handleControls(first: boolean, second: boolean) {
