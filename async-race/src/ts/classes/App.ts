@@ -21,9 +21,6 @@ export default class App {
   }
 
   private render(view: View, href: string) {
-    console.log(this.activePage);
-    console.log(view);
-
     this.activePage?.viewCreator.node.remove();
     document.body.append(view.viewCreator.node);
     this.activePage = view;

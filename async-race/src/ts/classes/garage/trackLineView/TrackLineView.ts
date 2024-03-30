@@ -96,6 +96,7 @@ export default class TrackLineView extends View {
           time: this.finishTime,
         };
       }
+      // eslint-disable-next-line no-console
       console.log(`${this.carParams.name} has broke down`);
 
       return await Promise.reject();
@@ -120,14 +121,6 @@ export default class TrackLineView extends View {
 
   private createControls() {
     const controls = new NodeCreator({ tag: 'div', css: ['track-line__controls'] });
-    const tune = new NodeCreator({
-      tag: 'button',
-      css: ['garage-button'],
-      text: 'tune',
-      callback: () => {
-        document.body.append(new WorkshopView(this.carParams).viewCreator.node);
-      },
-    });
     controls.addInnerNode(this.startBtn, this.stopBtn, this.deleteCarBtn, this.tuneBtn);
     return controls;
   }

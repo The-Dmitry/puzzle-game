@@ -52,10 +52,6 @@ export default class HttpClient {
       signal: controller.signal,
     });
     return res;
-    // try {
-    // } catch (err) {
-    //   throw new Error(`Car #${id} was stopped`);
-    // }
   }
 
   public async deleteCar(id: number) {
@@ -143,6 +139,7 @@ export default class HttpClient {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public async getWinnersList(
     page: number = 1,
     sort: WinnersSort = 'id',

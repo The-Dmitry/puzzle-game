@@ -27,6 +27,6 @@ export default class Observable<T> {
   }
 
   public clearValue() {
-    this.value = null
+    this.value = null;
   }
 }
