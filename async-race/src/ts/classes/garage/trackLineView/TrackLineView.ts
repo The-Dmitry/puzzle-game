@@ -5,10 +5,12 @@ import CarView from '../../carView/CarView';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
 import WorkshopView from '../createCarView/WorkshopView';
 
+const CAR_SIZE_AND_MARGIN = 90;
+
 export default class TrackLineView extends View {
   private startBtn = new NodeCreator({
     tag: 'button',
-    css: ['track-line__button'],
+    css: ['garage-button'],
     text: 'start',
     callback: () => {
       this.soloRace();
@@ -18,16 +20,21 @@ export default class TrackLineView extends View {
 
   private stopBtn = new NodeCreator({
     tag: 'button',
-    css: ['track-line__button'],
+    css: ['garage-button'],
     text: 'stop',
     callback: () => this.resetCar(),
   });
 
-  private deleteCarBtn = new NodeCreator({ tag: 'button', text: 'delete', callback: () => this.deleteCar() });
+  private deleteCarBtn = new NodeCreator({
+    tag: 'button',
+    text: 'delete',
+    css: ['garage-button'],
+    callback: () => this.deleteCar(),
+  });
 
   private tuneBtn = new NodeCreator({
     tag: 'button',
-    css: ['track-line__button'],
+    css: ['garage-button'],
     text: 'tune',
     callback: () => {
       document.body.append(new WorkshopView(this.carParams).viewCreator.node);
@@ -89,7 +96,7 @@ export default class TrackLineView extends View {
           time: this.finishTime,
         };
       }
-      console.log(`${this.carParams.name} has been broken`);
+      console.log(`${this.carParams.name} has broke down`);
 
       return await Promise.reject();
     } catch (err) {
@@ -102,7 +109,7 @@ export default class TrackLineView extends View {
     if (!this.isRace) return;
     this.width = document.body.getBoundingClientRect().width;
     let currentDistance = coveredDistance;
-    if (currentDistance < this.width - 110) {
+    if (currentDistance < this.width - CAR_SIZE_AND_MARGIN) {
       this.viewCreator.node.style.setProperty('--shift', `${currentDistance}px`);
       currentDistance += this.distancePerSecond;
       requestAnimationFrame(this.moveCar.bind(this, currentDistance));
@@ -115,7 +122,7 @@ export default class TrackLineView extends View {
     const controls = new NodeCreator({ tag: 'div', css: ['track-line__controls'] });
     const tune = new NodeCreator({
       tag: 'button',
-      css: ['track-line__button'],
+      css: ['garage-button'],
       text: 'tune',
       callback: () => {
         document.body.append(new WorkshopView(this.carParams).viewCreator.node);

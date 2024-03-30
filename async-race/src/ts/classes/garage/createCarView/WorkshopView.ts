@@ -6,7 +6,7 @@ import CarInfo from '../../../interfaces/CarInfo';
 
 const carIcon = `<?xml version="1.0" encoding="utf-8"?>
 
-<svg fill="var(--car-color)" width="800px" height="800px" viewBox="0 -43.92 122.88 122.88" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  style="enable-background:new 0 0 122.88 35.03" xml:space="preserve">
+<svg fill="var(--car-color)" width="200px" height="100px" viewBox="0 -43.92 122.88 122.88" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  style="enable-background:new 0 0 122.88 35.03" xml:space="preserve">
 
 <style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style>
 
@@ -30,14 +30,21 @@ export default class WorkshopView extends View {
       css: ['workshop__container'],
       callback: (e) => e.stopImmediatePropagation(),
     });
-    const title = new NodeCreator({ tag: 'h3', text: this.data ? 'Tuning' : 'New Car' });
+    const title = new NodeCreator({ tag: 'h3', text: this.data ? 'Tuning' : 'New Car', css: ['workshop-title'] });
     const sample = new NodeCreator({ tag: 'div', css: ['workshop__image'] });
-    const carColor = new InputNodeCreator({ tag: 'input', type: 'color' });
+    const carColor = new InputNodeCreator({ tag: 'input', type: 'color', css: ['workshop-color'] });
     sample.node.innerHTML = carIcon;
     carColor.setCallback(() => {
       sample.node.style.setProperty(`--car-color`, `${carColor.node.value}`);
     }, 'input');
-    const carName = new InputNodeCreator({ tag: 'input', type: 'text', placeholder: 'Enter car name..' });
+    const carName = new InputNodeCreator({
+      tag: 'input',
+      type: 'text',
+      placeholder: 'Enter car name..',
+      css: ['workshop-name'],
+    });
+    sample.node.style.setProperty(`--car-color`, `rgb(255, 255, 255)`);
+
     if (this.data) {
       carColor.node.value = this.data.color;
       carName.node.value = this.data.name;
@@ -45,7 +52,8 @@ export default class WorkshopView extends View {
     }
     const submit = new NodeCreator({
       tag: 'button',
-      text: this.data ? 'update' : 'add',
+      text: this.data ? 'update car' : 'add car',
+      css: ['garage-button'],
       callback: async () => {
         const name = carName.node.value;
         const color = carColor.node.value;

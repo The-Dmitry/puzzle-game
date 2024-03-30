@@ -2,7 +2,10 @@ interface Params {
   startSoloRace: boolean;
   updateTrack: boolean;
   garagePage: boolean;
+  winnersPage: boolean;
   updateWinners: boolean;
+  raceInProgress: boolean;
+  blockView: boolean;
 }
 
 type ValueOrNull<T> = {

@@ -6,11 +6,12 @@ import WorkshopView from './createCarView/WorkshopView';
 import carBrands from '../../data/car-brands';
 import carModels from '../../data/car-models';
 import VictoryView from './victoryView/VictoryView';
+import NoServerView from '../noServerView/noServerView';
 
 export default class GarageView extends View {
   private track = new TrackView(this.showWinner.bind(this));
 
-  private carCountNode = new NodeCreator({ tag: 'p', text: '0' });
+  private carCountNode = new NodeCreator({ tag: 'p', text: 'Cars in garage: 0', css: ['garage-title'] });
 
   private currentPage = 1;
 
@@ -18,23 +19,24 @@ export default class GarageView extends View {
 
   private startBtn = new NodeCreator({
     tag: 'button',
-    css: ['garage__start-race'],
+    css: ['garage__start-race', 'garage-button'],
     text: 'start race',
     callback: () => {
       this.track.startRace();
       this.startBtn.node.disabled = true;
       this.stopBtn.node.disabled = false;
+      this.state.next('raceInProgress', () => true);
     },
   });
 
   private stopBtn = new NodeCreator({
     tag: 'button',
-    css: ['garage__stop-race'],
+    css: ['garage__stop-race', 'garage-button'],
     text: 'stop race',
     callback: async () => {
+      this.stopBtn.node.disabled = true;
       await this.track.stopRace();
       this.startBtn.node.disabled = false;
-      this.stopBtn.node.disabled = true;
     },
   });
 
@@ -54,6 +56,7 @@ export default class GarageView extends View {
     this.state.subscribe(this.viewCreator, 'updateTrack', () => {
       this.getCars();
     });
+    this.state.subscribe(this.viewCreator, 'blockView', (v) => this.blockView(!!v), false);
   }
 
   private render() {
@@ -69,13 +72,17 @@ export default class GarageView extends View {
       text: 'create 100',
       callback: () => this.generateOneHundredCars(),
     });
+    this.state.subscribe(this.viewCreator, 'raceInProgress', (v) => {
+      addNewCar.node.disabled = !!v;
+      addHundredCars.node.disabled = !!v;
+    });
     this.addNodeInside(
       this.createControls(),
       this.carCountNode,
       this.track,
-      this.createPagination(),
       addNewCar,
-      addHundredCars
+      addHundredCars,
+      this.createPagination()
     );
     this.stopBtn.node.disabled = true;
   }
@@ -84,15 +91,16 @@ export default class GarageView extends View {
     try {
       const [carsParams, totalCount] = await this.httpClient.getCars(this.currentPage);
       this.totalPageCount = totalCount ? Math.ceil(+totalCount / 7) : 1;
-      this.carCountNode.setTextContent(`Total: ${totalCount}`);
+      this.carCountNode.setTextContent(`Cars in garage: ${totalCount}`);
       this.track.createTrackLines(carsParams);
       if (this.currentPage > this.totalPageCount) {
         this.switchPage(-1);
       }
 
       this.state.next('garagePage', (v) => v);
-    } catch (e) {
-      console.log(e);
+    } catch {
+      this.removeAllChildren();
+      this.addNodeInside(new NoServerView());
     }
   }
 
@@ -113,6 +121,7 @@ export default class GarageView extends View {
     const prev = new NodeCreator({
       tag: 'button',
       text: 'prev',
+      css: ['garage-button', 'pagination__prev'],
       callback: () => {
         this.switchPage(-1);
       },
@@ -120,11 +129,22 @@ export default class GarageView extends View {
     const next = new NodeCreator({
       tag: 'button',
       text: 'next',
+      css: ['garage-button', 'pagination__next'],
       callback: () => {
         this.switchPage(+1);
       },
     });
     const page = new NodeCreator({ tag: 'p', text: `${this.currentPage}` });
+    this.state.subscribe(
+      this.viewCreator,
+      'raceInProgress',
+      (v) => {
+        next.node.disabled = !!v;
+        prev.node.disabled = !!v;
+        if (!v) this.state.next('garagePage', (val) => val);
+      },
+      false
+    );
     this.state.subscribe(this.viewCreator, 'garagePage', () => {
       next.node.disabled = this.currentPage === this.totalPageCount;
       prev.node.disabled = this.currentPage === 1;
@@ -152,5 +172,13 @@ export default class GarageView extends View {
 
   private showWinner(name: string, time: number) {
     this.addNodeInside(new VictoryView(name, time));
+  }
+
+  private blockView(bool: boolean) {
+    if (bool) {
+      this.viewCreator.addClassName('locked');
+      return;
+    }
+    this.viewCreator.removeCLassName('locked');
   }
 }

@@ -18,11 +18,11 @@ export default class VictoryView extends View {
     const title = new NodeCreator({ tag: 'h1', css: ['victory-title'], text: 'Winner' });
     const name = new NodeCreator({ tag: 'p', css: ['victory-name'], text: this.name });
     const time = new NodeCreator({ tag: 'p', css: ['victory-time'], text: `Time: ${this.time.toFixed(2)}` });
-    document.body.classList.add('locked');
-    this.viewCreator.setCallback(() => {
-      document.body.classList.remove('locked');
+    this.state.next('blockView', () => true);
+    setTimeout(() => {
+      this.state.next('blockView', () => false);
       this.remove();
-    }, 'animationend');
+    }, 5000);
     this.addNodeInside(title, name, time);
   }
 }

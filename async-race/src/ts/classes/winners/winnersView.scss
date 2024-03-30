@@ -1,16 +1,52 @@
+.winners {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-inline: 10px;
+  .pagination {
+    margin-bottom: 10px;
+  }
+}
+
 .winners-grid {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  color: rgb(0, 230, 230);
 }
 
 .winners-grid__row {
+  font-size: 1.3rem;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  padding-block: 10px;
+  border-bottom: 1px solid currentColor;
   & * {
     place-self: center;
   }
 }
 
+.winners-grid__row:first-child {
+  .control-item:nth-child(5),
+  .control-item:nth-child(4) {
+    transition: color linear 0.3s;
+    cursor: pointer;
+    @media (hover: hover) {
+      &:hover {
+        color: rgb(0, 255, 255);
+      }
+    }
+  }
+}
+
 .control-item {
   position: relative;
+  background-color: transparent;
+  color: rgb(0, 230, 230);
+  border: none;
 }
 
 .control-item_asc::after,
@@ -18,14 +54,31 @@
   content: '';
   position: absolute;
   right: -22px;
-  top: 25%;
+  top: 40%;
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #f00;
+  border-top: 10px solid rgb(0, 230, 230);
 }
 
 .control-item_desc::after {
   transform: rotate(180deg);
+}
+
+.winner-id {
+  grid-column: 1 / 2;
+}
+
+.winner-name {
+  grid-column: 2 / 3;
+  text-align: center;
+}
+
+.winner-win-count {
+  grid-column: 4 / 5;
+}
+
+.winner-time {
+  grid-column: 5 / 6;
 }
