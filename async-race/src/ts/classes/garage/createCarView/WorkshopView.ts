@@ -57,7 +57,7 @@ export default class WorkshopView extends View {
       callback: async () => {
         const name = carName.node.value;
         const color = carColor.node.value;
-        if (!carName) return;
+        if (!carName.node.value) return;
         if (this.data) {
           await this.httpClient.updateCar({
             ...this.data,
