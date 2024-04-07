@@ -1,5 +1,4 @@
 import NodeParams from '../../../interfaces/NodeParams';
-import HttpClient from '../httpClient/HttpClient';
 import NodeCreator from '../nodeCreator/NodeCreator';
 import State from '../state/State';
 
@@ -7,8 +6,6 @@ export default abstract class View<T extends keyof HTMLElementTagNameMap = keyof
   private viewNodeClass: NodeCreator;
 
   protected state: State = State.getInstance();
-
-  protected httpClient: HttpClient = HttpClient.getInstance();
 
   constructor(params: NodeParams<T>) {
     this.viewNodeClass = new NodeCreator(params);

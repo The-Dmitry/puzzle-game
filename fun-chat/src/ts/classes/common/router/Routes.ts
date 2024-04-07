@@ -1,5 +1,6 @@
 export enum Routes {
-  garage = '/garage',
-  winners = '/winners',
-  notFound = '/not-found',
+  AUTHORIZATION = '/authorization',
+  MAIN = '/main',
+  ABOUT = '/about',
+  NOT_FOUND = '/not-found',
 }

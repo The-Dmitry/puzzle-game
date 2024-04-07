@@ -1,19 +1,11 @@
-import NotFoundView from '../../notFoundVIew/NotFoundVIew';
-import View from '../view/View';
 import { Routes } from './Routes';
 
 export default class Router {
-  private routes: Map<string, View>;
-
   private origin = window.location.origin;
 
   private currentPath = '';
 
-  private render: (view: View, href: string) => void;
-
-  constructor(routes: [string, View][], render: (view: View, href: string) => void) {
-    this.routes = new Map(routes);
-    this.render = render;
+  constructor(private readonly routes: Map<string, () => Promise<void>>) {
     this.listen();
   }
 
@@ -27,18 +19,17 @@ export default class Router {
   }
 
   private navigate(path: string) {
+    if (path === '/') {
+      window.history.replaceState(null, '', Routes.AUTHORIZATION);
+      this.navigate(Routes.AUTHORIZATION);
+      return;
+    }
     if (this.routes.has(path)) {
-      this.render(this.routes.get(path)!, path);
+      this.routes.get(path)!();
       this.currentPath = path;
       return;
     }
-    if (path === '/') {
-      window.history.replaceState(null, '', Routes.garage);
-      this.navigate(Routes.garage);
-      return;
-    }
-    window.history.pushState(null, '', Routes.notFound);
-    this.currentPath = Routes.notFound;
-    this.render(new NotFoundView(), '');
+    window.history.pushState(null, '', Routes.NOT_FOUND);
+    this.navigate(Routes.NOT_FOUND);
   }
 }
