@@ -10,17 +10,38 @@ export default class Controller<T extends PayloadsTypes> {
   private state = State.getInstance();
 
   constructor() {
-    this.socket.onopen = (e) => console.log(e);
+    this.connect();
+  }
+
+  private connect() {
+    if (this.socket.readyState > 1) {
+      this.socket = new WebSocket(`ws://127.0.0.1:4000`);
+    }
+    this.socket.onopen = () => {
+      // console.log('SOCKET OPENED');
+      this.state.next('isWsActive', () => true);
+    };
+    this.socket.onclose = () => {
+      // console.log('SOCKET CLOSED');
+      this.state.next('isWsActive', () => false);
+      this.reconnect();
+    };
     this.socket.onmessage = (e) => this.handleResponse(JSON.parse(e.data));
   }
 
+  public reconnect() {
+    setTimeout(() => {
+      this.connect();
+    }, 5000);
+  }
+
   public authorization(
+    id: string,
     type: 'USER_LOGOUT' | 'USER_LOGIN',
     login: string,
     password: string,
     callback: (data: SocketResponse<T>) => void
   ) {
-    const id = `${Date.now()}`;
     this.setCallback(id, callback);
     const data = {
       id,
@@ -31,6 +52,16 @@ export default class Controller<T extends PayloadsTypes> {
           password,
         },
       },
+    };
+    this.socket.send(JSON.stringify(data));
+  }
+
+  public getUsers(id: string, type: 'USER_ACTIVE' | 'USER_INACTIVE', callback: (data: SocketResponse<T>) => void) {
+    this.setCallback(id, callback);
+    const data = {
+      id,
+      type,
+      payload: null,
     };
     this.socket.send(JSON.stringify(data));
   }

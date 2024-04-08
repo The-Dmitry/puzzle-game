@@ -16,8 +16,15 @@ export default class State {
     return this.instanceState;
   }
 
+  public getValue<T extends keyof StateParams>(action: T): StateParams[T] | null {
+    if (this.observables.has(action)) {
+      return this.observables.get(action).getValue;
+    }
+    return null;
+  }
+
   public subscribe<T extends keyof StateParams>(
-    node: NodeCreator,
+    node: NodeCreator | null,
     action: T,
     callback: (value: StateParams[T]) => void,
     trigger: boolean = true
@@ -41,11 +48,11 @@ export default class State {
 
   private saveToLocalStorage() {
     const data = Array.from(this.observables.entries(), ([name, inst]) => [name, inst.getValue]);
-    localStorage['rss-puzzle-state'] = JSON.stringify(data);
+    sessionStorage['rss-puzzle-state'] = JSON.stringify(data);
   }
 
   private getFromLocalStorage<T extends keyof StateParams>() {
-    const data = localStorage['rss-puzzle-state'];
+    const data = sessionStorage['rss-puzzle-state'];
     if (data) {
       JSON.parse(data).forEach(([action, value]: [T, StateParams[T]]) => {
         this.observables.set(action, new Observable(value));

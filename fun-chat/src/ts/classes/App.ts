@@ -1,6 +1,10 @@
+import SocketResponse from '../interfaces/SocketResponse';
+import { LoginPayload } from '../types/LoginPayload';
 import { TypesOfView } from '../types/TypesOfView';
+import NodeCreator from './common/nodeCreator/NodeCreator';
 import Router from './common/router/Router';
 import { Routes } from './common/router/Routes';
+import State from './common/state/State';
 import Controller from './controller/Controller';
 
 export default class App {
@@ -10,13 +14,17 @@ export default class App {
 
   private activeView: TypesOfView = null;
 
-  public start() {}
+  private state = State.getInstance();
+
+  public start() {
+    this.makeSubscription();
+  }
 
   private createRoutes() {
     const list = {
       [Routes.AUTHORIZATION]: async () => {
         const { default: LoginView } = await import('./pages/loginPage/LoginView');
-        this.setContent(new LoginView(this.controller));
+        this.setContent(new LoginView(this.tryToLogin.bind(this)));
       },
       [Routes.MAIN]: async () => {
         const { default: MainView } = await import('./pages/main/MainView');
@@ -38,5 +46,60 @@ export default class App {
     this.activeView?.remove();
     this.activeView = view;
     document.body.append(this.activeView.viewCreator.node);
+  }
+
+  public tryToLogin(login: string, password: string) {
+    console.log('LOGIN');
+
+    if (login && password) {
+      this.controller.authorization(
+        `auth${Date.now()}`,
+        'USER_LOGIN',
+        login,
+        password,
+        (data: SocketResponse<LoginPayload>) => {
+          if ('user' in data.payload) {
+            window.history.replaceState(null, '', Routes.MAIN);
+          } else {
+            console.error(data.payload.error);
+          }
+        }
+      );
+    }
+  }
+
+  private logout() {
+    const login = this.state.getValue('appLogin') ?? '';
+    const password = this.state.getValue('appPassword') ?? '';
+    this.controller.authorization(`auth${Date.now()}`, 'USER_LOGOUT', login, password, (data) => {
+      if ('user' in data.payload) {
+        this.state.clearState();
+        this.state.next('isWsActive', () => true);
+        window.history.replaceState({}, '', Routes.AUTHORIZATION);
+      } else {
+        console.log(data.payload.error);
+      }
+    });
+  }
+
+  private makeSubscription() {
+    const reconnectNotice = new NodeCreator({ tag: 'div', css: ['reconnect'], text: 'reconnect' });
+    this.state.subscribe(null, 'logout', () => this.logout(), false);
+    this.state.next('isWsActive', () => false);
+    this.state.subscribe(
+      null,
+      'isWsActive',
+      (v) => {
+        const login = this.state.getValue('appLogin');
+        const password = this.state.getValue('appPassword');
+        if (v && login && password) {
+          reconnectNotice.remove();
+          this.tryToLogin(login, password);
+          return;
+        }
+        document.body.append(reconnectNotice.node);
+      },
+      false
+    );
   }
 }

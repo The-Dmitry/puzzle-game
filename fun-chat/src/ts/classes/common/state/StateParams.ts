@@ -5,6 +5,8 @@ interface Params {
   appLogin: string;
   appPassword: string;
   unhandledResponse: SocketResponse<PayloadsTypes>;
+  logout: boolean;
+  isWsActive: boolean;
 }
 
 type ValueOrNull<T> = {

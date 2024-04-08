@@ -5,12 +5,14 @@ export default class Observable<T> {
 
   constructor(private value: T | null = null) {}
 
-  public subscribe(node: NodeCreator, callback: (params: T | null) => T | null, trigger: boolean) {
+  public subscribe(node: NodeCreator | null, callback: (params: T | null) => T | null, trigger: boolean) {
     this.subscribers.add(callback);
     if (trigger) {
       callback(this.value);
     }
-    node.saveSubscription(() => this.subscribers.delete(callback));
+    if (node) {
+      node.saveSubscription(() => this.subscribers.delete(callback));
+    }
   }
 
   public next(callback: (value: T | null) => T | null) {

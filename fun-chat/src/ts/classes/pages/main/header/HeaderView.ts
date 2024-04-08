@@ -3,7 +3,7 @@ import View from '../../../common/view/View';
 import './headerView.scss';
 
 export default class HeaderView extends View {
-  constructor(private readonly logout: () => void) {
+  constructor() {
     super({ tag: 'header', css: ['header'] });
     this.render();
   }
@@ -18,7 +18,7 @@ export default class HeaderView extends View {
       tag: 'button',
       text: 'Logout',
       css: ['header-logout'],
-      callback: () => this.logout(),
+      callback: () => this.state.next('logout', (v) => !v),
     });
     this.addNodeInside(name, logout);
   }

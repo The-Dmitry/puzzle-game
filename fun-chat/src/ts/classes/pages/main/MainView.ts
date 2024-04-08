@@ -4,49 +4,31 @@ import HeaderView from './header/HeaderView';
 import Controller from '../../controller/Controller';
 import { PayloadsTypes } from '../../../types/PayloadTypes';
 import { Routes } from '../../common/router/Routes';
+import UsersListView from './usersList/UsersListView';
 
 export default class MainView extends View {
-  private userLogin = '';
-
-  private userPassword = '';
-
   constructor(private readonly controller: Controller<PayloadsTypes>) {
     super({ tag: 'div', css: ['main'] });
-    this.state.subscribe(this.viewCreator, 'appLogin', (login) => {
-      this.userLogin = login ?? '';
-    });
-    this.state.subscribe(this.viewCreator, 'appPassword', (password) => {
-      this.userPassword = password ?? '';
-    });
-    this.isAuthorized();
+    if (!this.state.getValue('appLogin')) {
+      window.history.replaceState({}, '', Routes.AUTHORIZATION);
+    }
     this.render();
+    this.state.subscribe(this.viewCreator, 'isWsActive', (v) => {
+      if (v) {
+        this.getUsers();
+      }
+    });
   }
 
   private render() {
-    const header = new HeaderView(() => this.logout());
-    this.addNodeInside(header);
+    const header = new HeaderView();
+    const userList = new UsersListView();
+    this.addNodeInside(header, userList);
   }
 
-  private isAuthorized() {
-    if (!(this.userLogin && this.userPassword)) {
-      this.redirectToAuthorization();
-    }
-  }
-
-  private redirectToAuthorization() {
-    window.history.replaceState({}, '', Routes.AUTHORIZATION);
-  }
-
-  private logout() {
-    this.controller.authorization('USER_LOGOUT', this.userLogin, this.userPassword, (data) => {
+  private getUsers() {
+    this.controller.getUsers(`users${Date.now()}`, 'USER_ACTIVE', (data) => {
       console.log(data);
-      if ('user' in data.payload) {
-        if (!data.payload.user.isLogined) {
-          this.redirectToAuthorization();
-        }
-      } else {
-        console.log(data.payload.error);
-      }
     });
   }
 }

@@ -2,13 +2,8 @@ import './loginView.scss';
 import NodeParams from '../../../interfaces/NodeParams';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
 import View from '../../common/view/View';
-import Controller from '../../controller/Controller';
 import LoginNameView from './inputView/LoginNameView';
 import LoginPasswordView from './inputView/LoginPasswordView';
-import SocketResponse from '../../../interfaces/SocketResponse';
-import { LoginPayload } from '../../../types/LoginPayload';
-import { PayloadsTypes } from '../../../types/PayloadTypes';
-import { Routes } from '../../common/router/Routes';
 
 const nodesData: Record<string, NodeParams> = {
   parentNode: {
@@ -31,10 +26,10 @@ export default class LoginView extends View {
 
   private password: string | null = null;
 
-  constructor(private readonly controller: Controller<PayloadsTypes>) {
+  constructor(private loginFunc: (login: string, password: string) => void) {
     super({ tag: 'div', css: ['login-view'] });
-    this.render();
     this.makeSubscription();
+    this.render();
   }
 
   private render() {
@@ -51,32 +46,16 @@ export default class LoginView extends View {
     this.addNodeInside(container);
   }
 
-  private tryToLogin() {
-    if (this.login && this.password) {
-      this.controller.authorization('USER_LOGIN', this.login, this.password, (data: SocketResponse<LoginPayload>) =>
-        this.redirectToMain(data)
-      );
-    }
-  }
-
-  private redirectToMain(data: SocketResponse<LoginPayload>) {
-    if ('user' in data.payload) {
-      window.history.pushState(null, '', Routes.MAIN);
-    } else {
-      console.log(data.payload.error);
-    }
+  public tryToLogin() {
+    if (this.login && this.password) this.loginFunc(this.login, this.password);
   }
 
   private makeSubscription() {
-    this.state
-      .subscribe(this.viewCreator, 'appLogin', (v) => {
-        this.login = v;
-        // console.log(this.login);
-      })
-      .next(() => null);
+    this.state.subscribe(this.viewCreator, 'appLogin', (v) => {
+      this.login = v;
+    });
     this.state.subscribe(this.viewCreator, 'appPassword', (v) => {
       this.password = v;
-      // console.log(this.password);
     });
   }
 }
