@@ -7,10 +7,10 @@ export default class State {
 
   private observables = new Map();
 
-  // constructor() {
-  //   this.getFromLocalStorage();
-  //   window.addEventListener('beforeunload', () => this.saveToLocalStorage());
-  // }
+  constructor() {
+    this.getFromLocalStorage();
+    window.addEventListener('beforeunload', () => this.saveToLocalStorage());
+  }
 
   public static getInstance() {
     return this.instanceState;

@@ -53,7 +53,7 @@ export default class LoginView extends View {
 
   private tryToLogin() {
     if (this.login && this.password) {
-      this.controller.logIn(this.login, this.password, (data: SocketResponse<LoginPayload>) =>
+      this.controller.authorization('USER_LOGIN', this.login, this.password, (data: SocketResponse<LoginPayload>) =>
         this.redirectToMain(data)
       );
     }
@@ -71,12 +71,12 @@ export default class LoginView extends View {
     this.state
       .subscribe(this.viewCreator, 'appLogin', (v) => {
         this.login = v;
-        console.log(this.login);
+        // console.log(this.login);
       })
       .next(() => null);
     this.state.subscribe(this.viewCreator, 'appPassword', (v) => {
       this.password = v;
-      console.log(this.password);
+      // console.log(this.password);
     });
   }
 }

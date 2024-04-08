@@ -14,12 +14,17 @@ export default class Controller<T extends PayloadsTypes> {
     this.socket.onmessage = (e) => this.handleResponse(JSON.parse(e.data));
   }
 
-  public async logIn(login: string, password: string, callback: (data: SocketResponse<T>) => void) {
+  public authorization(
+    type: 'USER_LOGOUT' | 'USER_LOGIN',
+    login: string,
+    password: string,
+    callback: (data: SocketResponse<T>) => void
+  ) {
     const id = `${Date.now()}`;
     this.setCallback(id, callback);
     const data = {
       id,
-      type: 'USER_LOGIN',
+      type,
       payload: {
         user: {
           login,

@@ -15,12 +15,12 @@ export default class App {
   private createRoutes() {
     const list = {
       [Routes.AUTHORIZATION]: async () => {
-        const { default: AuthorizationView } = await import('./pages/loginPage/LoginView');
-        this.setContent(new AuthorizationView(this.controller));
+        const { default: LoginView } = await import('./pages/loginPage/LoginView');
+        this.setContent(new LoginView(this.controller));
       },
       [Routes.MAIN]: async () => {
         const { default: MainView } = await import('./pages/main/MainView');
-        this.setContent(new MainView());
+        this.setContent(new MainView(this.controller));
       },
       [Routes.ABOUT]: async () => {
         const { default: AboutView } = await import('./pages/about/AboutView');
