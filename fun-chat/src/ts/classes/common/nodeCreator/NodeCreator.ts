@@ -67,6 +67,7 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
       this.nodeElement.append(item.node);
       this.children.push(item);
     });
+    return this;
   }
 
   public removeAllChildren() {

@@ -10,15 +10,13 @@ export default class App {
 
   private activeView: TypesOfView = null;
 
-  public start() {
-    setTimeout(() => window.history.pushState(null, '', 'Routes.MAIN'), 10000);
-  }
+  public start() {}
 
   private createRoutes() {
     const list = {
       [Routes.AUTHORIZATION]: async () => {
-        const { default: AuthorizationView } = await import('./pages/authorization/AuthorizationView');
-        this.setContent(new AuthorizationView());
+        const { default: AuthorizationView } = await import('./pages/loginPage/LoginView');
+        this.setContent(new AuthorizationView(this.controller));
       },
       [Routes.MAIN]: async () => {
         const { default: MainView } = await import('./pages/main/MainView');
