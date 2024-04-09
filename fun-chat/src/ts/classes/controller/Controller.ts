@@ -21,30 +21,31 @@ export default class Controller {
       this.socket = new WebSocket(WS_URL);
     }
     this.socket.onopen = () => {
-      // console.log('SOCKET OPENED');
       this.state.next('isWsActive', () => true);
     };
     this.socket.onclose = () => {
-      // console.log('SOCKET CLOSED');
       this.state.next('isWsActive', () => false);
       this.reconnect();
     };
-    this.socket.onmessage = (e) => this.handleResponse(JSON.parse(e.data));
+    this.socket.onmessage = (e) => {
+      const result = JSON.parse(e.data);
+      this.handleResponse(result);
+    };
   }
 
-  public reconnect() {
+  private reconnect() {
     setTimeout(() => {
       this.connect();
     }, 5000);
   }
 
   public authorization<T extends PayloadsTypes>(
-    id: string,
     type: 'USER_LOGOUT' | 'USER_LOGIN',
     login: string,
     password: string,
     callback: (data: SocketResponse<T>) => void
   ) {
+    const id = `${type}${Date.now()}`;
     this.setCallback(id, callback);
     const data = {
       id,
@@ -60,10 +61,10 @@ export default class Controller {
   }
 
   public getUsers<T extends PayloadsTypes>(
-    id: string,
     type: 'USER_ACTIVE' | 'USER_INACTIVE',
     callback: (data: SocketResponse<T>) => void
   ) {
+    const id = `${type}${Date.now()}`;
     this.setCallback(id, callback);
     const data = {
       id,
@@ -72,6 +73,34 @@ export default class Controller {
     };
     this.socket.send(JSON.stringify(data));
   }
+
+  public sendMessage(to: string, text: string) {
+    this.socket.send(
+      JSON.stringify({
+        id: `"MSG_SEND"${Date.now()}`,
+        type: 'MSG_SEND',
+        payload: {
+          message: {
+            to,
+            text,
+          },
+        },
+      })
+    );
+  }
+
+  // public fetchMessageHistory(login: string, type: '') {
+  //   const id = `${type}${Date.now()}`;
+  //   const data = {
+  //     id: string,
+  //     type: "MSG_FROM_USER",
+  //     payload: {
+  //       user: {
+  //         login: string,
+  //       }
+  //     }
+  //   }
+  // }
 
   private setCallback<T extends PayloadsTypes>(id: string, callback: (data: SocketResponse<T>) => void) {
     this.callbackList.set(id, callback);
@@ -83,6 +112,8 @@ export default class Controller {
       this.callbackList.delete(data.id);
       return;
     }
+    // console.log('unhandled');
+
     this.state.next('unhandledResponse', () => data);
   }
 }

@@ -49,29 +49,23 @@ export default class App {
   }
 
   public tryToLogin(login: string, password: string) {
-    console.log('LOGIN');
-
-    if (login && password) {
-      this.controller.authorization(
-        `auth${Date.now()}`,
-        'USER_LOGIN',
-        login,
-        password,
-        (data: SocketResponse<LoginPayload>) => {
-          if ('user' in data.payload) {
-            window.history.replaceState(null, '', Routes.MAIN);
-          } else {
-            console.error(data.payload.error);
-          }
-        }
-      );
-    }
+    this.controller.authorization('USER_LOGIN', login, password, (data: SocketResponse<LoginPayload>) => {
+      // console.log('LOGIN', data);
+      if ('user' in data.payload) {
+        window.history.replaceState(null, '', Routes.MAIN);
+      } else {
+        console.error(data.payload.error);
+        this.state.clearState();
+        this.state.next('isWsActive', () => true);
+        window.history.replaceState(null, '', Routes.AUTHORIZATION);
+      }
+    });
   }
 
   private logout() {
     const login = this.state.getValue('appLogin') ?? '';
     const password = this.state.getValue('appPassword') ?? '';
-    this.controller.authorization<LoginPayload>(`auth${Date.now()}`, 'USER_LOGOUT', login, password, (data) => {
+    this.controller.authorization<LoginPayload>('USER_LOGOUT', login, password, (data) => {
       if ('user' in data.payload) {
         this.state.clearState();
         this.state.next('isWsActive', () => true);
@@ -90,10 +84,10 @@ export default class App {
       null,
       'isWsActive',
       (v) => {
-        console.log(v);
-
         const login = this.state.getValue('appLogin');
         const password = this.state.getValue('appPassword');
+        // console.log(login);
+
         if (v && login && password) {
           this.tryToLogin(login, password);
         }

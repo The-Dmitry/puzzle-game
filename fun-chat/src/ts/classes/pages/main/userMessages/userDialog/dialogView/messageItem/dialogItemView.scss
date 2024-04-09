@@ -1,0 +1,11 @@
+.message-item {
+  background-color: rgb(51, 64, 80);
+  color: rgb(255, 255, 255);
+  font-size: 1.3rem;
+  list-style: none;
+  width: clamp(300px, 90%, 600px);
+}
+
+.message-item_outgoing {
+  align-self: flex-end;
+}

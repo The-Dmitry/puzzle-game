@@ -9,7 +9,7 @@ export default class Router {
     this.listen();
   }
 
-  private listen() {
+  public listen() {
     setInterval(() => {
       const path = window.location.href.replace(this.origin, '');
       if (this.currentPath !== path) {

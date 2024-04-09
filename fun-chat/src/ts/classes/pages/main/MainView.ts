@@ -4,45 +4,46 @@ import HeaderView from './header/HeaderView';
 import Controller from '../../controller/Controller';
 import { Routes } from '../../common/router/Routes';
 import UsersListView from './usersList/UsersListView';
-import SocketResponse from '../../../interfaces/SocketResponse';
-import { PayloadUser, UsersListPayload } from '../../../types/UsersListPayload';
-import UserItemView from './usersList/userItem/UserItemView';
+import UserMessagesView from './userMessages/UserMessagesView';
 
 export default class MainView extends View {
-  private userList = new UsersListView();
+  private userList!: UsersListView;
+
+  private messagesView!: UserMessagesView;
+
+  private dialogWithUser = '';
 
   constructor(private readonly controller: Controller) {
     super({ tag: 'div', css: ['main'] });
-    if (!this.state.getValue('appLogin')) {
+    if (this.state.getValue('appLogin')) {
+      this.userList = new UsersListView(this.controller, (login: string) => this.startNewDialog(login));
+      this.messagesView = new UserMessagesView(this.controller);
+      this.render();
+      this.listenToNewMessages();
+    } else {
       window.history.replaceState({}, '', Routes.AUTHORIZATION);
     }
-    this.render();
-    this.state.subscribe(this.viewCreator, 'isWsActive', (v) => {
-      if (v) {
-        this.getUsers('USER_ACTIVE');
-        this.getUsers('USER_INACTIVE');
-      }
-    });
   }
 
   private render() {
     const header = new HeaderView();
-    this.addNodeInside(header, this.userList);
+    this.addNodeInside(header, this.userList, this.messagesView);
   }
 
-  private getUsers(type: 'USER_ACTIVE' | 'USER_INACTIVE') {
-    this.controller.getUsers(`${type}${Date.now()}`, type, (data: SocketResponse<UsersListPayload>) => {
-      if ('users' in data.payload) {
-        this.drawUsers(data.payload.users);
+  private startNewDialog(targetLogin: string) {
+    this.dialogWithUser = targetLogin;
+    this.messagesView.startNewDialog(targetLogin);
+  }
+
+  private listenToNewMessages() {
+    this.state.subscribe(this.viewCreator, 'unhandledResponse', (data) => {
+      if (!(data && data.type === 'MSG_SEND')) return;
+      // console.log(data);
+      if (!('message' in data.payload)) return;
+      const { from, to } = data.payload.message;
+      if (from === this.dialogWithUser || to === this.dialogWithUser) {
+        this.messagesView.handleNewMessage(data.payload);
       }
-      console.log(data);
-    });
-  }
-
-  private drawUsers(list: PayloadUser[]) {
-    list.forEach((data) => {
-      const user = new UserItemView(data);
-      this.userList.addNodeInside(user);
     });
   }
 }

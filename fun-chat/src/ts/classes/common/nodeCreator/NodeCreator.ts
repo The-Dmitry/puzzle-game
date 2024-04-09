@@ -72,6 +72,7 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
 
   public removeAllChildren() {
     this.children.forEach((child) => child.remove());
+    this.children = [];
   }
 
   public saveSubscription(subFunc: () => boolean) {
