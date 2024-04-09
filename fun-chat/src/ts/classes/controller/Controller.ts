@@ -89,18 +89,20 @@ export default class Controller {
     );
   }
 
-  // public fetchMessageHistory(login: string, type: '') {
-  //   const id = `${type}${Date.now()}`;
-  //   const data = {
-  //     id: string,
-  //     type: "MSG_FROM_USER",
-  //     payload: {
-  //       user: {
-  //         login: string,
-  //       }
-  //     }
-  //   }
-  // }
+  public fetchMessageHistory<T extends PayloadsTypes>(login: string, callback: (data: SocketResponse<T>) => void) {
+    const id = `"MSG_FROM_USER"${Date.now()}`;
+    const data = {
+      id,
+      type: 'MSG_FROM_USER',
+      payload: {
+        user: {
+          login,
+        },
+      },
+    };
+    this.setCallback(id, callback);
+    this.socket.send(JSON.stringify(data));
+  }
 
   private setCallback<T extends PayloadsTypes>(id: string, callback: (data: SocketResponse<T>) => void) {
     this.callbackList.set(id, callback);

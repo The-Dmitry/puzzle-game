@@ -27,6 +27,6 @@ export default class UserMessagesView extends View {
   }
 
   public handleNewMessage(message: MessagePayload) {
-    if (this.activeDialog) this.activeDialog.handleNewMessage(message);
+    if (this.activeDialog) this.activeDialog.handleNewMessage(message.message);
   }
 }

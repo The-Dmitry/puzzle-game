@@ -1,25 +1,25 @@
 import './dialogItemView.scss';
 import View from '../../../../../../common/view/View';
 import NodeCreator from '../../../../../../common/nodeCreator/NodeCreator';
-import { MessagePayload } from '../../../../../../../types/MessagePayload';
+import { MessageType } from '../../../../../../../types/MessagePayload';
 
 export default class DialogItemView extends View {
-  constructor(data: MessagePayload, targetLogin: string) {
+  constructor(message: MessageType, targetLogin: string) {
     super({
       tag: 'li',
-      css: ['message-item', `message-item_${data.message.to === targetLogin ? 'outgoing' : 'incoming'}`],
+      css: ['message-item', `message-item_${message.to === targetLogin ? 'outgoing' : 'incoming'}`],
     });
-    this.render(data);
+    this.render(message);
   }
 
-  private render(data: MessagePayload) {
+  private render(message: MessageType) {
     const text = new NodeCreator({
       tag: 'p',
-      text: data.message.text,
+      text: message.text,
     });
     const time = new NodeCreator({
       tag: 'p',
-      text: new Date(data.message.datetime).toLocaleTimeString(),
+      text: new Date(message.datetime).toLocaleTimeString(),
     });
     this.addNodeInside(text, time);
   }

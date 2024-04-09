@@ -1,8 +1,9 @@
 import './dialogView.scss';
 import View from '../../../../../common/view/View';
 import Controller from '../../../../../controller/Controller';
-import { MessagePayload } from '../../../../../../types/MessagePayload';
+import { MessageType } from '../../../../../../types/MessagePayload';
 import DialogItemView from './messageItem/DialogItemView';
+import { AllMessagePayload } from '../../../../../../types/AllMessagePayload';
 
 export default class DialogView extends View {
   private messagesList = new Map();
@@ -12,11 +13,20 @@ export default class DialogView extends View {
     private readonly targetLogin: string
   ) {
     super({ tag: 'ul', css: ['dialog'] });
+    this.getMessageHistory();
   }
 
-  public handleNewMessage(message: MessagePayload) {
+  public handleNewMessage(message: MessageType) {
     const dialogItem = new DialogItemView(message, this.targetLogin);
-    this.messagesList.set(message.message.id, dialogItem);
+    this.messagesList.set(message.id, dialogItem);
     this.addNodeInside(dialogItem);
+  }
+
+  private getMessageHistory() {
+    this.controller.fetchMessageHistory<AllMessagePayload>(this.targetLogin, (data) => {
+      if (data && 'messages' in data.payload) {
+        data.payload.messages.forEach((msg) => this.handleNewMessage(msg));
+      }
+    });
   }
 }
