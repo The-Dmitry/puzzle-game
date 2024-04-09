@@ -15,16 +15,25 @@ export default class DialogInputView extends View {
 
   private render() {
     const input = new InputNodeCreator({ tag: 'input', type: 'text' });
+    input.setCallback((e) => {
+      if (e instanceof KeyboardEvent && e.code === 'Enter') {
+        this.sendMessage(input.node);
+      }
+    }, 'keypress');
     const submit = new NodeCreator({
       tag: 'button',
       text: 'Send',
-      callback: () => {
-        const { value: text } = input.node;
-        if (text) {
-          this.controller.sendMessage(this.targetLogin, text);
-        }
-      },
+      callback: () => this.sendMessage(input.node),
     });
     this.addNodeInside(input, submit);
+  }
+
+  private sendMessage(input: HTMLInputElement) {
+    const node = input;
+    const { value } = input;
+    if (value && value.replaceAll(' ', '')) {
+      this.controller.sendMessage(this.targetLogin, value);
+      node.value = '';
+    }
   }
 }

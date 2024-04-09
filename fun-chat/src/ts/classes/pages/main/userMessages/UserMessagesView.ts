@@ -12,6 +12,12 @@ export default class UserMessagesView extends View {
   constructor(private readonly controller: Controller) {
     super({ tag: 'div', css: ['user-messages'] });
     this.render();
+    this.state.subscribe(this.viewCreator, 'isWsActive', (v) => {
+      if (v) {
+        this.removeAllChildren();
+        this.render();
+      }
+    });
   }
 
   private render() {
