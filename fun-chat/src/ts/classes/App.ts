@@ -71,7 +71,7 @@ export default class App {
   private logout() {
     const login = this.state.getValue('appLogin') ?? '';
     const password = this.state.getValue('appPassword') ?? '';
-    this.controller.authorization(`auth${Date.now()}`, 'USER_LOGOUT', login, password, (data) => {
+    this.controller.authorization<LoginPayload>(`auth${Date.now()}`, 'USER_LOGOUT', login, password, (data) => {
       if ('user' in data.payload) {
         this.state.clearState();
         this.state.next('isWsActive', () => true);
@@ -90,14 +90,18 @@ export default class App {
       null,
       'isWsActive',
       (v) => {
+        console.log(v);
+
         const login = this.state.getValue('appLogin');
         const password = this.state.getValue('appPassword');
         if (v && login && password) {
-          reconnectNotice.remove();
           this.tryToLogin(login, password);
-          return;
         }
-        document.body.append(reconnectNotice.node);
+        if (v) {
+          reconnectNotice.remove();
+        } else {
+          document.body.append(reconnectNotice.node);
+        }
       },
       false
     );

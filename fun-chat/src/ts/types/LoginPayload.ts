@@ -1,3 +1,5 @@
+import { ErrorPayload } from './ErrorPayload';
+
 export type LoginPayload =
   | {
       user: {
@@ -5,6 +7,4 @@ export type LoginPayload =
         isLogined: boolean;
       };
     }
-  | {
-      error: 'a user with this login is already authorized';
-    };
+  | ErrorPayload;
