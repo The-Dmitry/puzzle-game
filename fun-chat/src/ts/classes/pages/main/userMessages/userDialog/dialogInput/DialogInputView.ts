@@ -14,7 +14,7 @@ export default class DialogInputView extends View {
   }
 
   private render() {
-    const input = new InputNodeCreator({ tag: 'input', type: 'text' });
+    const input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
     input.setCallback((e) => {
       if (e instanceof KeyboardEvent && e.code === 'Enter') {
         this.sendMessage(input.node);
@@ -23,6 +23,7 @@ export default class DialogInputView extends View {
     const submit = new NodeCreator({
       tag: 'button',
       text: 'Send',
+      css: ['field-submit'],
       callback: () => this.sendMessage(input.node),
     });
     this.addNodeInside(input, submit);

@@ -18,7 +18,8 @@ export default class DialogHeaderView extends View {
         data &&
         'user' in data.payload &&
         data.payload.user.login === this.login &&
-        this.setText(data.payload.user.isLogined)
+        this.setText(data.payload.user.isLogined),
+      false
     );
   }
 

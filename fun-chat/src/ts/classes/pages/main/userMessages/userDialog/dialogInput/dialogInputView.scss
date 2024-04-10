@@ -1,3 +1,11 @@
 .messages-input-field {
   display: flex;
 }
+
+.field-input {
+  flex: 0 1 80%;
+}
+
+.field-submit {
+  flex: 1 1 auto;
+}
