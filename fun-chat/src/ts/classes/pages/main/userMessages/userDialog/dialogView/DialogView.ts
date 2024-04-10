@@ -9,7 +9,7 @@ import NodeCreator from '../../../../../common/nodeCreator/NodeCreator';
 export default class DialogView extends View {
   private placeholder = new NodeCreator({
     tag: 'li',
-    css: ['dialog-empty-Notification'],
+    css: ['dialog__empty-notification'],
     text: 'Send your first message',
   });
 

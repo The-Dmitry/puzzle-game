@@ -7,12 +7,15 @@
   max-width: 90%;
   padding: 10px;
   border-radius: 10px;
+  &:first-child {
+    margin-top: auto;
+  }
 }
 
 .message-item_outgoing {
-  justify-self: end;
+  align-self: end;
 }
 
 .message-item_incoming {
-  justify-self: start;
+  align-self: start;
 }

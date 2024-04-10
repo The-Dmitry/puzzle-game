@@ -52,6 +52,8 @@ export default class App {
     this.controller.authorization('USER_LOGIN', login, password, (data: SocketResponse<LoginPayload>) => {
       // console.log('LOGIN', data);
       if ('user' in data.payload) {
+        // Delete before deploy
+        this.startChatBot();
         window.history.replaceState(null, '', Routes.MAIN);
       } else {
         console.error(data.payload.error);
@@ -59,6 +61,35 @@ export default class App {
         this.state.next('isWsActive', () => true);
         window.history.replaceState(null, '', Routes.AUTHORIZATION);
       }
+    });
+  }
+
+  // Delete before deploy
+  private startChatBot() {
+    const API = 'ws://localhost:4000';
+    const MSG = ['Sure', 'Great!', 'Right', 'Yup', 'Cool!'];
+    const s = new WebSocket(API);
+    s.addEventListener('open', () => {
+      s.send(
+        JSON.stringify({
+          id: '1',
+          type: 'USER_LOGIN',
+          payload: { user: { id: '1', login: 'Chat Bot', password: '123' } },
+        })
+      );
+    });
+    s.addEventListener('message', ({ data }) => {
+      const { type, payload } = JSON.parse(data);
+      if (type === 'MSG_SEND' && payload.message.to === 'Chat Bot')
+        setTimeout(() => {
+          s.send(
+            JSON.stringify({
+              id: '2',
+              type: 'MSG_SEND',
+              payload: { message: { to: payload.message.from, text: MSG[Math.floor(Math.random() * MSG.length)] } },
+            })
+          );
+        }, 1500);
     });
   }
 
