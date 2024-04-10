@@ -16,7 +16,9 @@ export default class MainView extends View {
   constructor(private readonly controller: Controller) {
     super({ tag: 'div', css: ['main'] });
     if (this.state.getValue('appLogin')) {
-      this.userList = new UsersListView(this.controller, (login: string) => this.startNewDialog(login));
+      this.userList = new UsersListView(this.controller, (login: string, status: boolean) =>
+        this.startNewDialog(login, status)
+      );
       this.messagesView = new UserMessagesView(this.controller);
       this.render();
       this.listenToNewMessages();
@@ -30,9 +32,9 @@ export default class MainView extends View {
     this.addNodeInside(header, this.userList, this.messagesView);
   }
 
-  private startNewDialog(targetLogin: string) {
+  private startNewDialog(targetLogin: string, status: boolean) {
     this.dialogWithUser = targetLogin;
-    this.messagesView.startNewDialog(targetLogin);
+    this.messagesView.startNewDialog(targetLogin, status);
   }
 
   private listenToNewMessages() {

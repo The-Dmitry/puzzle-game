@@ -17,7 +17,7 @@ export default class UsersListView extends View {
 
   constructor(
     private readonly controller: Controller,
-    private startDialog: (login: string) => void
+    private startDialog: (login: string, status: boolean) => void
   ) {
     super({ tag: 'div', css: ['users'] });
     this.render();

@@ -5,6 +5,7 @@ import Controller from '../../../controller/Controller';
 import DialogView from './userDialog/dialogView/DialogView';
 import DialogInputView from './userDialog/dialogInput/DialogInputView';
 import { MessagePayload } from '../../../../types/MessagePayload';
+import DialogHeaderView from './dialogHeader/DialogHeaderView';
 
 export default class UserMessagesView extends View {
   private activeDialog: DialogView | null = null;
@@ -24,12 +25,13 @@ export default class UserMessagesView extends View {
     this.addNodeInside(new EmptyDialogView());
   }
 
-  public startNewDialog(targetLogin: string) {
+  public startNewDialog(targetLogin: string, status: boolean) {
     this.removeAllChildren();
+    const header = new DialogHeaderView(targetLogin, status);
     const dialog = new DialogView(this.controller, targetLogin);
     const input = new DialogInputView(this.controller, targetLogin);
     this.activeDialog = dialog;
-    this.addNodeInside(dialog, input);
+    this.addNodeInside(header, dialog, input);
   }
 
   public handleNewMessage(message: MessagePayload) {
