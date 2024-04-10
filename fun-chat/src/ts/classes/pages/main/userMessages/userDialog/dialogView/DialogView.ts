@@ -5,6 +5,7 @@ import { MessageType } from '../../../../../../types/MessagePayload';
 import DialogItemView from './messageItem/DialogItemView';
 import { AllMessagePayload } from '../../../../../../types/AllMessagePayload';
 import NodeCreator from '../../../../../common/nodeCreator/NodeCreator';
+import SeparatorView from './separator/SeparatorView';
 
 export default class DialogView extends View {
   private placeholder = new NodeCreator({
@@ -12,6 +13,10 @@ export default class DialogView extends View {
     css: ['dialog__empty-notification'],
     text: 'Send your first message',
   });
+
+  private separator = new SeparatorView();
+
+  private isSeparatorInserted = false;
 
   private messagesList = new Map();
 
@@ -24,6 +29,9 @@ export default class DialogView extends View {
   }
 
   public handleNewMessage(message: MessageType) {
+    if (!message.status.isReaded && message.from === this.targetLogin) {
+      this.addSeparator();
+    }
     const dialogItem = new DialogItemView(message, this.targetLogin);
     this.messagesList.set(message.id, dialogItem);
     this.addNodeInside(dialogItem);
@@ -43,5 +51,16 @@ export default class DialogView extends View {
         this.render();
       }
     });
+  }
+
+  private addSeparator() {
+    if (this.isSeparatorInserted) return;
+    this.isSeparatorInserted = true;
+    this.addNodeInside(this.separator);
+  }
+
+  public removeSeparator() {
+    this.isSeparatorInserted = false;
+    this.separator.remove();
   }
 }

@@ -53,12 +53,13 @@ export default class UsersListView extends View {
   }
 
   private drawUsers(...list: PayloadUser[]) {
+    const myLogin = this.state.getValue('appLogin');
     list.forEach((data) => {
-      if (!this.usersCollection.has(data.login)) {
+      if (!this.usersCollection.has(data.login) && data.login !== myLogin) {
         const user = new UserItemView(data, this.startDialog);
         this.usersCollection.set(data.login, user);
+        this.handleUserStatus(data);
       }
-      this.handleUserStatus(data);
     });
   }
 

@@ -2,7 +2,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 25px;
   overflow-y: auto;
   scrollbar-width: thin;
   padding: 10px;
@@ -15,4 +15,20 @@
   align-items: center;
   justify-items: center;
   font-size: 1.3rem;
+}
+
+.dialog__message-separator {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.separator-text {
+}
+
+.separator-line {
+  flex: 1 1 auto;
+  height: 2px;
+  background-color: currentColor;
 }

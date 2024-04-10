@@ -1,11 +1,12 @@
 .message-item {
+  position: relative;
   background-color: rgb(51, 64, 80);
   color: rgb(255, 255, 255);
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   list-style: none;
-  min-width: min-content;
+  min-width: 150px;
   max-width: 90%;
-  padding: 10px;
+  padding: 27px 8px 7px 8px;
   border-radius: 10px;
   &:first-child {
     margin-top: auto;
@@ -14,8 +15,54 @@
 
 .message-item_outgoing {
   align-self: end;
+  .message-time {
+    right: 3px;
+  }
+  .message-sender {
+    color: rgb(140, 230, 255);
+  }
+  .message-status {
+    right: 55px;
+  }
 }
 
 .message-item_incoming {
   align-self: start;
+  .message-time {
+    left: 3px;
+  }
+  .message-sender {
+    color: rgb(241, 154, 2);
+  }
+  .message-status {
+    left: 55px;
+  }
+}
+
+.message-text {
+}
+
+.message-time {
+  position: absolute;
+  bottom: -17px;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.message-sender {
+  cursor: default;
+  position: absolute;
+  top: 5px;
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+.message-status {
+  position: absolute;
+  bottom: -17px;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  user-select: none;
 }
