@@ -1,11 +1,11 @@
 import './userItemView.scss';
-import { PayloadUser } from '../../../../../types/UsersListPayload';
 import View from '../../../../common/view/View';
+import { UserPayload } from '../../../../../types/UserPayload';
 
 export default class UserItemView extends View {
   private status = false;
 
-  constructor({ login, isLogined }: PayloadUser, startDialog: (login: string, status: boolean) => void) {
+  constructor({ login, isLogined }: UserPayload, startDialog: (login: string, status: boolean) => void) {
     super({ tag: 'li', css: ['users-item'], text: login, callback: () => startDialog(login, this.status) });
     this.setStatus(isLogined);
     this.render();

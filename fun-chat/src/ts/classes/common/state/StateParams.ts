@@ -1,10 +1,9 @@
-import SocketResponse from '../../../interfaces/SocketResponse';
-import { PayloadsTypes } from '../../../types/PayloadTypes';
+import { ResponsesList } from '../../../types/response/ResponsesList';
 
 interface Params {
   appLogin: string;
   appPassword: string;
-  unhandledResponse: SocketResponse<PayloadsTypes>;
+  unhandledResponse: ResponsesList;
   logout: boolean;
   isWsActive: boolean;
 }

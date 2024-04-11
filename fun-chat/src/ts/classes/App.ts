@@ -1,6 +1,6 @@
-import SocketResponse from '../interfaces/SocketResponse';
-import { LoginPayload } from '../types/LoginPayload';
 import { TypesOfView } from '../types/TypesOfView';
+import { LoginResponse } from '../types/response/LoginResponse';
+import { LogoutResponse } from '../types/response/LogoutResponse';
 import NodeCreator from './common/nodeCreator/NodeCreator';
 import Router from './common/router/Router';
 import { Routes } from './common/router/Routes';
@@ -49,14 +49,13 @@ export default class App {
   }
 
   public tryToLogin(login: string, password: string) {
-    this.controller.authorization('USER_LOGIN', login, password, (data: SocketResponse<LoginPayload>) => {
-      // console.log('LOGIN', data);
-      if ('user' in data.payload) {
+    this.controller.authorization('USER_LOGIN', login, password, (data: LoginResponse) => {
+      if (data.type === 'USER_LOGIN') {
         // Delete before deploy
         this.startChatBot();
         window.history.replaceState(null, '', Routes.MAIN);
       } else {
-        console.error(data.payload.error);
+        console.error(data.payload);
         this.state.clearState();
         this.state.next('isWsActive', () => true);
         window.history.replaceState(null, '', Routes.AUTHORIZATION);
@@ -96,8 +95,8 @@ export default class App {
   private logout() {
     const login = this.state.getValue('appLogin') ?? '';
     const password = this.state.getValue('appPassword') ?? '';
-    this.controller.authorization<LoginPayload>('USER_LOGOUT', login, password, (data) => {
-      if ('user' in data.payload) {
+    this.controller.authorization<LogoutResponse>('USER_LOGOUT', login, password, (data) => {
+      if (data.type === 'USER_LOGOUT') {
         this.state.clearState();
         this.state.next('isWsActive', () => true);
         window.history.replaceState({}, '', Routes.AUTHORIZATION);
@@ -117,8 +116,6 @@ export default class App {
       (v) => {
         const login = this.state.getValue('appLogin');
         const password = this.state.getValue('appPassword');
-        // console.log(login);
-
         if (v && login && password) {
           this.tryToLogin(login, password);
         }

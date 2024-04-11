@@ -1,4 +1,4 @@
-export type MessageType = {
+export type MessagePayload = {
   id: string;
   from: string;
   to: string;
@@ -9,8 +9,4 @@ export type MessageType = {
     isReaded: boolean;
     isEdited: boolean;
   };
-};
-
-export type MessagePayload = {
-  message: MessageType;
 };

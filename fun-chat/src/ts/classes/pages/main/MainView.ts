@@ -39,12 +39,14 @@ export default class MainView extends View {
 
   private listenToNewMessages() {
     this.state.subscribe(this.viewCreator, 'unhandledResponse', (data) => {
-      if (!(data && data.type === 'MSG_SEND')) return;
-      // console.log(data);
-      if (!('message' in data.payload)) return;
-      const { from, to } = data.payload.message;
-      if (from === this.dialogWithUser || to === this.dialogWithUser) {
-        this.messagesView.handleNewMessage(data.payload);
+      if (data && data.type === 'MSG_SEND') {
+        // console.log(data);
+        // if (!('message' in data.payload)) return;
+        // if (!('from' in data.payload)) return;
+        const { from, to } = data.payload.message;
+        if (from === this.dialogWithUser || to === this.dialogWithUser) {
+          this.messagesView.handleNewMessage(data);
+        }
       }
     });
   }

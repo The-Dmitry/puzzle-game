@@ -1,6 +1,5 @@
-import SocketResponse from '../../../../interfaces/SocketResponse';
-import { PayloadsTypes } from '../../../../types/PayloadTypes';
-import { PayloadUser, UsersListPayload } from '../../../../types/UsersListPayload';
+import { UserPayload } from '../../../../types/UserPayload';
+import { ResponsesList } from '../../../../types/response/ResponsesList';
 import InputNodeCreator from '../../../common/nodeCreator/InputNodeCreator';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
 import View from '../../../common/view/View';
@@ -37,33 +36,34 @@ export default class UsersListView extends View {
     this.addNodeInside(filter, this.onlineUsersNode, this.offlineUsersNode);
   }
 
-  private listenResponses(data: SocketResponse<PayloadsTypes>) {
-    if (!('user' in data.payload)) return;
+  private listenResponses(data: ResponsesList) {
+    if (!data) return;
     if (data.type === 'USER_EXTERNAL_LOGIN' || data.type === 'USER_EXTERNAL_LOGOUT') {
       this.drawUsers(data.payload.user);
     }
   }
 
   private getUsers(type: 'USER_ACTIVE' | 'USER_INACTIVE') {
-    this.controller.getUsers(type, (data: SocketResponse<UsersListPayload>) => {
-      if ('users' in data.payload) {
+    this.controller.getUsers(type, (data) => {
+      if (data.type === type) {
         this.drawUsers(...data.payload.users);
       }
     });
   }
 
-  private drawUsers(...list: PayloadUser[]) {
+  private drawUsers(...list: UserPayload[]) {
     const myLogin = this.state.getValue('appLogin');
     list.forEach((data) => {
-      if (!this.usersCollection.has(data.login) && data.login !== myLogin) {
+      if (data.login === myLogin) return;
+      if (!this.usersCollection.has(data.login)) {
         const user = new UserItemView(data, this.startDialog);
         this.usersCollection.set(data.login, user);
-        this.handleUserStatus(data);
       }
+      this.handleUserStatus(data);
     });
   }
 
-  private handleUserStatus(userInfo: PayloadUser) {
+  private handleUserStatus(userInfo: UserPayload) {
     const user = this.usersCollection.get(userInfo.login)!;
     if (userInfo.isLogined) {
       this.onlineUsersNode.addInnerNode(user.viewCreator);

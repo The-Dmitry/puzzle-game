@@ -1,5 +1,4 @@
-import SocketResponse from '../../interfaces/SocketResponse';
-import { PayloadsTypes } from '../../types/PayloadTypes';
+import { ResponsesList } from '../../types/response/ResponsesList';
 import State from '../common/state/State';
 
 // const WS_URL = `wss://rs-chat-d66c4fe06a3a.herokuapp.com/`;
@@ -39,11 +38,11 @@ export default class Controller {
     }, 5000);
   }
 
-  public authorization<T extends PayloadsTypes>(
+  public authorization<T extends ResponsesList>(
     type: 'USER_LOGOUT' | 'USER_LOGIN',
     login: string,
     password: string,
-    callback: (data: SocketResponse<T>) => void
+    callback: (data: T) => void
   ) {
     const id = `${type}${Date.now()}`;
     this.setCallback(id, callback);
@@ -60,10 +59,7 @@ export default class Controller {
     this.socket.send(JSON.stringify(data));
   }
 
-  public getUsers<T extends PayloadsTypes>(
-    type: 'USER_ACTIVE' | 'USER_INACTIVE',
-    callback: (data: SocketResponse<T>) => void
-  ) {
+  public getUsers<T extends ResponsesList>(type: 'USER_ACTIVE' | 'USER_INACTIVE', callback: (data: T) => void) {
     const id = `${type}${Date.now()}`;
     this.setCallback(id, callback);
     const data = {
@@ -89,7 +85,7 @@ export default class Controller {
     );
   }
 
-  public fetchMessageHistory<T extends PayloadsTypes>(login: string, callback: (data: SocketResponse<T>) => void) {
+  public fetchMessageHistory<T extends ResponsesList>(login: string, callback: (data: T) => void) {
     const id = `"MSG_FROM_USER"${Date.now()}`;
     const data = {
       id,
@@ -104,11 +100,25 @@ export default class Controller {
     this.socket.send(JSON.stringify(data));
   }
 
-  private setCallback<T extends PayloadsTypes>(id: string, callback: (data: SocketResponse<T>) => void) {
+  public setReadStatus(id: string) {
+    this.socket.send(
+      JSON.stringify({
+        id,
+        type: 'MSG_READ',
+        payload: {
+          message: {
+            id,
+          },
+        },
+      })
+    );
+  }
+
+  private setCallback<T extends ResponsesList>(id: string, callback: (data: T) => void) {
     this.callbackList.set(id, callback);
   }
 
-  private handleResponse<T extends PayloadsTypes>(data: SocketResponse<T>) {
+  private handleResponse<T extends ResponsesList>(data: T) {
     if (data.id && this.callbackList.has(data.id)) {
       this.callbackList.get(data.id)!(data);
       this.callbackList.delete(data.id);

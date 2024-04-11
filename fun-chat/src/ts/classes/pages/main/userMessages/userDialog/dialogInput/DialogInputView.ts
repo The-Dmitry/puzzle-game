@@ -7,7 +7,8 @@ import Controller from '../../../../../controller/Controller';
 export default class DialogInputView extends View {
   constructor(
     private readonly controller: Controller,
-    private readonly targetLogin: string
+    private readonly targetLogin: string,
+    private readonly readAllMessages: () => void
   ) {
     super({ tag: 'div', css: ['messages-input-field'] });
     this.render();
@@ -34,6 +35,7 @@ export default class DialogInputView extends View {
     const { value } = input;
     if (value && value.replaceAll(' ', '')) {
       this.controller.sendMessage(this.targetLogin, value);
+      this.readAllMessages();
       node.value = '';
     }
   }
