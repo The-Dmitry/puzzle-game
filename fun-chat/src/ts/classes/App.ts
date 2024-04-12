@@ -17,6 +17,7 @@ export default class App {
   private state = State.getInstance();
 
   public start() {
+    this.router.listen();
     this.makeSubscription();
   }
 
@@ -48,12 +49,14 @@ export default class App {
     document.body.append(this.activeView.viewCreator.node);
   }
 
-  public tryToLogin(login: string, password: string) {
+  private tryToLogin(login: string, password: string) {
     this.controller.authorization('USER_LOGIN', login, password, (data: LoginResponse) => {
       if (data.type === 'USER_LOGIN') {
         // Delete before deploy
         this.startChatBot();
-        window.history.replaceState(null, '', Routes.MAIN);
+        if (window.location.href.replace(this.router.origin, '') === Routes.AUTHORIZATION) {
+          window.history.replaceState(null, '', Routes.MAIN);
+        }
       } else {
         console.error(data.payload);
         this.state.clearState();
@@ -95,13 +98,13 @@ export default class App {
   private logout() {
     const login = this.state.getValue('appLogin') ?? '';
     const password = this.state.getValue('appPassword') ?? '';
+    this.state.clearState();
     this.controller.authorization<LogoutResponse>('USER_LOGOUT', login, password, (data) => {
       if (data.type === 'USER_LOGOUT') {
-        this.state.clearState();
         this.state.next('isWsActive', () => true);
         window.history.replaceState({}, '', Routes.AUTHORIZATION);
       } else {
-        console.log(data.payload.error);
+        console.error(data.payload.error);
       }
     });
   }
@@ -109,7 +112,6 @@ export default class App {
   private makeSubscription() {
     const reconnectNotice = new NodeCreator({ tag: 'div', css: ['reconnect'], text: 'reconnect' });
     this.state.subscribe(null, 'logout', () => this.logout(), false);
-    this.state.next('isWsActive', () => false);
     this.state.subscribe(
       null,
       'isWsActive',
@@ -120,7 +122,7 @@ export default class App {
           this.tryToLogin(login, password);
         }
         if (v) {
-          reconnectNotice.remove();
+          reconnectNotice.node.remove();
         } else {
           document.body.append(reconnectNotice.node);
         }

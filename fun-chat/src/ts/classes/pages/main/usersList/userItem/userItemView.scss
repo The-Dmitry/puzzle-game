@@ -24,6 +24,20 @@
 }
 .users-item_offline {
   &::before {
-    background-color: red;
+    background-color: rgb(140, 140, 140);
   }
+}
+
+.users-item__counter {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  height: 50%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid white;
 }

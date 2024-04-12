@@ -8,9 +8,11 @@ export default class SeparatorView extends View {
   }
 
   private render() {
-    const text = new NodeCreator({ tag: 'p', css: ['separator-text'], text: 'New Messages' });
-    const leftLine = new NodeCreator({ tag: 'div', css: ['separator-line'] });
-    const rightLine = new NodeCreator({ tag: 'div', css: ['separator-line'] });
-    this.addNodeInside(leftLine, text, rightLine);
+    const container = new NodeCreator({ tag: 'div', css: ['separator-container'] }).addInnerNode(
+      new NodeCreator({ tag: 'div', css: ['separator-line'] }),
+      new NodeCreator({ tag: 'p', css: ['separator-text'], text: 'New Messages' }),
+      new NodeCreator({ tag: 'div', css: ['separator-line'] })
+    );
+    this.addNodeInside(container);
   }
 }

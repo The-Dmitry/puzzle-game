@@ -1,4 +1,6 @@
 import { UserPayload } from '../../../../types/UserPayload';
+import { AllMessagesResponse } from '../../../../types/response/AllMessagesResponse';
+import { MessageResponse } from '../../../../types/response/MessageResponse';
 import { ResponsesList } from '../../../../types/response/ResponsesList';
 import InputNodeCreator from '../../../common/nodeCreator/InputNodeCreator';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
@@ -58,6 +60,7 @@ export default class UsersListView extends View {
       if (!this.usersCollection.has(data.login)) {
         const user = new UserItemView(data, this.startDialog);
         this.usersCollection.set(data.login, user);
+        this.controller.fetchMessageHistory<AllMessagesResponse>(data.login, (msg) => user.init(msg, myLogin!));
       }
       this.handleUserStatus(data);
     });
@@ -71,5 +74,10 @@ export default class UsersListView extends View {
       this.offlineUsersNode.addInnerNode(user.viewCreator);
     }
     user.setStatus(userInfo.isLogined);
+  }
+
+  public showUnreadMsgCount(data: MessageResponse) {
+    if (!this.usersCollection.has(data.payload.message.from)) return;
+    this.usersCollection.get(data.payload.message.from)?.incrementMessage();
   }
 }

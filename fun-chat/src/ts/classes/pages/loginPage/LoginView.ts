@@ -4,6 +4,7 @@ import NodeCreator from '../../common/nodeCreator/NodeCreator';
 import View from '../../common/view/View';
 import LoginNameView from './inputView/LoginNameView';
 import LoginPasswordView from './inputView/LoginPasswordView';
+import { Routes } from '../../common/router/Routes';
 
 const nodesData: Record<string, NodeParams> = {
   parentNode: {
@@ -28,8 +29,12 @@ export default class LoginView extends View {
 
   constructor(private loginFunc: (login: string, password: string) => void) {
     super({ tag: 'div', css: ['login-view'] });
-    this.makeSubscription();
-    this.render();
+    if(this.state.getValue('appLogin')) {
+      window.history.replaceState(null, '', Routes.MAIN);
+    } else {
+      this.makeSubscription();
+      this.render();
+    }
   }
 
   private render() {

@@ -38,7 +38,6 @@ export default class DialogView extends View {
     this.messagesList.set(message.id, dialogItem);
     if (!message.status.isReaded && message.from === this.targetLogin) {
       this.unreadMessages.push(message.id);
-      console.log(this.unreadMessages);
     }
     this.addNodeInside(dialogItem);
     this.viewCreator.node.scrollTo(0, 9999);
@@ -80,8 +79,6 @@ export default class DialogView extends View {
   }
 
   private addSeparator() {
-    console.log(123);
-
     if (this.isSeparatorInserted) return;
     this.isSeparatorInserted = true;
     this.viewCreator.node.append(this.separator.viewCreator.node);
@@ -94,6 +91,7 @@ export default class DialogView extends View {
 
   public readAllMessages() {
     this.unreadMessages.forEach((msgId) => this.controller.setReadStatus(msgId));
+    this.state.next('onReadMessage', () => `${this.targetLogin}`);
     this.unreadMessages = [];
     this.removeSeparator();
   }

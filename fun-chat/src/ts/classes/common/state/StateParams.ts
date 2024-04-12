@@ -6,6 +6,7 @@ interface Params {
   unhandledResponse: ResponsesList;
   logout: boolean;
   isWsActive: boolean;
+  onReadMessage: string;
 }
 
 type ValueOrNull<T> = {

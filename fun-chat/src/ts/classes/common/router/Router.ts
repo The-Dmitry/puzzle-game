@@ -1,15 +1,21 @@
 import { Routes } from './Routes';
 
 export default class Router {
-  private origin = window.location.origin;
+  public readonly origin = window.location.origin;
 
   private currentPath = '';
 
+  private isRouterActive = false;
+
   constructor(private readonly routes: Map<string, () => Promise<void>>) {
-    this.listen();
+    setTimeout(() => {
+      this.listen();
+    }, 1500);
   }
 
   public listen() {
+    if (this.isRouterActive) return;
+    this.isRouterActive = true;
     setInterval(() => {
       const path = window.location.href.replace(this.origin, '');
       if (this.currentPath !== path) {

@@ -7,7 +7,7 @@ import UsersListView from './usersList/UsersListView';
 import UserMessagesView from './userMessages/UserMessagesView';
 
 export default class MainView extends View {
-  private userList!: UsersListView;
+  private usersList!: UsersListView;
 
   private messagesView!: UserMessagesView;
 
@@ -16,7 +16,7 @@ export default class MainView extends View {
   constructor(private readonly controller: Controller) {
     super({ tag: 'div', css: ['main'] });
     if (this.state.getValue('appLogin')) {
-      this.userList = new UsersListView(this.controller, (login: string, status: boolean) =>
+      this.usersList = new UsersListView(this.controller, (login: string, status: boolean) =>
         this.startNewDialog(login, status)
       );
       this.messagesView = new UserMessagesView(this.controller);
@@ -29,7 +29,7 @@ export default class MainView extends View {
 
   private render() {
     const header = new HeaderView();
-    this.addNodeInside(header, this.userList, this.messagesView);
+    this.addNodeInside(header, this.usersList, this.messagesView);
   }
 
   private startNewDialog(targetLogin: string, status: boolean) {
@@ -39,14 +39,11 @@ export default class MainView extends View {
 
   private listenToNewMessages() {
     this.state.subscribe(this.viewCreator, 'unhandledResponse', (data) => {
-      if (data && data.type === 'MSG_SEND') {
-        // console.log(data);
-        // if (!('message' in data.payload)) return;
-        // if (!('from' in data.payload)) return;
-        const { from, to } = data.payload.message;
-        if (from === this.dialogWithUser || to === this.dialogWithUser) {
-          this.messagesView.handleNewMessage(data);
-        }
+      if (!(data && data.type === 'MSG_SEND')) return;
+      this.usersList.showUnreadMsgCount(data);
+      const { from, to } = data.payload.message;
+      if (from === this.dialogWithUser || to === this.dialogWithUser) {
+        this.messagesView.handleNewMessage(data);
       }
     });
   }

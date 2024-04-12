@@ -12,6 +12,7 @@ export default class Controller {
   private state = State.getInstance();
 
   constructor() {
+    this.state.next('isWsActive', () => false);
     this.connect();
   }
 
@@ -44,7 +45,7 @@ export default class Controller {
     password: string,
     callback: (data: T) => void
   ) {
-    const id = `${type}${Date.now()}`;
+    const id = `${type}${crypto.randomUUID()}`;
     this.setCallback(id, callback);
     const data = {
       id,
@@ -60,7 +61,7 @@ export default class Controller {
   }
 
   public getUsers<T extends ResponsesList>(type: 'USER_ACTIVE' | 'USER_INACTIVE', callback: (data: T) => void) {
-    const id = `${type}${Date.now()}`;
+    const id = `${type}${crypto.randomUUID()}`;
     this.setCallback(id, callback);
     const data = {
       id,
@@ -86,7 +87,7 @@ export default class Controller {
   }
 
   public fetchMessageHistory<T extends ResponsesList>(login: string, callback: (data: T) => void) {
-    const id = `"MSG_FROM_USER"${Date.now()}`;
+    const id = `"MSG_FROM_USER"${crypto.randomUUID()}`;
     const data = {
       id,
       type: 'MSG_FROM_USER',
@@ -124,8 +125,6 @@ export default class Controller {
       this.callbackList.delete(data.id);
       return;
     }
-    // console.log('unhandled');
-
     this.state.next('unhandledResponse', () => data);
   }
 }

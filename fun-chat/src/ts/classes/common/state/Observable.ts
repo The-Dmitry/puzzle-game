@@ -16,11 +16,8 @@ export default class Observable<T> {
   }
 
   public next(callback: (value: T | null) => T | null) {
-    const result = callback(this.value);
-    if (result !== this.value) {
-      this.value = result;
-      this.notifySubscribers();
-    }
+    this.value = callback(this.value);
+    this.notifySubscribers();
   }
 
   private notifySubscribers() {

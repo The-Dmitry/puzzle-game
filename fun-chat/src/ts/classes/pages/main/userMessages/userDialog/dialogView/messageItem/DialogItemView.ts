@@ -2,21 +2,17 @@ import './dialogItemView.scss';
 import View from '../../../../../../common/view/View';
 import NodeCreator from '../../../../../../common/nodeCreator/NodeCreator';
 import { MessagePayload } from '../../../../../../../types/MessagePayload';
-import { MessageDeliveryStatus } from '../../../../../../../types/response/MessageDeliveryStatus';
 
 export default class DialogItemView extends View {
   private text = new NodeCreator({ tag: 'p', css: ['message-text'] });
 
   private status = new NodeCreator({ tag: 'p', css: ['message-status'] });
 
-  private messageInfo: MessagePayload;
-
   constructor(message: MessagePayload, targetLogin: string) {
     super({
       tag: 'li',
       css: ['message-item', `message-item_${message.to === targetLogin ? 'outgoing' : 'incoming'}`],
     });
-    this.messageInfo = message;
     this.render(message, targetLogin);
   }
 
