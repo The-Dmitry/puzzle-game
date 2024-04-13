@@ -17,7 +17,7 @@ export default class DialogInputView extends View {
   private render() {
     const input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
     input.setCallback((e) => {
-      if (e instanceof KeyboardEvent && e.code === 'Enter') {
+      if (e instanceof KeyboardEvent && ['NumpadEnter', 'Enter'].includes(e.code)) {
         this.sendMessage(input.node);
       }
     }, 'keypress');

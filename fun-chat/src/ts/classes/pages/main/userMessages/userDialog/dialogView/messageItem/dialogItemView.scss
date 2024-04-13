@@ -16,54 +16,74 @@
 
 .message-item_outgoing {
   align-self: end;
-  .message-time {
+
+  .message-item__info {
     right: 3px;
   }
   .message-sender {
     color: rgb(140, 230, 255);
   }
+  .message-time {
+    order: 3;
+  }
   .message-status {
-    right: 55px;
+    order: 2;
+  }
+  .message-edit {
+    order: 1;
   }
 }
 
 .message-item_incoming {
   align-self: start;
-  .message-time {
+  .message-item__info {
     left: 3px;
   }
   .message-sender {
     color: rgb(241, 154, 2);
   }
-  .message-status {
-    left: 55px;
+  .message-edit {
+    order: 2;
+  }
+  .message-time {
+    order: 1;
   }
 }
 
 .message-text {
 }
 
+.message-status,
 .message-time {
-  position: absolute;
-  bottom: -17px;
   font-size: 0.8rem;
   opacity: 0.7;
-  user-select: none;
+  text-transform: uppercase;
 }
 
 .message-sender {
+  pointer-events: none;
   cursor: default;
   position: absolute;
   top: 5px;
   font-size: 1rem;
   text-decoration: underline;
 }
-
-.message-status {
-  position: absolute;
-  bottom: -17px;
-  font-size: 0.8rem;
-  opacity: 0.7;
-  text-transform: uppercase;
+.message-item__info {
   user-select: none;
+  position: absolute;
+  gap: 3px;
+  display: flex;
+  bottom: -17px;
+  right: 3px;
+}
+
+.message-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-menu__delete,
+.message-menu__edit {
+  padding-inline: 15px;
 }

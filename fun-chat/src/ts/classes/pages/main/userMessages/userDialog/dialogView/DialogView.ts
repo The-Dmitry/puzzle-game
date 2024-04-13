@@ -18,7 +18,7 @@ export default class DialogView extends View {
 
   private isSeparatorInserted = false;
 
-  private messagesList = new Map();
+  private messagesList = new Map<string, DialogItemView>();
 
   private unreadMessages: string[] = [];
 
@@ -35,7 +35,7 @@ export default class DialogView extends View {
       this.addSeparator();
     }
     this.placeholder.remove();
-    const dialogItem = new DialogItemView(message, this.targetLogin);
+    const dialogItem = new DialogItemView(message, this.targetLogin, this.controller);
     this.messagesList.set(message.id, dialogItem);
     if (!message.status.isReaded && message.from === this.targetLogin) {
       this.unreadMessages.push(message.id);
@@ -70,7 +70,7 @@ export default class DialogView extends View {
 
   private setMsgStatus(id: string, isRead: boolean, isDelivered: boolean) {
     if (!this.messagesList.has(id)) return;
-    const msg: DialogItemView = this.messagesList.get(id);
+    const msg: DialogItemView = this.messagesList.get(id)!;
     msg.setStatus(isRead, isDelivered);
   }
 
@@ -84,6 +84,11 @@ export default class DialogView extends View {
       if (data.type === 'MSG_READ') {
         this.setMsgStatus(data.payload.message.id, data.payload.message.status.isReaded, false);
       }
+      if (data.type === 'MSG_DELETE') {
+        if (data.payload.message.status.isDeleted) {
+          this.deleteMessage(data.payload.message.id);
+        }
+      }
     });
   }
 
@@ -96,6 +101,7 @@ export default class DialogView extends View {
   public removeSeparator() {
     this.isSeparatorInserted = false;
     this.separator.viewCreator.node.remove();
+    this.messagesList.forEach((msg) => msg.closeModal());
   }
 
   public readAllMessages() {
@@ -103,5 +109,10 @@ export default class DialogView extends View {
     this.state.next('onReadMessage', () => `${this.targetLogin}`);
     this.unreadMessages = [];
     this.removeSeparator();
+  }
+
+  private deleteMessage(id: string) {
+    this.messagesList.get(id)?.remove();
+    this.messagesList.delete(id);
   }
 }

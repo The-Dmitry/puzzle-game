@@ -29,7 +29,7 @@ export default class LoginView extends View {
 
   constructor(private loginFunc: (login: string, password: string) => void) {
     super({ tag: 'div', css: ['login-view'] });
-    if(this.state.getValue('appLogin')) {
+    if (this.state.getValue('appLogin')) {
       window.history.replaceState(null, '', Routes.MAIN);
     } else {
       this.makeSubscription();

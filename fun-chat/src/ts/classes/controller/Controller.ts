@@ -115,6 +115,20 @@ export default class Controller {
     );
   }
 
+  public deleteMessage(id: string) {
+    this.socket.send(
+      JSON.stringify({
+        id: 'string',
+        type: 'MSG_DELETE',
+        payload: {
+          message: {
+            id,
+          },
+        },
+      })
+    );
+  }
+
   private setCallback<T extends ResponsesList>(id: string, callback: (data: T) => void) {
     this.callbackList.set(id, callback);
   }

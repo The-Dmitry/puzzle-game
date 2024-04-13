@@ -17,7 +17,7 @@ export default class App {
   private state = State.getInstance();
 
   public start() {
-    this.router.listen();
+    // this.router.listen();
     this.makeSubscription();
   }
 

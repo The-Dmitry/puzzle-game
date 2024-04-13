@@ -5,17 +5,11 @@ export default class Router {
 
   private currentPath = '';
 
-  private isRouterActive = false;
-
   constructor(private readonly routes: Map<string, () => Promise<void>>) {
-    setTimeout(() => {
-      this.listen();
-    }, 1500);
+    this.listen();
   }
 
   public listen() {
-    if (this.isRouterActive) return;
-    this.isRouterActive = true;
     setInterval(() => {
       const path = window.location.href.replace(this.origin, '');
       if (this.currentPath !== path) {
