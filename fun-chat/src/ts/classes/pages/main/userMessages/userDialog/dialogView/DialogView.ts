@@ -34,19 +34,28 @@ export default class DialogView extends View {
     if (!message.status.isReaded && message.from === this.targetLogin) {
       this.addSeparator();
     }
+    this.placeholder.remove();
     const dialogItem = new DialogItemView(message, this.targetLogin);
     this.messagesList.set(message.id, dialogItem);
     if (!message.status.isReaded && message.from === this.targetLogin) {
       this.unreadMessages.push(message.id);
     }
     this.addNodeInside(dialogItem);
-    this.viewCreator.node.scrollTo(0, 9999);
-    this.placeholder.remove();
+    this.scroll(this.isSeparatorInserted);
   }
 
   private render() {
     if (this.messagesList.size > 0) return;
     this.addNodeInside(this.placeholder);
+  }
+
+  private scroll(toSeparator: boolean) {
+    if (toSeparator) {
+      this.separator.viewCreator.node.scrollIntoView(true);
+      this.viewCreator.node.scrollBy(0, -10);
+    } else {
+      this.viewCreator.node.scrollTop = this.viewCreator.node.scrollHeight;
+    }
   }
 
   private getMessageHistory() {

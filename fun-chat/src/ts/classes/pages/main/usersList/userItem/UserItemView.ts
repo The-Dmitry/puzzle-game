@@ -20,8 +20,6 @@ export default class UserItemView extends View {
   }
 
   public init(data: AllMessagesResponse, myLogin: string) {
-    console.log(data);
-
     if (data && data.type === 'MSG_FROM_USER') {
       const count = data.payload.messages.filter((msg) => !msg.status.isReaded && msg.to === myLogin).length;
       if (count > 0) {
