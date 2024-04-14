@@ -129,6 +129,21 @@ export default class Controller {
     );
   }
 
+  public editMessage(id: string, text: string) {
+    this.socket.send(
+      JSON.stringify({
+        id: 'string',
+        type: 'MSG_EDIT',
+        payload: {
+          message: {
+            id,
+            text,
+          },
+        },
+      })
+    );
+  }
+
   private setCallback<T extends ResponsesList>(id: string, callback: (data: T) => void) {
     this.callbackList.set(id, callback);
   }

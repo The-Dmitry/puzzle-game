@@ -7,6 +7,7 @@ interface Params {
   logout: boolean;
   isWsActive: boolean;
   onReadMessage: string;
+  editMessage: { text: string; id: string };
 }
 
 type ValueOrNull<T> = {

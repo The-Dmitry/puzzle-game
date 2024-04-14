@@ -35,7 +35,7 @@ export default class DialogView extends View {
       this.addSeparator();
     }
     this.placeholder.remove();
-    const dialogItem = new DialogItemView(message, this.targetLogin, this.controller);
+    const dialogItem = new DialogItemView(message, this.targetLogin, this.controller, () => this.readAllMessages());
     this.messagesList.set(message.id, dialogItem);
     if (!message.status.isReaded && message.from === this.targetLogin) {
       this.unreadMessages.push(message.id);
@@ -88,6 +88,10 @@ export default class DialogView extends View {
         if (data.payload.message.status.isDeleted) {
           this.deleteMessage(data.payload.message.id);
         }
+      }
+      if (data.type === 'MSG_EDIT') {
+        if (!this.messagesList.has(data.payload.message.id) || !data.payload.message.status) return;
+        this.messagesList.get(data.payload.message.id)?.editMessage(data.payload.message.text);
       }
     });
   }

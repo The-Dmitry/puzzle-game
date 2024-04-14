@@ -5,6 +5,8 @@ import { MessagePayload } from '../../../../../../../types/MessagePayload';
 import Controller from '../../../../../../controller/Controller';
 
 export default class DialogItemView extends View {
+  private editedMessageNode: NodeCreator | null = null;
+
   private text = new NodeCreator({ tag: 'p', css: ['message-text'] });
 
   private status = new NodeCreator({ tag: 'p', css: ['message-status'] });
@@ -16,7 +18,8 @@ export default class DialogItemView extends View {
   constructor(
     private message: MessagePayload,
     targetLogin: string,
-    private controller: Controller
+    private readonly controller: Controller,
+    private readAllMessages: () => void
   ) {
     super({
       tag: 'li',
@@ -46,6 +49,9 @@ export default class DialogItemView extends View {
       this.infoNode.addInnerNode(time);
     }
     this.addNodeInside(sender, this.text, this.infoNode);
+    if (message.status.isEdited) {
+      this.editMessage(null);
+    }
     this.infoNode.setCallback((e) => e.stopPropagation(), 'contextmenu');
   }
 
@@ -61,13 +67,20 @@ export default class DialogItemView extends View {
 
   private openModal(e: Event) {
     if (!(e instanceof MouseEvent)) return;
+    this.readAllMessages();
     e.preventDefault();
     this.modal?.remove();
     const menu = new NodeCreator({
       tag: 'div',
       css: ['message-item__menu', 'message-menu'],
     }).addInnerNode(
-      new NodeCreator({ tag: 'button', text: 'Edit', css: ['message-menu__edit'] }),
+      new NodeCreator({
+        tag: 'button',
+        text: 'Edit',
+        css: ['message-menu__edit'],
+        callback: () =>
+          this.state.next('editMessage', () => ({ text: this.text.node.textContent!, id: this.message.id })),
+      }),
       new NodeCreator({
         tag: 'button',
         text: 'Delete',
@@ -85,5 +98,15 @@ export default class DialogItemView extends View {
   public closeModal() {
     this.modal?.remove();
     this.modal = null;
+  }
+
+  public editMessage(text: string | null) {
+    if (text) {
+      this.text.setTextContent(text);
+    }
+    if (!this.editedMessageNode) {
+      this.editedMessageNode = new NodeCreator({ tag: 'p', css: ['message-edit'], text: 'edited' });
+      this.infoNode.addInnerNode(this.editedMessageNode);
+    }
   }
 }

@@ -5,6 +5,10 @@ import View from '../../../../../common/view/View';
 import Controller from '../../../../../controller/Controller';
 
 export default class DialogInputView extends View {
+  private input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
+
+  private editData: { text: string; id: string } | null = null;
+
   constructor(
     private readonly controller: Controller,
     private readonly targetLogin: string,
@@ -15,28 +19,52 @@ export default class DialogInputView extends View {
   }
 
   private render() {
-    const input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
-    input.setCallback((e) => {
+    this.input.setCallback((e) => {
       if (e instanceof KeyboardEvent && ['NumpadEnter', 'Enter'].includes(e.code)) {
-        this.sendMessage(input.node);
+        this.sendMessage(this.input.node);
       }
     }, 'keypress');
     const submit = new NodeCreator({
       tag: 'button',
       text: 'Send',
       css: ['field-submit'],
-      callback: () => this.sendMessage(input.node),
+      callback: () => this.sendMessage(this.input.node),
     });
-    this.addNodeInside(input, submit);
+    this.state.subscribe(
+      this.viewCreator,
+      'editMessage',
+      (message) => {
+        if (message) {
+          this.editData = message;
+          this.setEditMode();
+        }
+      },
+      false
+    );
+    this.addNodeInside(this.input, submit);
   }
 
   private sendMessage(input: HTMLInputElement) {
     const node = input;
     const { value } = input;
-    if (value && value.replaceAll(' ', '')) {
+    if (!(value && value.replaceAll(' ', ''))) return;
+    if (this.editData) {
+      this.controller.editMessage(this.editData.id, value);
+      this.removeEditMode();
+    } else {
       this.controller.sendMessage(this.targetLogin, value);
       this.readAllMessages();
       node.value = '';
     }
+  }
+
+  private setEditMode() {
+    if (!this.editData) return;
+    this.input.node.value = this.editData.text;
+  }
+
+  private removeEditMode() {
+    this.input.node.value = '';
+    this.editData = null;
   }
 }

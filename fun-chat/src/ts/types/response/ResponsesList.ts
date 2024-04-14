@@ -5,6 +5,7 @@ import { LoginResponse } from './LoginResponse';
 import { LogoutResponse } from './LogoutResponse';
 import { MessageDeleteResponse } from './MessageDeleteResponse';
 import { MessageDeliveryStatus } from './MessageDeliveryStatus';
+import { MessageResponseType } from './MessageEditResponse';
 import { MessageReadStatus } from './MessageReadStatus';
 import { MessageResponse } from './MessageResponse';
 
@@ -17,4 +18,5 @@ export type ResponsesList =
   | ExternalAuthResponse
   | MessageDeliveryStatus
   | MessageReadStatus
-  | MessageDeleteResponse;
+  | MessageDeleteResponse
+  | MessageResponseType;
