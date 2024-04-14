@@ -7,6 +7,8 @@ import Controller from '../../../../../controller/Controller';
 export default class DialogInputView extends View {
   private input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
 
+  private editIndicator: NodeCreator | null = null;
+
   private editData: { text: string; id: string } | null = null;
 
   constructor(
@@ -60,11 +62,22 @@ export default class DialogInputView extends View {
 
   private setEditMode() {
     if (!this.editData) return;
+    const indicator = new NodeCreator({
+      tag: 'div',
+      css: ['input-field__edit-indicator'],
+      text: 'Editing',
+    }).addInnerNode(
+      new NodeCreator({ tag: 'div', css: ['edit-indicator__close'], callback: () => this.removeEditMode() })
+    );
+    this.editIndicator = indicator;
+    this.addNodeInside(indicator);
     this.input.node.value = this.editData.text;
   }
 
   private removeEditMode() {
     this.input.node.value = '';
     this.editData = null;
+    this.editIndicator?.remove();
+    this.editIndicator = null;
   }
 }

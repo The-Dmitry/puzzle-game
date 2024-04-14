@@ -1,4 +1,5 @@
 .messages-input-field {
+  position: relative;
   display: flex;
 }
 
@@ -8,4 +9,39 @@
 
 .field-submit {
   flex: 1 1 auto;
+}
+
+.input-field__edit-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: -175%;
+  width: calc(100% - 40px);
+  padding: 10px 20px;
+  background-color: rgb(93, 134, 134);
+}
+
+.edit-indicator__close {
+  cursor: pointer;
+  position: relative;
+  height: 20px;
+  width: 20px;
+  // background-color: red;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+  }
+  &::after {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
 }
