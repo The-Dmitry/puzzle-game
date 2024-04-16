@@ -13,8 +13,12 @@ export default class UserItemView extends View {
 
   private isCounterInserted = false;
 
+  private login: string;
+
   constructor({ login, isLogined }: UserPayload, startDialog: (login: string, status: boolean) => void) {
-    super({ tag: 'li', css: ['users-item'], text: login, callback: () => startDialog(login, this.status) });
+    super({ tag: 'li', css: ['users-item'], callback: () => startDialog(login, this.status) });
+    this.viewCreator.addInnerNode(new NodeCreator({ tag: 'p', css: ['users-item__name'], text: login }));
+    this.login = login;
     this.setStatus(isLogined);
     this.state.subscribe(this.viewCreator, 'onReadMessage', (name) => name === login && this.resetCounter(), false);
   }
@@ -48,5 +52,13 @@ export default class UserItemView extends View {
     this.unreadMessages = 0;
     this.isCounterInserted = false;
     this.messagesCounter.node.remove();
+  }
+
+  public hideItem(text: string) {
+    if (this.login.toLowerCase().includes(text.toLowerCase())) {
+      this.viewCreator.removeCLassName('users-item_hidden');
+    } else {
+      this.viewCreator.addClassName('users-item_hidden');
+    }
   }
 }

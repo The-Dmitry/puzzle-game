@@ -34,8 +34,16 @@ export default class UsersListView extends View {
   }
 
   private render() {
-    const filter = new InputNodeCreator({ tag: 'input', type: 'text', css: ['users__filter'] });
-    this.addNodeInside(filter, this.onlineUsersNode, this.offlineUsersNode);
+    const filter = new InputNodeCreator({
+      tag: 'input',
+      type: 'text',
+      css: ['users__filter'],
+      placeholder: 'Filter...',
+    });
+    const container = new NodeCreator({ tag: 'div', css: ['users-container'] });
+    filter.setCallback(() => this.userFilter(filter.node.value), 'input');
+    container.addInnerNode(this.onlineUsersNode, this.offlineUsersNode);
+    this.addNodeInside(filter, container);
   }
 
   private listenResponses(data: ResponsesList) {
@@ -79,5 +87,9 @@ export default class UsersListView extends View {
   public showUnreadMsgCount(data: MessageResponse) {
     if (!this.usersCollection.has(data.payload.message.from)) return;
     this.usersCollection.get(data.payload.message.from)?.incrementMessage();
+  }
+
+  private userFilter(str: string) {
+    this.usersCollection.forEach((user) => user.hideItem(str));
   }
 }

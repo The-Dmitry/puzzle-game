@@ -1,14 +1,33 @@
 .messages-input-field {
   position: relative;
   display: flex;
+  height: 50px;
+  // border-top: 1px solid white;
+  background-color: var(--background-secondary);
 }
 
 .field-input {
-  flex: 0 1 80%;
+  flex: 0 1 90%;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 300;
+  padding-left: 10px;
+  &::placeholder {
+    padding-left: 10px;
+  }
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 
 .field-submit {
+  cursor: pointer;
   flex: 1 1 auto;
+  background: url(/src/assets/icons/send.png) center / 50% no-repeat;
+  border: none;
 }
 
 .input-field__edit-indicator {
@@ -16,7 +35,8 @@
   justify-content: space-between;
   align-items: center;
   position: absolute;
-  top: -175%;
+  top: -81%;
+  font-weight: 400;
   width: calc(100% - 40px);
   padding: 10px 20px;
   background-color: rgb(93, 134, 134);

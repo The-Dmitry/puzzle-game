@@ -5,6 +5,7 @@ import Controller from '../../controller/Controller';
 import { Routes } from '../../common/router/Routes';
 import UsersListView from './usersList/UsersListView';
 import UserMessagesView from './userMessages/UserMessagesView';
+import FooterView from './footer/FooterView';
 
 export default class MainView extends View {
   private usersList!: UsersListView;
@@ -16,12 +17,18 @@ export default class MainView extends View {
   constructor(private readonly controller: Controller) {
     super({ tag: 'div', css: ['main'] });
     if (this.state.getValue('appLogin')) {
-      this.usersList = new UsersListView(this.controller, (login: string, status: boolean) =>
-        this.startNewDialog(login, status)
-      );
-      this.messagesView = new UserMessagesView(this.controller);
-      this.render();
-      this.listenToNewMessages();
+      let started = false;
+      this.state.subscribe(this.viewCreator, 'isWsActive', (v) => {
+        if (v && !started) {
+          started = true;
+          this.usersList = new UsersListView(this.controller, (login: string, status: boolean) =>
+            this.startNewDialog(login, status)
+          );
+          this.messagesView = new UserMessagesView(this.controller);
+          this.render();
+          this.listenToNewMessages();
+        }
+      });
     } else {
       window.history.replaceState({}, '', Routes.AUTHORIZATION);
     }
@@ -29,7 +36,7 @@ export default class MainView extends View {
 
   private render() {
     const header = new HeaderView();
-    this.addNodeInside(header, this.usersList, this.messagesView);
+    this.addNodeInside(header, this.usersList, this.messagesView, new FooterView());
   }
 
   private startNewDialog(targetLogin: string, status: boolean) {

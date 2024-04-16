@@ -3,7 +3,7 @@ import View from '../../../../common/view/View';
 import './dialogHeaderView.scss';
 
 export default class DialogHeaderView extends View {
-  private info = new NodeCreator({ tag: 'p' });
+  private info = new NodeCreator({ tag: 'p', css: ['dialog-header__user'] });
 
   constructor(
     private readonly login: string,
@@ -11,6 +11,7 @@ export default class DialogHeaderView extends View {
   ) {
     super({ tag: 'div', css: ['dialog-header'] });
     this.render();
+    this.info.setTextContent(login);
     this.state.subscribe(
       this.viewCreator,
       'unhandledResponse',
@@ -18,17 +19,23 @@ export default class DialogHeaderView extends View {
         data &&
         'user' in data.payload &&
         data.payload.user.login === this.login &&
-        this.setText(data.payload.user.isLogined),
+        this.setStatus(data.payload.user.isLogined),
       false
     );
   }
 
   private render() {
     this.addNodeInside(this.info);
-    this.setText();
+    this.setStatus();
   }
 
-  private setText(status = this.status) {
-    this.info.setTextContent(`${this.login}: ${status ? 'online' : 'offline'}`);
+  private setStatus(status = this.status) {
+    if (status) {
+      this.info.removeCLassName('dialog-header__user_offline');
+      this.info.addClassName('dialog-header__user_online');
+    } else {
+      this.info.removeCLassName('dialog-header__user_online');
+      this.info.addClassName('dialog-header__user_offline');
+    }
   }
 }

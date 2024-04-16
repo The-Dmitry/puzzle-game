@@ -1,5 +1,37 @@
 .dialog-header {
-  border: 1px solid white;
   font-size: 1.3rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 10px;
+  background-color: var(--background-secondary);
+}
+
+.dialog-header__user {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &::before {
+    content: '';
+    display: inline-block;
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    z-index: 10;
+  }
+}
+
+.dialog-header__user_offline {
+  &::before {
+    background-color: var(--user-inactive);
+  }
+}
+
+.dialog-header__user_online {
+  &::before {
+    background-color: var(--user-active);
+  }
 }

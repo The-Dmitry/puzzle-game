@@ -4,11 +4,13 @@
   color: rgb(255, 255, 255);
   font-size: 1.1rem;
   list-style: none;
-  min-width: 150px;
+  min-width: 155px;
   max-width: 90%;
-  padding: 27px 8px 7px 8px;
+  padding: 27px 8px 8px 8px;
   border-radius: 10px;
   margin-bottom: 25px;
+  word-break: break-word;
+  font-weight: 300;
   &:first-child {
     margin-top: auto;
   }
@@ -16,7 +18,19 @@
 
 .message-item_outgoing {
   align-self: end;
-
+  border-bottom-right-radius: 0px;
+  background-color: var(--message-outgoing);
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    width: 15px;
+    height: 15px;
+    right: -15px;
+    bottom: 0;
+    border-bottom-left-radius: 10px;
+    box-shadow: -9px 0px 0 0px var(--message-outgoing);
+  }
   .message-item__info {
     right: 3px;
   }
@@ -36,6 +50,19 @@
 
 .message-item_incoming {
   align-self: start;
+  border-bottom-left-radius: 0px;
+  background-color: var(--message-incoming);
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    width: 15px;
+    height: 15px;
+    left: -15px;
+    bottom: 0;
+    border-bottom-right-radius: 10px;
+    box-shadow: 9px 0px 0 0px var(--message-incoming);
+  }
   .message-item__info {
     left: 3px;
   }
@@ -48,6 +75,10 @@
   .message-time {
     order: 1;
   }
+}
+
+.message-sender {
+  font-weight: 400;
 }
 
 .message-text {
@@ -68,6 +99,10 @@
   top: 5px;
   font-size: 1rem;
   text-decoration: underline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
 }
 .message-item__info {
   user-select: none;
@@ -86,5 +121,15 @@
 
 .message-menu__delete,
 .message-menu__edit {
-  padding-inline: 15px;
+  cursor: pointer;
+  padding: 7px 25px;
+  background-color: var(--background-secondary);
+  border: none;
+  color: var(--text-color);
+  transition: background-color linear 0.1s;
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--background-utility);
+    }
+  }
 }

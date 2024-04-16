@@ -52,8 +52,8 @@ export default class NodeCreator<T extends keyof HTMLElementTagNameMap = keyof H
     if (id) this.nodeElement.id = id;
   }
 
-  public setAttribute(name: string, type: string = 'for') {
-    this.nodeElement.setAttribute(type, name);
+  public setAttribute(value: string, name: string = 'for') {
+    this.nodeElement.setAttribute(name, value);
   }
 
   public setHref(path: string) {

@@ -1,16 +1,26 @@
 @import url('./scss/normalize.scss');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap');
 
-html,
-body {
-  height: 100%;
-  min-height: 100dvh;
+:root {
+  --background-primary: rgb(14, 22, 33);
+  --background-secondary: rgb(23, 33, 43);
+  --background-utility: rgb(36, 47, 61);
+  --text-color: white;
+  --message-outgoing: rgb(43, 82, 120);
+  --message-incoming: rgb(24, 37, 51);
+  --user-active: rgb(105 169 236);
+  --user-inactive: rgb(174, 174, 174);
+}
+
+html {
+  height: 100dvh;
 }
 
 body {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgb(25 31 38);
+  background: url(/src/assets/images/pattern.webp);
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -29,6 +39,25 @@ body {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.802);
   color: white;
-  font-size: 3rem;
+  font-size: 2rem;
   text-transform: capitalize;
+  backdrop-filter: blur(10px);
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    translate: -50% -50%;
+    border: 3px dashed white;
+    animation: spinner linear 20s infinite;
+  }
+}
+
+@keyframes spinner {
+  100% {
+    rotate: 360deg;
+  }
 }

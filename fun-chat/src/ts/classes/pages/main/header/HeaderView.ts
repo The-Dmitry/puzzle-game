@@ -13,13 +13,15 @@ export default class HeaderView extends View {
     this.state.subscribe(this.viewCreator, 'appLogin', (login) => {
       userName = login ?? '';
     });
-    const name = new NodeCreator({ tag: 'p', css: ['header-login'], text: `Name: ${userName}` });
+    const appTitle = new NodeCreator({ tag: 'h1', text: 'RS', css: ['app-title'] }).addInnerNode(
+      new NodeCreator({ tag: 'span', text: 'gram' })
+    );
+    const name = new NodeCreator({ tag: 'p', css: ['header-login'], text: userName });
     const logout = new NodeCreator({
       tag: 'button',
-      text: 'Logout',
       css: ['header-logout'],
       callback: () => this.state.next('logout', (v) => !v),
     });
-    this.addNodeInside(name, logout);
+    this.addNodeInside(appTitle, name, logout);
   }
 }

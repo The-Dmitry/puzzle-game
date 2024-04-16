@@ -5,7 +5,12 @@ import View from '../../../../../common/view/View';
 import Controller from '../../../../../controller/Controller';
 
 export default class DialogInputView extends View {
-  private input = new InputNodeCreator({ tag: 'input', type: 'text', css: ['field-input'] });
+  private input = new InputNodeCreator({
+    tag: 'input',
+    type: 'text',
+    css: ['field-input'],
+    placeholder: 'Message...',
+  });
 
   private editIndicator: NodeCreator | null = null;
 
@@ -28,7 +33,6 @@ export default class DialogInputView extends View {
     }, 'keypress');
     const submit = new NodeCreator({
       tag: 'button',
-      text: 'Send',
       css: ['field-submit'],
       callback: () => this.sendMessage(this.input.node),
     });
@@ -65,7 +69,7 @@ export default class DialogInputView extends View {
     const indicator = new NodeCreator({
       tag: 'div',
       css: ['input-field__edit-indicator'],
-      text: 'Editing',
+      text: 'Edit',
     }).addInnerNode(
       new NodeCreator({ tag: 'div', css: ['edit-indicator__close'], callback: () => this.removeEditMode() })
     );

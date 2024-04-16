@@ -17,7 +17,6 @@ export default class App {
   private state = State.getInstance();
 
   public start() {
-    // this.router.listen();
     this.makeSubscription();
   }
 
@@ -58,9 +57,8 @@ export default class App {
           window.history.replaceState(null, '', Routes.MAIN);
         }
       } else {
+        this.clearLoginInfo();
         console.error(data.payload);
-        this.state.clearState();
-        this.state.next('isWsActive', () => true);
         window.history.replaceState(null, '', Routes.AUTHORIZATION);
       }
     });
@@ -98,10 +96,10 @@ export default class App {
   private logout() {
     const login = this.state.getValue('appLogin') ?? '';
     const password = this.state.getValue('appPassword') ?? '';
-    this.state.clearState();
+    this.clearLoginInfo();
     this.controller.authorization<LogoutResponse>('USER_LOGOUT', login, password, (data) => {
       if (data.type === 'USER_LOGOUT') {
-        this.state.next('isWsActive', () => true);
+        sessionStorage.clear();
         window.history.replaceState({}, '', Routes.AUTHORIZATION);
       } else {
         console.error(data.payload.error);
@@ -110,7 +108,7 @@ export default class App {
   }
 
   private makeSubscription() {
-    const reconnectNotice = new NodeCreator({ tag: 'div', css: ['reconnect'], text: 'reconnect' });
+    const reconnectNotice = new NodeCreator({ tag: 'div', css: ['reconnect'], text: 'Connection' });
     this.state.subscribe(null, 'logout', () => this.logout(), false);
     this.state.subscribe(
       null,
@@ -129,5 +127,10 @@ export default class App {
       },
       false
     );
+  }
+
+  private clearLoginInfo() {
+    this.state.next('appLogin', () => null);
+    this.state.next('appPassword', () => null);
   }
 }

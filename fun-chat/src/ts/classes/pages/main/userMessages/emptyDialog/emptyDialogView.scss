@@ -1,5 +1,7 @@
 .empty-dialog {
   align-self: center;
-  margin: auto;
+  justify-self: center;
+  grid-row: 2 / 3;
+  user-select: none;
   font-size: 1.3rem;
 }
