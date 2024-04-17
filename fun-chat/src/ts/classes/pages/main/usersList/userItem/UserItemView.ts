@@ -16,7 +16,14 @@ export default class UserItemView extends View {
   private login: string;
 
   constructor({ login, isLogined }: UserPayload, startDialog: (login: string, status: boolean) => void) {
-    super({ tag: 'li', css: ['users-item'], callback: () => startDialog(login, this.status) });
+    super({
+      tag: 'li',
+      css: ['users-item'],
+      callback: () => {
+        startDialog(login, this.status);
+        this.state.next('toUserList', () => true);
+      },
+    });
     this.viewCreator.addInnerNode(new NodeCreator({ tag: 'p', css: ['users-item__name'], text: login }));
     this.login = login;
     this.setStatus(isLogined);

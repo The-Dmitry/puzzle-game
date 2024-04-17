@@ -30,6 +30,14 @@ export default class UsersListView extends View {
         this.getUsers('USER_INACTIVE');
       }
     });
+    this.state.next('toUserList', () => false);
+    this.state.subscribe(this.viewCreator, 'toUserList', (v) => {
+      if (v) {
+        this.viewCreator.addClassName('users_hidden');
+      } else {
+        this.viewCreator.removeCLassName('users_hidden');
+      }
+    });
     this.state.subscribe(this.viewCreator, 'unhandledResponse', (data) => data && this.listenResponses(data));
   }
 

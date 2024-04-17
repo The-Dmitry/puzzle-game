@@ -7,15 +7,24 @@
   padding-block: 10px;
   gap: 10px;
   border-right: 1px solid black;
+  @media (max-width: 600px) {
+    grid-row: 2 /3;
+    grid-column: 1 /3;
+  }
+  z-index: 3;
+}
 
-  // grid-row: 2 /3;
-  // grid-column: 1 /3;
-  // background-color: rgb(54, 200, 10);
+.users_hidden {
+  z-index: 1;
 }
 
 .users-container {
   overflow-y: auto;
   scrollbar-width: thin;
+}
+
+.users-list {
+  padding-inline: 5px;
 }
 
 .users__filter {

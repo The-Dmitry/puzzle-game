@@ -8,6 +8,7 @@ interface Params {
   isWsActive: boolean;
   onReadMessage: string;
   editMessage: { text: string; id: string };
+  toUserList: boolean;
 }
 
 type ValueOrNull<T> = {

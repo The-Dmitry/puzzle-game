@@ -1,4 +1,5 @@
 .dialog-header {
+  position: relative;
   font-size: 1.3rem;
   text-align: center;
   display: flex;
@@ -33,5 +34,18 @@
 .dialog-header__user_online {
   &::before {
     background-color: var(--user-active);
+  }
+}
+
+.dialog-header__button {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  height: 40px;
+  width: 40px;
+  background: url(/src/assets/icons/arrow.svg) center / 110% no-repeat;
+  border: none;
+  @media (min-width: 600px) {
+    display: none;
   }
 }

@@ -25,7 +25,12 @@ export default class DialogHeaderView extends View {
   }
 
   private render() {
-    this.addNodeInside(this.info);
+    const backToUsersList = new NodeCreator({
+      tag: 'button',
+      css: ['dialog-header__button'],
+      callback: () => this.state.next('toUserList', () => false),
+    });
+    this.addNodeInside(this.info, backToUsersList);
     this.setStatus();
   }
 
