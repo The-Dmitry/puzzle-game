@@ -24,13 +24,14 @@ export default class UsersListView extends View {
     this.render();
     this.state.subscribe(this.viewCreator, 'isWsActive', (v) => {
       if (v) {
+        this.state.next('toUserList', () => false);
         this.usersCollection.forEach((user) => user.remove());
         this.usersCollection = new Map<string, UserItemView>();
         this.getUsers('USER_ACTIVE');
         this.getUsers('USER_INACTIVE');
       }
     });
-    this.state.next('toUserList', () => false);
+
     this.state.subscribe(this.viewCreator, 'toUserList', (v) => {
       if (v) {
         this.viewCreator.addClassName('users_hidden');

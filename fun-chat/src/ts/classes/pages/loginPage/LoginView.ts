@@ -1,10 +1,10 @@
 import './loginView.scss';
 import NodeParams from '../../../interfaces/NodeParams';
 import NodeCreator from '../../common/nodeCreator/NodeCreator';
-import View from '../../common/view/View';
 import LoginNameView from './inputView/LoginNameView';
 import LoginPasswordView from './inputView/LoginPasswordView';
 import { Routes } from '../../common/router/Routes';
+import View from '../../common/view/View';
 
 const nodesData: Record<string, NodeParams> = {
   parentNode: {
@@ -23,44 +23,45 @@ const nodesData: Record<string, NodeParams> = {
 };
 
 export default class LoginView extends View {
-  private login: string | null = null;
+  private loginNode = new LoginNameView(() => this.isLoginDataValid());
 
-  private password: string | null = null;
+  private passwordNode = new LoginPasswordView(() => this.isLoginDataValid());
+
+  private submitBtn = new NodeCreator({
+    ...nodesData.submitBtn,
+    tag: 'button',
+    callback: () => this.tryToLogin(),
+  });
 
   constructor(private loginFunc: (login: string, password: string) => void) {
     super({ tag: 'div', css: ['login-view'] });
     if (this.state.getValue('appLogin')) {
       window.history.replaceState(null, '', Routes.MAIN);
     } else {
-      this.makeSubscription();
       this.render();
     }
   }
 
   private render() {
-    const login = new LoginNameView();
-    const password = new LoginPasswordView();
+    const title = new NodeCreator({ tag: 'h1', css: ['login-title'], text: 'RSgram' });
     const container = new NodeCreator({ ...nodesData.loginContainer }).addInnerNode(
-      login.viewCreator,
-      password.viewCreator,
-      new NodeCreator({
-        ...nodesData.submitBtn,
-        callback: () => this.tryToLogin(),
-      })
+      title,
+      this.loginNode.viewCreator,
+      this.passwordNode.viewCreator,
+      this.submitBtn
     );
+    this.isLoginDataValid();
+    this.state.subscribe(this.viewCreator, 'loginByEnter', () => this.tryToLogin(), false);
     this.addNodeInside(container);
   }
 
   public tryToLogin() {
-    if (this.login && this.password) this.loginFunc(this.login, this.password);
+    if (this.loginNode.getValue && this.passwordNode.getValue) {
+      this.loginFunc(this.loginNode.getValue, this.passwordNode.getValue);
+    }
   }
 
-  private makeSubscription() {
-    this.state.subscribe(this.viewCreator, 'appLogin', (v) => {
-      this.login = v;
-    });
-    this.state.subscribe(this.viewCreator, 'appPassword', (v) => {
-      this.password = v;
-    });
+  private isLoginDataValid() {
+    this.submitBtn.node.disabled = !(this.loginNode.getValue && this.passwordNode.getValue);
   }
 }

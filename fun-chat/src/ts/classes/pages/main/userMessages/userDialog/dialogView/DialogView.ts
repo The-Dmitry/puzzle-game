@@ -28,6 +28,7 @@ export default class DialogView extends View {
   ) {
     super({ tag: 'ul', css: ['dialog'], callback: () => this.readAllMessages() });
     this.getMessageHistory();
+    this.viewCreator.setCallback(() => this.readAllMessages(), 'wheel');
   }
 
   public handleNewMessage(message: MessagePayload) {

@@ -16,7 +16,7 @@ export default class InputNodeCreator<
     }
   }
 
-  private setPlaceholder(placeholder: InputNodeParams['placeholder']) {
+  public setPlaceholder(placeholder: InputNodeParams['placeholder']) {
     if (this.node instanceof HTMLInputElement && placeholder) {
       this.node.setAttribute('placeholder', placeholder);
     }

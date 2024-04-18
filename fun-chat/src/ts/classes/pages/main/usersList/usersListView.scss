@@ -7,6 +7,8 @@
   padding-block: 10px;
   gap: 10px;
   border-right: 1px solid black;
+  overflow-y: auto;
+  scrollbar-width: thin;
   @media (max-width: 600px) {
     grid-row: 2 /3;
     grid-column: 1 /3;

@@ -33,6 +33,7 @@ body {
 
 .reconnect {
   position: absolute;
+  z-index: 10;
   inset: 0;
   display: flex;
   justify-content: center;

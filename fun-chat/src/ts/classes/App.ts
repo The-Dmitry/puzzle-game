@@ -51,6 +51,8 @@ export default class App {
   private tryToLogin(login: string, password: string) {
     this.controller.authorization('USER_LOGIN', login, password, (data: LoginResponse) => {
       if (data.type === 'USER_LOGIN') {
+        this.state.next('appLogin', () => login);
+        this.state.next('appPassword', () => password);
         // Delete before deploy
         this.startChatBot();
         if (window.location.href.replace(this.router.origin, '') === Routes.AUTHORIZATION) {

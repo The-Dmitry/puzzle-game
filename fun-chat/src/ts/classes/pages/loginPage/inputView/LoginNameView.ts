@@ -1,42 +1,43 @@
-import InputNodeCreator from '../../../common/nodeCreator/InputNodeCreator';
-import View from '../../../common/view/View';
+import LoginInputView from './LoginInputView';
 
-export default class LoginNameView extends View {
-  constructor() {
-    super({ tag: 'div' });
-    this.render();
-  }
-
-  private render() {
-    const input = new InputNodeCreator({
-      tag: 'input',
-      css: ['login-input'],
-      type: 'text',
-      placeholder: `Enter your login`,
-    });
-    input.setCallback(() => {
-      this.inputValidation(input.node.value);
+export default class LoginNameView extends LoginInputView {
+  constructor(isValid: () => void) {
+    super();
+    this.input.setPlaceholder(`Login...`);
+    this.input.setCallback(() => {
+      this.inputValidation(this.input.node.value);
+      isValid();
     }, 'input');
-    this.addNodeInside(input);
+    this.input.setCallback((e) => {
+      if (!(e instanceof KeyboardEvent)) return;
+      if (e instanceof KeyboardEvent && ['NumpadEnter', 'Enter'].includes(e.code)) {
+        this.state.next('loginByEnter', (v) => !v);
+      }
+    }, 'keydown');
   }
 
   private inputValidation(text: string) {
-    // if (!text.length) {
-    //   this.state.next('appLogin', () => null);
-    //   return;
-    // }
-    // if (text && !/^[a-zA-Z-^]+$/.test(text)) {
-    //   this.state.next('appLogin', () => null);
-    //   return;
-    // }
-    // if ((text && text[0] !== text[0].toUpperCase()) || text[0] === '-') {
-    //   this.state.next('appLogin', () => null);
-    //   return;
-    // }
-    // if (text && text.length < 5) {
-    //   this.state.next('appLogin', () => null);
-    //   return;
-    // }
-    if (text) this.state.next('appLogin', () => text);
+    this.notice.setTextContent(' ');
+    if (!text.length) {
+      this.notice.setTextContent(' ');
+      this.value = null;
+      return;
+    }
+    if (text && !/^[a-zA-Z0-9\s]+$/.test(text)) {
+      this.notice.setTextContent('Use only English letters and numbers');
+      this.value = null;
+      return;
+    }
+    if ((text && text[0] !== text[0].toUpperCase()) || text[0] === ' ') {
+      this.notice.setTextContent('The first letter must be uppercase');
+      this.value = null;
+      return;
+    }
+    if (text && text.length < 4) {
+      this.notice.setTextContent(`Login must be at least 4 characters`);
+      this.value = null;
+      return;
+    }
+    if (text) this.value = text;
   }
 }

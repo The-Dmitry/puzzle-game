@@ -9,6 +9,7 @@ interface Params {
   onReadMessage: string;
   editMessage: { text: string; id: string };
   toUserList: boolean;
+  loginByEnter: boolean;
 }
 
 type ValueOrNull<T> = {
