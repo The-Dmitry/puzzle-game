@@ -10,6 +10,7 @@ interface Params {
   editMessage: { text: string; id: string };
   toUserList: boolean;
   loginByEnter: boolean;
+  loginErrorMessage: string;
 }
 
 type ValueOrNull<T> = {

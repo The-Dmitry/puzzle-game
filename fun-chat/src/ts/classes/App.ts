@@ -61,6 +61,7 @@ export default class App {
       } else {
         this.clearLoginInfo();
         console.error(data.payload);
+        this.state.next('loginErrorMessage', () => data.payload.error);
         window.history.replaceState(null, '', Routes.AUTHORIZATION);
       }
     });
