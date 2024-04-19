@@ -4,6 +4,7 @@ import { MessageResponse } from '../../../../types/response/MessageResponse';
 import { ResponsesList } from '../../../../types/response/ResponsesList';
 import InputNodeCreator from '../../../common/nodeCreator/InputNodeCreator';
 import NodeCreator from '../../../common/nodeCreator/NodeCreator';
+import { Routes } from '../../../common/router/Routes';
 import View from '../../../common/view/View';
 import Controller from '../../../controller/Controller';
 import UserItemView from './userItem/UserItemView';
@@ -43,6 +44,12 @@ export default class UsersListView extends View {
   }
 
   private render() {
+    const toAboutPage = new NodeCreator({
+      tag: 'button',
+      text: 'About RSgram',
+      css: ['to-about-link'],
+      callback: () => window.history.pushState({}, '', Routes.ABOUT),
+    });
     const filter = new InputNodeCreator({
       tag: 'input',
       type: 'text',
@@ -52,7 +59,7 @@ export default class UsersListView extends View {
     const container = new NodeCreator({ tag: 'div', css: ['users-container'] });
     filter.setCallback(() => this.userFilter(filter.node.value), 'input');
     container.addInnerNode(this.onlineUsersNode, this.offlineUsersNode);
-    this.addNodeInside(filter, container);
+    this.addNodeInside(toAboutPage, filter, container);
   }
 
   private listenResponses(data: ResponsesList) {

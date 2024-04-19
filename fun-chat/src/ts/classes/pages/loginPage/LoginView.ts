@@ -15,7 +15,7 @@ const nodesData: Record<string, NodeParams> = {
   submitBtn: {
     tag: 'button',
     css: ['login-button'],
-    text: 'sing in',
+    text: 'Login',
   },
   loginContainer: {
     tag: 'div',

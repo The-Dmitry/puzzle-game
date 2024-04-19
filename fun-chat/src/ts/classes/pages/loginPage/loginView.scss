@@ -54,6 +54,11 @@
   padding: 3px;
   text-transform: capitalize;
   border-radius: 5px;
+  &:disabled {
+    &:hover {
+      cursor: default;
+    }
+  }
 }
 
 .login-button {
