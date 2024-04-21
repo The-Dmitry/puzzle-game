@@ -22,6 +22,7 @@
   background-color: var(--message-outgoing);
   &::after {
     content: '';
+    pointer-events: none;
     position: absolute;
     background-color: transparent;
     width: 15px;
@@ -117,6 +118,9 @@
   position: absolute;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+  top: 0;
+  border: 1px solid rgba(255, 255, 255, 0.213);
 }
 
 .message-menu__delete,

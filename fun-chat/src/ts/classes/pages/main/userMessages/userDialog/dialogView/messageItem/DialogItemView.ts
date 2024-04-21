@@ -92,7 +92,6 @@ export default class DialogItemView extends View {
     this.addNodeInside(menu);
     const menuWidth = menu.node.offsetWidth;
     menu.node.style.left = `${Math.max(-20, e.offsetX - menuWidth)}px`;
-    menu.node.style.top = `${e.offsetY}px`;
   }
 
   public closeModal() {
